@@ -1,0 +1,737 @@
+[
+    {
+        "consultation_id": "C1000",
+        "patient": {
+            "patient_id": "P1352",
+            "name": "Aoife Campbell",
+            "date_of_birth": "2007-08-05",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900332",
+                "email": "aoife.campbell@example.com",
+                "address": {
+                    "street": "75 Main Street",
+                    "city": "Belfast",
+                    "postcode": "BT58"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Emma Campbell",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 2,
+                "duration_days": 6
+            },
+            {
+                "name": "Chest tightness",
+                "severity": 5,
+                "duration_days": 17
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1001",
+        "patient": {
+            "patient_id": "P1311",
+            "name": "Emma Campbell",
+            "date_of_birth": "1951-03-17",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900150",
+                "email": "emma.campbell@example.com",
+                "address": {
+                    "street": "65 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT28"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Emma Campbell",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Chest tightness",
+                "severity": 6,
+                "duration_days": 4
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 10,
+                "duration_days": 1
+            },
+            {
+                "name": "Dizziness",
+                "severity": 3,
+                "duration_days": 1
+            }
+        ],
+        "urgency_level": "medium"
+    },
+    {
+        "consultation_id": "C1002",
+        "patient": {
+            "patient_id": "P1063",
+            "name": "Aoife Murphy",
+            "date_of_birth": "1975-05-01",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900018",
+                "email": "aoife.murphy@example.com",
+                "address": {
+                    "street": "65 Main Street",
+                    "city": "Armagh",
+                    "postcode": "BT81"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D108",
+            "name": "Dr James Brown",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Fever",
+                "severity": 2,
+                "duration_days": 16
+            },
+            {
+                "name": "Headache",
+                "severity": 10,
+                "duration_days": 14
+            },
+            {
+                "name": "Sore throat",
+                "severity": 4,
+                "duration_days": 20
+            }
+        ],
+        "urgency_level": "medium"
+    },
+    {
+        "consultation_id": "C1003",
+        "patient": {
+            "patient_id": "P1904",
+            "name": "James Kelly",
+            "date_of_birth": "2008-12-03",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900189",
+                "email": "james.kelly@example.com",
+                "address": {
+                    "street": "74 Station Road",
+                    "city": "Newry",
+                    "postcode": "BT13"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D109",
+            "name": "Dr Emma Brown",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 6,
+                "duration_days": 3
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1004",
+        "patient": {
+            "patient_id": "P1337",
+            "name": "Sarah Brown",
+            "date_of_birth": "1954-02-27",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900090",
+                "email": "sarah.brown@example.com",
+                "address": {
+                    "street": "32 Main Street",
+                    "city": "Belfast",
+                    "postcode": "BT54"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D104",
+            "name": "Dr Emma Murphy",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Sore throat",
+                "severity": 10,
+                "duration_days": 18
+            },
+            {
+                "name": "Headache",
+                "severity": 9,
+                "duration_days": 5
+            }
+        ],
+        "urgency_level": "low"
+    },
+    {
+        "consultation_id": "C1005",
+        "patient": {
+            "patient_id": "P1876",
+            "name": "Liam Wilson",
+            "date_of_birth": "2009-06-24",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900103",
+                "email": "liam.wilson@example.com",
+                "address": {
+                    "street": "115 Church Road",
+                    "city": "Armagh",
+                    "postcode": "BT73"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D105",
+            "name": "Dr Aoife Brown",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 9,
+                "duration_days": 14
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 5,
+                "duration_days": 15
+            }
+        ],
+        "urgency_level": "medium"
+    },
+    {
+        "consultation_id": "C1006",
+        "patient": {
+            "patient_id": "P1548",
+            "name": "Ciaran Wilson",
+            "date_of_birth": "2010-06-22",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900325",
+                "email": "ciaran.wilson@example.com",
+                "address": {
+                    "street": "111 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT71"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D105",
+            "name": "Dr Aoife Brown",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Palpitations",
+                "severity": 1,
+                "duration_days": 1
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 8,
+                "duration_days": 12
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1007",
+        "patient": {
+            "patient_id": "P1017",
+            "name": "Aoife Campbell",
+            "date_of_birth": "1958-05-02",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900284",
+                "email": "aoife.campbell@example.com",
+                "address": {
+                    "street": "75 Station Road",
+                    "city": "Derry",
+                    "postcode": "BT56"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D106",
+            "name": "Dr Aoife Wilson",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Acne",
+                "severity": 10,
+                "duration_days": 15
+            },
+            {
+                "name": "Itching",
+                "severity": 4,
+                "duration_days": 19
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1008",
+        "patient": {
+            "patient_id": "P1588",
+            "name": "James Smith",
+            "date_of_birth": "1992-02-03",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900733",
+                "email": "james.smith@example.com",
+                "address": {
+                    "street": "91 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT91"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D100",
+            "name": "Dr Ciaran Kelly",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Back pain",
+                "severity": 4,
+                "duration_days": 10
+            }
+        ],
+        "urgency_level": "low"
+    },
+    {
+        "consultation_id": "C1009",
+        "patient": {
+            "patient_id": "P1555",
+            "name": "Aoife Kelly",
+            "date_of_birth": "2000-02-20",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900646",
+                "email": "aoife.kelly@example.com",
+                "address": {
+                    "street": "67 High Street",
+                    "city": "Belfast",
+                    "postcode": "BT7"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D106",
+            "name": "Dr Aoife Wilson",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 6,
+                "duration_days": 16
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1010",
+        "patient": {
+            "patient_id": "P1236",
+            "name": "Ciaran Campbell",
+            "date_of_birth": "1988-08-02",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900862",
+                "email": "ciaran.campbell@example.com",
+                "address": {
+                    "street": "39 Mill Lane",
+                    "city": "Armagh",
+                    "postcode": "BT88"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D106",
+            "name": "Dr Aoife Wilson",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 8,
+                "duration_days": 14
+            },
+            {
+                "name": "Itching",
+                "severity": 2,
+                "duration_days": 2
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1011",
+        "patient": {
+            "patient_id": "P1014",
+            "name": "Liam Smith",
+            "date_of_birth": "1991-06-11",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900753",
+                "email": "liam.smith@example.com",
+                "address": {
+                    "street": "42 High Street",
+                    "city": "Derry",
+                    "postcode": "BT71"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D107",
+            "name": "Dr Sarah Murphy",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 7,
+                "duration_days": 10
+            },
+            {
+                "name": "Rash",
+                "severity": 7,
+                "duration_days": 14
+            },
+            {
+                "name": "Acne",
+                "severity": 3,
+                "duration_days": 11
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1012",
+        "patient": {
+            "patient_id": "P1690",
+            "name": "Ciaran Brown",
+            "date_of_birth": "1988-04-11",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900296",
+                "email": "ciaran.brown@example.com",
+                "address": {
+                    "street": "77 Church Road",
+                    "city": "Derry",
+                    "postcode": "BT84"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D108",
+            "name": "Dr James Brown",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Fatigue",
+                "severity": 8,
+                "duration_days": 6
+            },
+            {
+                "name": "Fever",
+                "severity": 1,
+                "duration_days": 3
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1013",
+        "patient": {
+            "patient_id": "P1461",
+            "name": "Ciaran Kelly",
+            "date_of_birth": "1970-01-02",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900275",
+                "email": "ciaran.kelly@example.com",
+                "address": {
+                    "street": "88 High Street",
+                    "city": "Newry",
+                    "postcode": "BT39"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D100",
+            "name": "Dr Ciaran Kelly",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Fever",
+                "severity": 7,
+                "duration_days": 18
+            },
+            {
+                "name": "Fatigue",
+                "severity": 3,
+                "duration_days": 17
+            }
+        ],
+        "urgency_level": "low"
+    },
+    {
+        "consultation_id": "C1014",
+        "patient": {
+            "patient_id": "P1880",
+            "name": "Ciaran Smith",
+            "date_of_birth": "2004-12-25",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900995",
+                "email": "ciaran.smith@example.com",
+                "address": {
+                    "street": "120 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT53"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D107",
+            "name": "Dr Sarah Murphy",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 7,
+                "duration_days": 4
+            },
+            {
+                "name": "Rash",
+                "severity": 9,
+                "duration_days": 2
+            },
+            {
+                "name": "Acne",
+                "severity": 5,
+                "duration_days": 14
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1015",
+        "patient": {
+            "patient_id": "P1515",
+            "name": "Ciaran Wilson",
+            "date_of_birth": "1950-01-10",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900686",
+                "email": "ciaran.wilson@example.com",
+                "address": {
+                    "street": "97 Station Road",
+                    "city": "Belfast",
+                    "postcode": "BT63"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D106",
+            "name": "Dr Aoife Wilson",
+            "specialty": "Dermatology"
+        },
+        "symptoms": [
+            {
+                "name": "Rash",
+                "severity": 6,
+                "duration_days": 8
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1016",
+        "patient": {
+            "patient_id": "P1396",
+            "name": "James Murphy",
+            "date_of_birth": "2010-12-20",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900727",
+                "email": "james.murphy@example.com",
+                "address": {
+                    "street": "36 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT85"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D101",
+            "name": "Dr Ciaran Campbell",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Back pain",
+                "severity": 7,
+                "duration_days": 11
+            },
+            {
+                "name": "Fever",
+                "severity": 3,
+                "duration_days": 1
+            },
+            {
+                "name": "Fatigue",
+                "severity": 5,
+                "duration_days": 10
+            }
+        ],
+        "urgency_level": "medium"
+    },
+    {
+        "consultation_id": "C1017",
+        "patient": {
+            "patient_id": "P1511",
+            "name": "Emma Kelly",
+            "date_of_birth": "1994-02-21",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900857",
+                "email": "emma.kelly@example.com",
+                "address": {
+                    "street": "101 Station Road",
+                    "city": "Belfast",
+                    "postcode": "BT77"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D101",
+            "name": "Dr Ciaran Campbell",
+            "specialty": "General Practice"
+        },
+        "symptoms": [
+            {
+                "name": "Fatigue",
+                "severity": 1,
+                "duration_days": 2
+            },
+            {
+                "name": "Back pain",
+                "severity": 3,
+                "duration_days": 8
+            }
+        ],
+        "urgency_level": "high"
+    },
+    {
+        "consultation_id": "C1018",
+        "patient": {
+            "patient_id": "P1546",
+            "name": "Ciaran Kelly",
+            "date_of_birth": "1962-03-28",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900907",
+                "email": "ciaran.kelly@example.com",
+                "address": {
+                    "street": "79 Church Road",
+                    "city": "Armagh",
+                    "postcode": "BT50"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D105",
+            "name": "Dr Aoife Brown",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Chest tightness",
+                "severity": 4,
+                "duration_days": 8
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 5,
+                "duration_days": 7
+            },
+            {
+                "name": "Dizziness",
+                "severity": 2,
+                "duration_days": 17
+            }
+        ],
+        "urgency_level": "medium"
+    },
+    {
+        "consultation_id": "C1019",
+        "patient": {
+            "patient_id": "P1481",
+            "name": "Sarah Smith",
+            "date_of_birth": "1991-01-07",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900937",
+                "email": "sarah.smith@example.com",
+                "address": {
+                    "street": "27 Station Road",
+                    "city": "Newry",
+                    "postcode": "BT27"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Emma Campbell",
+            "specialty": "Cardiology"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 4,
+                "duration_days": 20
+            },
+            {
+                "name": "Chest tightness",
+                "severity": 1,
+                "duration_days": 7
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 2,
+                "duration_days": 6
+            }
+        ],
+        "urgency_level": "medium"
+    }
+]
