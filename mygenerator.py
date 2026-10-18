@@ -1,5 +1,6 @@
 import random
 import json
+from datetime import date, timedelta
 
 specialties = ['General Practice', 'Dermatology', 'Cardiology']
 # symptoms that make sense for each specialty
@@ -23,6 +24,8 @@ cities = {
 }
 
 streets = ['Main Street', 'High Street', 'Church Road', 'Station Road', 'Mill Lane']
+
+time_slots = ['09:00', '09:30', '10:00', '10:30', '11:00', '14:00', '14:30', '15:00', '15:30', '16:00']
 
 # test 2: made one doctor first to check the structure
 #name = 'Dr ' + random.choice(first_names) + ' ' + random.choice(last_names)
@@ -69,13 +72,16 @@ print('Created', len(doctor_list), 'doctors')
 
 # ---- consultations ----
 
+# ---- consultations ----
+
 consultation_list = []
 
 for i in range(20):
     chosen_doctor = random.choice(doctor_list)   # pick one of our doctors
     patient_name = random.choice(first_names) + ' ' + random.choice(last_names)
     patient_city = random.choice(list(cities.keys()))
-        # each patient gets 1-3 symptoms that match the doctor's specialty
+
+    # each patient gets 1-3 symptoms that match the doctor's specialty
     specialty = chosen_doctor['specialty']
     symptoms = []
     for symptom_name in random.sample(symptoms_by_specialty[specialty], random.randint(1, 3)):
@@ -85,7 +91,7 @@ for i in range(20):
             'duration_days': random.randint(1, 21)
         })
 
-        # urgency depends on the most severe symptom
+    # urgency depends on the most severe symptom
     worst = max(s['severity'] for s in symptoms)
     if worst >= 8:
         urgency = 'high'
@@ -94,11 +100,16 @@ for i in range(20):
     else:
         urgency = 'low'
 
-     
+    # random date in 2026 - past ones are finished, future ones are still to come
+    appointment_date = date(2026, 1, 5) + timedelta(days=random.randint(0, 345))
+    if appointment_date < date(2026, 10, 16):
+        status = random.choice(['completed', 'completed', 'completed', 'cancelled'])
+    else:
+        status = random.choice(['booked', 'pending'])
 
     consultation = {
         'consultation_id': 'C' + str(1000 + i),
-                'patient': {                             # nested patient document
+        'patient': {                             # nested patient document
             'patient_id': 'P' + str(random.randint(1000, 1999)),
             'name': patient_name,
             'date_of_birth': f'{random.randint(1950, 2015)}-{random.randint(1, 12):02d}-{random.randint(1, 28):02d}',
@@ -118,19 +129,21 @@ for i in range(20):
             'name': chosen_doctor['name'],
             'specialty': chosen_doctor['specialty']
         },
+        'appointment': {                         # nested appointment details
+            'date': str(appointment_date),
+            'time_slot': random.choice(time_slots),
+            'type': random.choice(['video', 'video', 'phone']),
+            'video_link': 'https://meet.example.com/c' + str(1000 + i),
+            'status': status
+        },
         'symptoms': symptoms,                    # array of objects
-        'urgency_level': random.choice(['low', 'medium', 'high'])
-        
+        #'urgency_level': random.choice(['low', 'medium', 'high'])   # first version: random
+        'urgency_level': urgency
     }
-    
 
     consultation_list.append(consultation)
-
 
 with open('consultations.json', 'w', encoding='utf-8') as fout:
     json.dump(consultation_list, fout, indent=4)
 
-print('Created', len(consultation_list), 'consultations')   
-
-
-    
+print('Created', len(consultation_list), 'consultations')
