@@ -10,6 +10,35 @@ symptoms_by_specialty = {
     'Cardiology': ['Palpitations', 'Dizziness', 'Chest tightness', 'Shortness of breath']
 }
 
+# diagnoses and medicines that make sense for each specialty
+diagnoses_by_specialty = {
+    'General Practice': ['Viral infection', 'Migraine', 'Tonsillitis', 'Muscle strain'],
+    'Dermatology': ['Eczema', 'Contact dermatitis', 'Acne', 'Psoriasis'],
+    'Cardiology': ['High blood pressure', 'Benign palpitations', 'Anxiety-related symptoms']
+}
+
+medicines_by_specialty = {
+    'General Practice': [
+        {'medicine': 'Paracetamol', 'dosage': '500mg'},
+        {'medicine': 'Ibuprofen', 'dosage': '400mg'},
+        {'medicine': 'Amoxicillin', 'dosage': '500mg'}
+    ],
+    'Dermatology': [
+        {'medicine': 'Hydrocortisone cream', 'dosage': '1%'},
+        {'medicine': 'Cetirizine', 'dosage': '10mg'},
+        {'medicine': 'Emollient cream', 'dosage': 'Apply thinly'}
+    ],
+    'Cardiology': [
+        {'medicine': 'Amlodipine', 'dosage': '5mg'},
+        {'medicine': 'Ramipril', 'dosage': '2.5mg'},
+        {'medicine': 'Bisoprolol', 'dosage': '2.5mg'}
+    ]
+}
+
+frequencies = ['Once daily', 'Twice daily', 'Three times daily', 'When needed']
+feedback_comments = ['Quick and helpful', 'Doctor was very kind', 'Easy to use',
+                     'Video kept freezing', 'Had to wait a long time', 'Would use again']
+
 #print(random.choice(specialties))   # test 1: checked random picks work
 
 first_names = ['Sarah', 'James', 'Aoife', 'Ciaran', 'Emma', 'Liam']
@@ -107,6 +136,35 @@ for i in range(20):
     else:
         status = random.choice(['booked', 'pending'])
 
+            # only completed appointments have notes, prescriptions and feedback
+    consultation_notes = None
+    prescriptions = []
+    feedback = None
+
+    if status == 'completed':
+        follow_up_needed = random.choice([True, False])
+        consultation_notes = {
+            'diagnosis': random.choice(diagnoses_by_specialty[specialty]),
+            'notes': 'Patient assessed remotely. Advice given.',
+            'follow_up': {
+                'required': follow_up_needed,
+                'date': str(appointment_date + timedelta(days=14)) if follow_up_needed else None
+            }
+        }
+
+        for med in random.sample(medicines_by_specialty[specialty], random.randint(0, 2)):
+            prescriptions.append({
+                'medicine': med['medicine'],
+                'dosage': med['dosage'],
+                'frequency': random.choice(frequencies),
+                'duration_days': random.choice([5, 7, 14, 28])
+            })
+
+        feedback = {
+            'rating': random.randint(1, 5),
+            'comment': random.choice(feedback_comments)
+        }
+
     consultation = {
         'consultation_id': 'C' + str(1000 + i),
         'patient': {                             # nested patient document
@@ -138,8 +196,13 @@ for i in range(20):
         },
         'symptoms': symptoms,                    # array of objects
         #'urgency_level': random.choice(['low', 'medium', 'high'])   # first version: random
-        'urgency_level': urgency
+        'urgency_level': urgency,
+        'urgency_level': urgency,
+        'consultation_notes': consultation_notes,   # nested, only if completed
+        'prescriptions': prescriptions,             # array of objects
+        'feedback': feedback
     }
+    
 
     consultation_list.append(consultation)
 

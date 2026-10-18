@@ -1,13 +1,13 @@
 [
     {
         "doctor_id": "D100",
-        "name": "Dr Emma Kelly",
+        "name": "Dr James Brown",
         "specialty": "Dermatology",
-        "years_experience": 18,
+        "years_experience": 28,
         "available_days": [
-            "Fri",
-            "Wed",
-            "Thu"
+            "Thu",
+            "Tue",
+            "Mon"
         ],
         "accepting_patients": true,
         "clinic": {
@@ -24,36 +24,59 @@
     },
     {
         "doctor_id": "D101",
-        "name": "Dr Emma Campbell",
+        "name": "Dr James Brown",
         "specialty": "Cardiology",
-        "years_experience": 22,
+        "years_experience": 23,
         "available_days": [
-            "Fri",
             "Mon",
+            "Fri",
             "Wed"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
-            "name": "Derry Health Centre",
-            "city": "Derry",
+            "name": "Newry Health Centre",
+            "city": "Newry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -7.3086,
-                    54.9966
+                    -6.3374,
+                    54.1751
                 ]
             }
         }
     },
     {
         "doctor_id": "D102",
-        "name": "Dr Aoife Brown",
-        "specialty": "Dermatology",
-        "years_experience": 4,
+        "name": "Dr James Campbell",
+        "specialty": "Cardiology",
+        "years_experience": 17,
         "available_days": [
             "Fri",
-            "Mon",
+            "Wed",
             "Tue"
+        ],
+        "accepting_patients": false,
+        "clinic": {
+            "name": "Belfast Health Centre",
+            "city": "Belfast",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -5.9301,
+                    54.5973
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D103",
+        "name": "Dr Aoife Murphy",
+        "specialty": "Cardiology",
+        "years_experience": 18,
+        "available_days": [
+            "Thu",
+            "Wed",
+            "Fri"
         ],
         "accepting_patients": true,
         "clinic": {
@@ -69,62 +92,39 @@
         }
     },
     {
-        "doctor_id": "D103",
-        "name": "Dr Emma Brown",
-        "specialty": "Dermatology",
-        "years_experience": 12,
-        "available_days": [
-            "Fri",
-            "Mon",
-            "Thu"
-        ],
-        "accepting_patients": true,
-        "clinic": {
-            "name": "Armagh Health Centre",
-            "city": "Armagh",
-            "location": {
-                "type": "Point",
-                "coordinates": [
-                    -6.6547,
-                    54.3503
-                ]
-            }
-        }
-    },
-    {
         "doctor_id": "D104",
-        "name": "Dr Liam Kelly",
-        "specialty": "Cardiology",
-        "years_experience": 13,
+        "name": "Dr Ciaran Campbell",
+        "specialty": "Dermatology",
+        "years_experience": 11,
         "available_days": [
-            "Mon",
+            "Tue",
             "Thu",
-            "Tue"
+            "Fri"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
-            "name": "Derry Health Centre",
-            "city": "Derry",
+            "name": "Newry Health Centre",
+            "city": "Newry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -7.3086,
-                    54.9966
+                    -6.3374,
+                    54.1751
                 ]
             }
         }
     },
     {
         "doctor_id": "D105",
-        "name": "Dr Sarah Wilson",
-        "specialty": "General Practice",
-        "years_experience": 2,
+        "name": "Dr James Brown",
+        "specialty": "Cardiology",
+        "years_experience": 11,
         "available_days": [
-            "Mon",
+            "Fri",
             "Tue",
-            "Wed"
+            "Mon"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
             "name": "Armagh Health Centre",
             "city": "Armagh",
@@ -139,38 +139,38 @@
     },
     {
         "doctor_id": "D106",
-        "name": "Dr Aoife Kelly",
-        "specialty": "General Practice",
-        "years_experience": 25,
+        "name": "Dr Ciaran Murphy",
+        "specialty": "Dermatology",
+        "years_experience": 24,
         "available_days": [
-            "Wed",
             "Fri",
-            "Thu"
+            "Tue",
+            "Wed"
         ],
         "accepting_patients": true,
         "clinic": {
-            "name": "Newry Health Centre",
-            "city": "Newry",
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -6.3374,
-                    54.1751
+                    -6.6547,
+                    54.3503
                 ]
             }
         }
     },
     {
         "doctor_id": "D107",
-        "name": "Dr Liam Brown",
-        "specialty": "Cardiology",
-        "years_experience": 17,
+        "name": "Dr Emma Kelly",
+        "specialty": "General Practice",
+        "years_experience": 14,
         "available_days": [
-            "Mon",
+            "Fri",
             "Tue",
-            "Thu"
+            "Wed"
         ],
-        "accepting_patients": false,
+        "accepting_patients": true,
         "clinic": {
             "name": "Armagh Health Centre",
             "city": "Armagh",
@@ -185,15 +185,38 @@
     },
     {
         "doctor_id": "D108",
-        "name": "Dr Sarah Campbell",
-        "specialty": "Cardiology",
-        "years_experience": 25,
+        "name": "Dr Emma Wilson",
+        "specialty": "General Practice",
+        "years_experience": 15,
         "available_days": [
             "Tue",
+            "Mon",
+            "Wed"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Belfast Health Centre",
+            "city": "Belfast",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -5.9301,
+                    54.5973
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D109",
+        "name": "Dr James Campbell",
+        "specialty": "Dermatology",
+        "years_experience": 29,
+        "available_days": [
+            "Thu",
             "Wed",
             "Mon"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
             "name": "Newry Health Centre",
             "city": "Newry",
@@ -202,29 +225,6 @@
                 "coordinates": [
                     -6.3374,
                     54.1751
-                ]
-            }
-        }
-    },
-    {
-        "doctor_id": "D109",
-        "name": "Dr Sarah Kelly",
-        "specialty": "General Practice",
-        "years_experience": 25,
-        "available_days": [
-            "Fri",
-            "Wed",
-            "Mon"
-        ],
-        "accepting_patients": false,
-        "clinic": {
-            "name": "Derry Health Centre",
-            "city": "Derry",
-            "location": {
-                "type": "Point",
-                "coordinates": [
-                    -7.3086,
-                    54.9966
                 ]
             }
         }

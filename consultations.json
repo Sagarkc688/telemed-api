@@ -2,792 +2,1024 @@
     {
         "consultation_id": "C1000",
         "patient": {
-            "patient_id": "P1063",
-            "name": "James Wilson",
-            "date_of_birth": "1963-06-04",
-            "gender": "Female",
+            "patient_id": "P1655",
+            "name": "Ciaran Smith",
+            "date_of_birth": "2005-04-02",
+            "gender": "Male",
             "contact": {
-                "phone": "07700 900744",
-                "email": "james.wilson@example.com",
+                "phone": "07700 900541",
+                "email": "ciaran.smith@example.com",
                 "address": {
-                    "street": "18 High Street",
-                    "city": "Belfast",
-                    "postcode": "BT20"
+                    "street": "17 Mill Lane",
+                    "city": "Derry",
+                    "postcode": "BT31"
                 }
             }
         },
         "doctor": {
-            "doctor_id": "D100",
-            "name": "Dr Emma Kelly",
+            "doctor_id": "D109",
+            "name": "Dr James Campbell",
             "specialty": "Dermatology"
         },
         "appointment": {
-            "date": "2026-09-08",
-            "time_slot": "15:30",
-            "type": "phone",
+            "date": "2026-06-09",
+            "time_slot": "14:30",
+            "type": "video",
             "video_link": "https://meet.example.com/c1000",
-            "status": "completed"
+            "status": "cancelled"
         },
         "symptoms": [
             {
-                "name": "Itching",
-                "severity": 5,
-                "duration_days": 15
+                "name": "Rash",
+                "severity": 1,
+                "duration_days": 11
             },
             {
-                "name": "Dry skin",
-                "severity": 2,
-                "duration_days": 16
+                "name": "Itching",
+                "severity": 4,
+                "duration_days": 10
             }
         ],
-        "urgency_level": "medium"
+        "urgency_level": "low",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
     },
     {
         "consultation_id": "C1001",
         "patient": {
-            "patient_id": "P1801",
-            "name": "Ciaran Kelly",
-            "date_of_birth": "1996-07-01",
+            "patient_id": "P1418",
+            "name": "Emma Brown",
+            "date_of_birth": "1966-05-22",
             "gender": "Female",
             "contact": {
-                "phone": "07700 900944",
-                "email": "ciaran.kelly@example.com",
+                "phone": "07700 900468",
+                "email": "emma.brown@example.com",
                 "address": {
-                    "street": "85 High Street",
-                    "city": "Belfast",
-                    "postcode": "BT11"
+                    "street": "115 High Street",
+                    "city": "Derry",
+                    "postcode": "BT7"
                 }
             }
         },
         "doctor": {
             "doctor_id": "D101",
-            "name": "Dr Emma Campbell",
+            "name": "Dr James Brown",
             "specialty": "Cardiology"
         },
         "appointment": {
-            "date": "2026-10-21",
-            "time_slot": "09:00",
-            "type": "video",
+            "date": "2026-09-26",
+            "time_slot": "09:30",
+            "type": "phone",
             "video_link": "https://meet.example.com/c1001",
-            "status": "pending"
-        },
-        "symptoms": [
-            {
-                "name": "Chest tightness",
-                "severity": 8,
-                "duration_days": 10
-            },
-            {
-                "name": "Shortness of breath",
-                "severity": 4,
-                "duration_days": 19
-            }
-        ],
-        "urgency_level": "high"
-    },
-    {
-        "consultation_id": "C1002",
-        "patient": {
-            "patient_id": "P1001",
-            "name": "Aoife Brown",
-            "date_of_birth": "1988-02-08",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900077",
-                "email": "aoife.brown@example.com",
-                "address": {
-                    "street": "75 Station Road",
-                    "city": "Newry",
-                    "postcode": "BT42"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D100",
-            "name": "Dr Emma Kelly",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-12-10",
-            "time_slot": "11:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1002",
-            "status": "pending"
-        },
-        "symptoms": [
-            {
-                "name": "Acne",
-                "severity": 1,
-                "duration_days": 14
-            },
-            {
-                "name": "Itching",
-                "severity": 8,
-                "duration_days": 17
-            },
-            {
-                "name": "Rash",
-                "severity": 8,
-                "duration_days": 1
-            }
-        ],
-        "urgency_level": "high"
-    },
-    {
-        "consultation_id": "C1003",
-        "patient": {
-            "patient_id": "P1695",
-            "name": "Liam Murphy",
-            "date_of_birth": "1973-11-15",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900673",
-                "email": "liam.murphy@example.com",
-                "address": {
-                    "street": "111 Station Road",
-                    "city": "Armagh",
-                    "postcode": "BT23"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D103",
-            "name": "Dr Emma Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-02-14",
-            "time_slot": "10:30",
-            "type": "phone",
-            "video_link": "https://meet.example.com/c1003",
-            "status": "completed"
-        },
-        "symptoms": [
-            {
-                "name": "Dry skin",
-                "severity": 5,
-                "duration_days": 8
-            },
-            {
-                "name": "Rash",
-                "severity": 5,
-                "duration_days": 7
-            }
-        ],
-        "urgency_level": "medium"
-    },
-    {
-        "consultation_id": "C1004",
-        "patient": {
-            "patient_id": "P1202",
-            "name": "Emma Brown",
-            "date_of_birth": "1978-08-13",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900291",
-                "email": "emma.brown@example.com",
-                "address": {
-                    "street": "62 Station Road",
-                    "city": "Belfast",
-                    "postcode": "BT23"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D102",
-            "name": "Dr Aoife Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-06-09",
-            "time_slot": "09:30",
-            "type": "phone",
-            "video_link": "https://meet.example.com/c1004",
-            "status": "completed"
-        },
-        "symptoms": [
-            {
-                "name": "Acne",
-                "severity": 4,
-                "duration_days": 12
-            }
-        ],
-        "urgency_level": "low"
-    },
-    {
-        "consultation_id": "C1005",
-        "patient": {
-            "patient_id": "P1563",
-            "name": "Ciaran Kelly",
-            "date_of_birth": "1982-06-13",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900496",
-                "email": "ciaran.kelly@example.com",
-                "address": {
-                    "street": "23 Main Street",
-                    "city": "Newry",
-                    "postcode": "BT78"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D103",
-            "name": "Dr Emma Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-12-02",
-            "time_slot": "14:30",
-            "type": "phone",
-            "video_link": "https://meet.example.com/c1005",
-            "status": "booked"
-        },
-        "symptoms": [
-            {
-                "name": "Acne",
-                "severity": 2,
-                "duration_days": 14
-            }
-        ],
-        "urgency_level": "low"
-    },
-    {
-        "consultation_id": "C1006",
-        "patient": {
-            "patient_id": "P1455",
-            "name": "James Campbell",
-            "date_of_birth": "1957-06-13",
-            "gender": "Male",
-            "contact": {
-                "phone": "07700 900076",
-                "email": "james.campbell@example.com",
-                "address": {
-                    "street": "44 Main Street",
-                    "city": "Derry",
-                    "postcode": "BT59"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D102",
-            "name": "Dr Aoife Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-08-02",
-            "time_slot": "09:30",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1006",
-            "status": "completed"
-        },
-        "symptoms": [
-            {
-                "name": "Itching",
-                "severity": 4,
-                "duration_days": 13
-            }
-        ],
-        "urgency_level": "low"
-    },
-    {
-        "consultation_id": "C1007",
-        "patient": {
-            "patient_id": "P1845",
-            "name": "James Kelly",
-            "date_of_birth": "1995-11-21",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900877",
-                "email": "james.kelly@example.com",
-                "address": {
-                    "street": "31 Church Road",
-                    "city": "Belfast",
-                    "postcode": "BT14"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D100",
-            "name": "Dr Emma Kelly",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-05-31",
-            "time_slot": "11:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1007",
             "status": "cancelled"
         },
         "symptoms": [
             {
-                "name": "Itching",
-                "severity": 10,
+                "name": "Palpitations",
+                "severity": 2,
                 "duration_days": 18
             },
             {
-                "name": "Rash",
-                "severity": 2,
-                "duration_days": 15
+                "name": "Chest tightness",
+                "severity": 1,
+                "duration_days": 18
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 9,
+                "duration_days": 11
             }
         ],
-        "urgency_level": "high"
+        "urgency_level": "high",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
     },
     {
-        "consultation_id": "C1008",
+        "consultation_id": "C1002",
         "patient": {
-            "patient_id": "P1764",
-            "name": "James Smith",
-            "date_of_birth": "1984-03-13",
+            "patient_id": "P1398",
+            "name": "James Kelly",
+            "date_of_birth": "1971-02-02",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900089",
+                "email": "james.kelly@example.com",
+                "address": {
+                    "street": "91 Church Road",
+                    "city": "Newry",
+                    "postcode": "BT68"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D109",
+            "name": "Dr James Campbell",
+            "specialty": "Dermatology"
+        },
+        "appointment": {
+            "date": "2026-08-06",
+            "time_slot": "15:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1002",
+            "status": "cancelled"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 3,
+                "duration_days": 7
+            }
+        ],
+        "urgency_level": "low",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1003",
+        "patient": {
+            "patient_id": "P1184",
+            "name": "Ciaran Brown",
+            "date_of_birth": "1988-10-15",
             "gender": "Female",
             "contact": {
-                "phone": "07700 900753",
-                "email": "james.smith@example.com",
+                "phone": "07700 900141",
+                "email": "ciaran.brown@example.com",
                 "address": {
-                    "street": "43 Church Road",
-                    "city": "Armagh",
+                    "street": "69 Church Road",
+                    "city": "Newry",
+                    "postcode": "BT68"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D100",
+            "name": "Dr James Brown",
+            "specialty": "Dermatology"
+        },
+        "appointment": {
+            "date": "2026-10-17",
+            "time_slot": "09:30",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1003",
+            "status": "pending"
+        },
+        "symptoms": [
+            {
+                "name": "Dry skin",
+                "severity": 2,
+                "duration_days": 17
+            },
+            {
+                "name": "Itching",
+                "severity": 2,
+                "duration_days": 21
+            },
+            {
+                "name": "Acne",
+                "severity": 3,
+                "duration_days": 9
+            }
+        ],
+        "urgency_level": "low",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1004",
+        "patient": {
+            "patient_id": "P1015",
+            "name": "Ciaran Wilson",
+            "date_of_birth": "2005-04-20",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900453",
+                "email": "ciaran.wilson@example.com",
+                "address": {
+                    "street": "99 High Street",
+                    "city": "Belfast",
+                    "postcode": "BT38"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D101",
+            "name": "Dr James Brown",
+            "specialty": "Cardiology"
+        },
+        "appointment": {
+            "date": "2026-07-27",
+            "time_slot": "15:30",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1004",
+            "status": "cancelled"
+        },
+        "symptoms": [
+            {
+                "name": "Shortness of breath",
+                "severity": 8,
+                "duration_days": 11
+            },
+            {
+                "name": "Dizziness",
+                "severity": 7,
+                "duration_days": 6
+            },
+            {
+                "name": "Palpitations",
+                "severity": 9,
+                "duration_days": 9
+            }
+        ],
+        "urgency_level": "high",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1005",
+        "patient": {
+            "patient_id": "P1816",
+            "name": "Liam Kelly",
+            "date_of_birth": "1989-11-15",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900280",
+                "email": "liam.kelly@example.com",
+                "address": {
+                    "street": "31 Main Street",
+                    "city": "Belfast",
+                    "postcode": "BT61"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Aoife Murphy",
+            "specialty": "Cardiology"
+        },
+        "appointment": {
+            "date": "2026-07-19",
+            "time_slot": "09:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1005",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Palpitations",
+                "severity": 7,
+                "duration_days": 8
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 4,
+                "duration_days": 5
+            },
+            {
+                "name": "Chest tightness",
+                "severity": 3,
+                "duration_days": 16
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "High blood pressure",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Ramipril",
+                "dosage": "2.5mg",
+                "frequency": "Once daily",
+                "duration_days": 14
+            }
+        ],
+        "feedback": {
+            "rating": 4,
+            "comment": "Video kept freezing"
+        }
+    },
+    {
+        "consultation_id": "C1006",
+        "patient": {
+            "patient_id": "P1698",
+            "name": "Emma Kelly",
+            "date_of_birth": "1998-06-28",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900067",
+                "email": "emma.kelly@example.com",
+                "address": {
+                    "street": "43 Mill Lane",
+                    "city": "Newry",
                     "postcode": "BT17"
                 }
             }
         },
         "doctor": {
-            "doctor_id": "D104",
-            "name": "Dr Liam Kelly",
+            "doctor_id": "D107",
+            "name": "Dr Emma Kelly",
+            "specialty": "General Practice"
+        },
+        "appointment": {
+            "date": "2026-08-15",
+            "time_slot": "16:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1006",
+            "status": "cancelled"
+        },
+        "symptoms": [
+            {
+                "name": "Sore throat",
+                "severity": 10,
+                "duration_days": 11
+            },
+            {
+                "name": "Fatigue",
+                "severity": 10,
+                "duration_days": 11
+            }
+        ],
+        "urgency_level": "high",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1007",
+        "patient": {
+            "patient_id": "P1615",
+            "name": "Aoife Campbell",
+            "date_of_birth": "1967-03-03",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900493",
+                "email": "aoife.campbell@example.com",
+                "address": {
+                    "street": "109 Main Street",
+                    "city": "Derry",
+                    "postcode": "BT38"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D101",
+            "name": "Dr James Brown",
             "specialty": "Cardiology"
         },
         "appointment": {
-            "date": "2026-06-17",
-            "time_slot": "14:00",
+            "date": "2026-04-12",
+            "time_slot": "09:30",
+            "type": "phone",
+            "video_link": "https://meet.example.com/c1007",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 7,
+                "duration_days": 21
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "High blood pressure",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [],
+        "feedback": {
+            "rating": 4,
+            "comment": "Doctor was very kind"
+        }
+    },
+    {
+        "consultation_id": "C1008",
+        "patient": {
+            "patient_id": "P1765",
+            "name": "Emma Smith",
+            "date_of_birth": "1975-01-21",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900208",
+                "email": "emma.smith@example.com",
+                "address": {
+                    "street": "76 Mill Lane",
+                    "city": "Belfast",
+                    "postcode": "BT66"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D100",
+            "name": "Dr James Brown",
+            "specialty": "Dermatology"
+        },
+        "appointment": {
+            "date": "2026-06-23",
+            "time_slot": "09:30",
             "type": "video",
             "video_link": "https://meet.example.com/c1008",
             "status": "completed"
         },
         "symptoms": [
             {
-                "name": "Chest tightness",
-                "severity": 3,
+                "name": "Acne",
+                "severity": 2,
+                "duration_days": 18
+            },
+            {
+                "name": "Rash",
+                "severity": 7,
                 "duration_days": 13
             },
             {
-                "name": "Shortness of breath",
-                "severity": 9,
-                "duration_days": 19
+                "name": "Itching",
+                "severity": 7,
+                "duration_days": 18
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "Eczema",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": true,
+                "date": "2026-07-07"
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Hydrocortisone cream",
+                "dosage": "1%",
+                "frequency": "When needed",
+                "duration_days": 14
             },
             {
-                "name": "Dizziness",
-                "severity": 7,
+                "medicine": "Emollient cream",
+                "dosage": "Apply thinly",
+                "frequency": "Twice daily",
                 "duration_days": 14
             }
         ],
-        "urgency_level": "high"
+        "feedback": {
+            "rating": 5,
+            "comment": "Easy to use"
+        }
     },
     {
         "consultation_id": "C1009",
         "patient": {
-            "patient_id": "P1484",
-            "name": "Aoife Murphy",
-            "date_of_birth": "2009-09-01",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900624",
-                "email": "aoife.murphy@example.com",
-                "address": {
-                    "street": "119 High Street",
-                    "city": "Belfast",
-                    "postcode": "BT2"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D100",
-            "name": "Dr Emma Kelly",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-06-19",
-            "time_slot": "10:30",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1009",
-            "status": "cancelled"
-        },
-        "symptoms": [
-            {
-                "name": "Acne",
-                "severity": 10,
-                "duration_days": 21
-            }
-        ],
-        "urgency_level": "high"
-    },
-    {
-        "consultation_id": "C1010",
-        "patient": {
-            "patient_id": "P1192",
-            "name": "Liam Murphy",
-            "date_of_birth": "2002-06-27",
-            "gender": "Male",
-            "contact": {
-                "phone": "07700 900962",
-                "email": "liam.murphy@example.com",
-                "address": {
-                    "street": "10 High Street",
-                    "city": "Armagh",
-                    "postcode": "BT81"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D102",
-            "name": "Dr Aoife Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-12-14",
-            "time_slot": "16:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1010",
-            "status": "pending"
-        },
-        "symptoms": [
-            {
-                "name": "Acne",
-                "severity": 3,
-                "duration_days": 16
-            },
-            {
-                "name": "Rash",
-                "severity": 6,
-                "duration_days": 11
-            }
-        ],
-        "urgency_level": "medium"
-    },
-    {
-        "consultation_id": "C1011",
-        "patient": {
-            "patient_id": "P1622",
-            "name": "Emma Murphy",
-            "date_of_birth": "2014-05-25",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900434",
-                "email": "emma.murphy@example.com",
-                "address": {
-                    "street": "15 Main Street",
-                    "city": "Newry",
-                    "postcode": "BT23"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D101",
-            "name": "Dr Emma Campbell",
-            "specialty": "Cardiology"
-        },
-        "appointment": {
-            "date": "2026-10-31",
-            "time_slot": "10:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1011",
-            "status": "pending"
-        },
-        "symptoms": [
-            {
-                "name": "Palpitations",
-                "severity": 3,
-                "duration_days": 6
-            },
-            {
-                "name": "Chest tightness",
-                "severity": 8,
-                "duration_days": 9
-            },
-            {
-                "name": "Dizziness",
-                "severity": 1,
-                "duration_days": 19
-            }
-        ],
-        "urgency_level": "high"
-    },
-    {
-        "consultation_id": "C1012",
-        "patient": {
-            "patient_id": "P1790",
-            "name": "Ciaran Wilson",
-            "date_of_birth": "2004-01-17",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900651",
-                "email": "ciaran.wilson@example.com",
-                "address": {
-                    "street": "63 Mill Lane",
-                    "city": "Belfast",
-                    "postcode": "BT2"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D108",
-            "name": "Dr Sarah Campbell",
-            "specialty": "Cardiology"
-        },
-        "appointment": {
-            "date": "2026-11-08",
-            "time_slot": "15:30",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1012",
-            "status": "booked"
-        },
-        "symptoms": [
-            {
-                "name": "Shortness of breath",
-                "severity": 7,
-                "duration_days": 21
-            },
-            {
-                "name": "Dizziness",
-                "severity": 4,
-                "duration_days": 14
-            }
-        ],
-        "urgency_level": "medium"
-    },
-    {
-        "consultation_id": "C1013",
-        "patient": {
-            "patient_id": "P1552",
+            "patient_id": "P1099",
             "name": "Liam Kelly",
-            "date_of_birth": "1993-08-10",
+            "date_of_birth": "2003-03-21",
             "gender": "Male",
             "contact": {
-                "phone": "07700 900709",
+                "phone": "07700 900454",
                 "email": "liam.kelly@example.com",
                 "address": {
-                    "street": "89 Station Road",
-                    "city": "Newry",
-                    "postcode": "BT65"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D108",
-            "name": "Dr Sarah Campbell",
-            "specialty": "Cardiology"
-        },
-        "appointment": {
-            "date": "2026-06-04",
-            "time_slot": "09:30",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1013",
-            "status": "completed"
-        },
-        "symptoms": [
-            {
-                "name": "Chest tightness",
-                "severity": 3,
-                "duration_days": 20
-            }
-        ],
-        "urgency_level": "low"
-    },
-    {
-        "consultation_id": "C1014",
-        "patient": {
-            "patient_id": "P1873",
-            "name": "Aoife Campbell",
-            "date_of_birth": "1995-12-10",
-            "gender": "Male",
-            "contact": {
-                "phone": "07700 900192",
-                "email": "aoife.campbell@example.com",
-                "address": {
-                    "street": "15 High Street",
-                    "city": "Armagh",
-                    "postcode": "BT18"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D104",
-            "name": "Dr Liam Kelly",
-            "specialty": "Cardiology"
-        },
-        "appointment": {
-            "date": "2026-09-26",
-            "time_slot": "10:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1014",
-            "status": "cancelled"
-        },
-        "symptoms": [
-            {
-                "name": "Chest tightness",
-                "severity": 6,
-                "duration_days": 13
-            },
-            {
-                "name": "Dizziness",
-                "severity": 5,
-                "duration_days": 9
-            }
-        ],
-        "urgency_level": "medium"
-    },
-    {
-        "consultation_id": "C1015",
-        "patient": {
-            "patient_id": "P1476",
-            "name": "Aoife Campbell",
-            "date_of_birth": "1951-09-12",
-            "gender": "Male",
-            "contact": {
-                "phone": "07700 900197",
-                "email": "aoife.campbell@example.com",
-                "address": {
-                    "street": "32 Main Street",
-                    "city": "Armagh",
-                    "postcode": "BT34"
-                }
-            }
-        },
-        "doctor": {
-            "doctor_id": "D103",
-            "name": "Dr Emma Brown",
-            "specialty": "Dermatology"
-        },
-        "appointment": {
-            "date": "2026-08-09",
-            "time_slot": "15:00",
-            "type": "video",
-            "video_link": "https://meet.example.com/c1015",
-            "status": "cancelled"
-        },
-        "symptoms": [
-            {
-                "name": "Rash",
-                "severity": 1,
-                "duration_days": 4
-            },
-            {
-                "name": "Dry skin",
-                "severity": 1,
-                "duration_days": 15
-            }
-        ],
-        "urgency_level": "low"
-    },
-    {
-        "consultation_id": "C1016",
-        "patient": {
-            "patient_id": "P1781",
-            "name": "Emma Kelly",
-            "date_of_birth": "2011-11-22",
-            "gender": "Female",
-            "contact": {
-                "phone": "07700 900057",
-                "email": "emma.kelly@example.com",
-                "address": {
-                    "street": "27 Mill Lane",
-                    "city": "Newry",
-                    "postcode": "BT34"
+                    "street": "22 Station Road",
+                    "city": "Derry",
+                    "postcode": "BT4"
                 }
             }
         },
         "doctor": {
             "doctor_id": "D107",
-            "name": "Dr Liam Brown",
+            "name": "Dr Emma Kelly",
+            "specialty": "General Practice"
+        },
+        "appointment": {
+            "date": "2026-08-08",
+            "time_slot": "09:00",
+            "type": "phone",
+            "video_link": "https://meet.example.com/c1009",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Headache",
+                "severity": 5,
+                "duration_days": 18
+            },
+            {
+                "name": "Sore throat",
+                "severity": 1,
+                "duration_days": 12
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "Muscle strain",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": true,
+                "date": "2026-08-22"
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Ibuprofen",
+                "dosage": "400mg",
+                "frequency": "When needed",
+                "duration_days": 14
+            }
+        ],
+        "feedback": {
+            "rating": 4,
+            "comment": "Had to wait a long time"
+        }
+    },
+    {
+        "consultation_id": "C1010",
+        "patient": {
+            "patient_id": "P1720",
+            "name": "James Kelly",
+            "date_of_birth": "1962-11-15",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900788",
+                "email": "james.kelly@example.com",
+                "address": {
+                    "street": "19 High Street",
+                    "city": "Newry",
+                    "postcode": "BT93"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D108",
+            "name": "Dr Emma Wilson",
+            "specialty": "General Practice"
+        },
+        "appointment": {
+            "date": "2026-03-05",
+            "time_slot": "16:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1010",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Headache",
+                "severity": 5,
+                "duration_days": 6
+            },
+            {
+                "name": "Fever",
+                "severity": 8,
+                "duration_days": 16
+            },
+            {
+                "name": "Back pain",
+                "severity": 8,
+                "duration_days": 9
+            }
+        ],
+        "urgency_level": "high",
+        "consultation_notes": {
+            "diagnosis": "Muscle strain",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [],
+        "feedback": {
+            "rating": 3,
+            "comment": "Had to wait a long time"
+        }
+    },
+    {
+        "consultation_id": "C1011",
+        "patient": {
+            "patient_id": "P1811",
+            "name": "Sarah Campbell",
+            "date_of_birth": "1964-12-14",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900687",
+                "email": "sarah.campbell@example.com",
+                "address": {
+                    "street": "90 Church Road",
+                    "city": "Belfast",
+                    "postcode": "BT11"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D109",
+            "name": "Dr James Campbell",
+            "specialty": "Dermatology"
+        },
+        "appointment": {
+            "date": "2026-06-14",
+            "time_slot": "09:30",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1011",
+            "status": "cancelled"
+        },
+        "symptoms": [
+            {
+                "name": "Rash",
+                "severity": 7,
+                "duration_days": 3
+            },
+            {
+                "name": "Acne",
+                "severity": 6,
+                "duration_days": 3
+            },
+            {
+                "name": "Dry skin",
+                "severity": 2,
+                "duration_days": 5
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1012",
+        "patient": {
+            "patient_id": "P1650",
+            "name": "Sarah Campbell",
+            "date_of_birth": "2015-07-26",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900019",
+                "email": "sarah.campbell@example.com",
+                "address": {
+                    "street": "92 High Street",
+                    "city": "Belfast",
+                    "postcode": "BT16"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Aoife Murphy",
             "specialty": "Cardiology"
         },
         "appointment": {
-            "date": "2026-05-14",
+            "date": "2026-07-28",
+            "time_slot": "15:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1012",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Palpitations",
+                "severity": 6,
+                "duration_days": 9
+            },
+            {
+                "name": "Dizziness",
+                "severity": 7,
+                "duration_days": 7
+            },
+            {
+                "name": "Chest tightness",
+                "severity": 1,
+                "duration_days": 14
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "Anxiety-related symptoms",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Ramipril",
+                "dosage": "2.5mg",
+                "frequency": "When needed",
+                "duration_days": 28
+            },
+            {
+                "medicine": "Bisoprolol",
+                "dosage": "2.5mg",
+                "frequency": "Twice daily",
+                "duration_days": 28
+            }
+        ],
+        "feedback": {
+            "rating": 5,
+            "comment": "Video kept freezing"
+        }
+    },
+    {
+        "consultation_id": "C1013",
+        "patient": {
+            "patient_id": "P1094",
+            "name": "James Wilson",
+            "date_of_birth": "1966-06-01",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900291",
+                "email": "james.wilson@example.com",
+                "address": {
+                    "street": "103 Main Street",
+                    "city": "Newry",
+                    "postcode": "BT93"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D103",
+            "name": "Dr Aoife Murphy",
+            "specialty": "Cardiology"
+        },
+        "appointment": {
+            "date": "2026-11-20",
+            "time_slot": "10:30",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1013",
+            "status": "booked"
+        },
+        "symptoms": [
+            {
+                "name": "Chest tightness",
+                "severity": 4,
+                "duration_days": 20
+            },
+            {
+                "name": "Dizziness",
+                "severity": 9,
+                "duration_days": 6
+            }
+        ],
+        "urgency_level": "high",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
+    },
+    {
+        "consultation_id": "C1014",
+        "patient": {
+            "patient_id": "P1940",
+            "name": "Sarah Brown",
+            "date_of_birth": "2008-01-16",
+            "gender": "Female",
+            "contact": {
+                "phone": "07700 900427",
+                "email": "sarah.brown@example.com",
+                "address": {
+                    "street": "7 High Street",
+                    "city": "Armagh",
+                    "postcode": "BT25"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D104",
+            "name": "Dr Ciaran Campbell",
+            "specialty": "Dermatology"
+        },
+        "appointment": {
+            "date": "2026-03-02",
+            "time_slot": "09:00",
+            "type": "phone",
+            "video_link": "https://meet.example.com/c1014",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Acne",
+                "severity": 7,
+                "duration_days": 10
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "Eczema",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": true,
+                "date": "2026-03-16"
+            }
+        },
+        "prescriptions": [],
+        "feedback": {
+            "rating": 1,
+            "comment": "Quick and helpful"
+        }
+    },
+    {
+        "consultation_id": "C1015",
+        "patient": {
+            "patient_id": "P1854",
+            "name": "Aoife Wilson",
+            "date_of_birth": "1978-01-09",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900842",
+                "email": "aoife.wilson@example.com",
+                "address": {
+                    "street": "31 Main Street",
+                    "city": "Belfast",
+                    "postcode": "BT94"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D101",
+            "name": "Dr James Brown",
+            "specialty": "Cardiology"
+        },
+        "appointment": {
+            "date": "2026-10-08",
             "time_slot": "10:00",
+            "type": "video",
+            "video_link": "https://meet.example.com/c1015",
+            "status": "completed"
+        },
+        "symptoms": [
+            {
+                "name": "Dizziness",
+                "severity": 6,
+                "duration_days": 6
+            },
+            {
+                "name": "Palpitations",
+                "severity": 5,
+                "duration_days": 8
+            }
+        ],
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "High blood pressure",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Ramipril",
+                "dosage": "2.5mg",
+                "frequency": "Twice daily",
+                "duration_days": 7
+            },
+            {
+                "medicine": "Amlodipine",
+                "dosage": "5mg",
+                "frequency": "Once daily",
+                "duration_days": 5
+            }
+        ],
+        "feedback": {
+            "rating": 4,
+            "comment": "Video kept freezing"
+        }
+    },
+    {
+        "consultation_id": "C1016",
+        "patient": {
+            "patient_id": "P1526",
+            "name": "Sarah Brown",
+            "date_of_birth": "1951-05-16",
+            "gender": "Male",
+            "contact": {
+                "phone": "07700 900962",
+                "email": "sarah.brown@example.com",
+                "address": {
+                    "street": "102 Mill Lane",
+                    "city": "Newry",
+                    "postcode": "BT66"
+                }
+            }
+        },
+        "doctor": {
+            "doctor_id": "D105",
+            "name": "Dr James Brown",
+            "specialty": "Cardiology"
+        },
+        "appointment": {
+            "date": "2026-07-15",
+            "time_slot": "14:30",
             "type": "video",
             "video_link": "https://meet.example.com/c1016",
             "status": "completed"
         },
         "symptoms": [
             {
-                "name": "Shortness of breath",
-                "severity": 5,
-                "duration_days": 4
-            },
-            {
-                "name": "Dizziness",
-                "severity": 1,
-                "duration_days": 10
-            },
-            {
                 "name": "Chest tightness",
-                "severity": 9,
-                "duration_days": 3
+                "severity": 8,
+                "duration_days": 9
+            },
+            {
+                "name": "Palpitations",
+                "severity": 7,
+                "duration_days": 12
+            },
+            {
+                "name": "Shortness of breath",
+                "severity": 1,
+                "duration_days": 2
             }
         ],
-        "urgency_level": "high"
+        "urgency_level": "high",
+        "consultation_notes": {
+            "diagnosis": "Anxiety-related symptoms",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": false,
+                "date": null
+            }
+        },
+        "prescriptions": [],
+        "feedback": {
+            "rating": 2,
+            "comment": "Doctor was very kind"
+        }
     },
     {
         "consultation_id": "C1017",
         "patient": {
-            "patient_id": "P1846",
-            "name": "Aoife Campbell",
-            "date_of_birth": "1979-08-04",
-            "gender": "Male",
+            "patient_id": "P1786",
+            "name": "Sarah Wilson",
+            "date_of_birth": "2015-09-12",
+            "gender": "Female",
             "contact": {
-                "phone": "07700 900385",
-                "email": "aoife.campbell@example.com",
+                "phone": "07700 900698",
+                "email": "sarah.wilson@example.com",
                 "address": {
-                    "street": "54 High Street",
-                    "city": "Armagh",
-                    "postcode": "BT4"
+                    "street": "106 High Street",
+                    "city": "Belfast",
+                    "postcode": "BT48"
                 }
             }
         },
         "doctor": {
-            "doctor_id": "D108",
-            "name": "Dr Sarah Campbell",
+            "doctor_id": "D102",
+            "name": "Dr James Campbell",
             "specialty": "Cardiology"
         },
         "appointment": {
-            "date": "2026-07-27",
-            "time_slot": "16:00",
-            "type": "video",
+            "date": "2026-11-03",
+            "time_slot": "11:00",
+            "type": "phone",
             "video_link": "https://meet.example.com/c1017",
-            "status": "cancelled"
+            "status": "pending"
         },
         "symptoms": [
             {
-                "name": "Shortness of breath",
-                "severity": 9,
-                "duration_days": 2
+                "name": "Chest tightness",
+                "severity": 8,
+                "duration_days": 11
             }
         ],
-        "urgency_level": "high"
+        "urgency_level": "high",
+        "consultation_notes": null,
+        "prescriptions": [],
+        "feedback": null
     },
     {
         "consultation_id": "C1018",
         "patient": {
-            "patient_id": "P1358",
-            "name": "Emma Wilson",
-            "date_of_birth": "1955-11-22",
-            "gender": "Female",
+            "patient_id": "P1687",
+            "name": "Aoife Brown",
+            "date_of_birth": "2015-12-14",
+            "gender": "Male",
             "contact": {
-                "phone": "07700 900686",
-                "email": "emma.wilson@example.com",
+                "phone": "07700 900701",
+                "email": "aoife.brown@example.com",
                 "address": {
-                    "street": "85 Mill Lane",
+                    "street": "42 High Street",
                     "city": "Derry",
-                    "postcode": "BT9"
+                    "postcode": "BT5"
                 }
             }
         },
         "doctor": {
-            "doctor_id": "D106",
-            "name": "Dr Aoife Kelly",
+            "doctor_id": "D107",
+            "name": "Dr Emma Kelly",
             "specialty": "General Practice"
         },
         "appointment": {
-            "date": "2026-06-14",
-            "time_slot": "15:00",
+            "date": "2026-06-02",
+            "time_slot": "09:30",
             "type": "video",
             "video_link": "https://meet.example.com/c1018",
             "status": "completed"
@@ -795,68 +1027,104 @@
         "symptoms": [
             {
                 "name": "Fatigue",
-                "severity": 9,
-                "duration_days": 7
-            },
-            {
-                "name": "Sore throat",
-                "severity": 2,
-                "duration_days": 14
-            },
-            {
-                "name": "Back pain",
-                "severity": 7,
-                "duration_days": 4
+                "severity": 5,
+                "duration_days": 3
             }
         ],
-        "urgency_level": "high"
+        "urgency_level": "medium",
+        "consultation_notes": {
+            "diagnosis": "Muscle strain",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": true,
+                "date": "2026-06-16"
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Paracetamol",
+                "dosage": "500mg",
+                "frequency": "Twice daily",
+                "duration_days": 7
+            }
+        ],
+        "feedback": {
+            "rating": 2,
+            "comment": "Would use again"
+        }
     },
     {
         "consultation_id": "C1019",
         "patient": {
-            "patient_id": "P1138",
-            "name": "Liam Kelly",
-            "date_of_birth": "2009-02-25",
+            "patient_id": "P1688",
+            "name": "Aoife Kelly",
+            "date_of_birth": "2001-05-21",
             "gender": "Male",
             "contact": {
-                "phone": "07700 900792",
-                "email": "liam.kelly@example.com",
+                "phone": "07700 900064",
+                "email": "aoife.kelly@example.com",
                 "address": {
-                    "street": "75 Mill Lane",
-                    "city": "Belfast",
-                    "postcode": "BT50"
+                    "street": "105 Church Road",
+                    "city": "Armagh",
+                    "postcode": "BT63"
                 }
             }
         },
         "doctor": {
-            "doctor_id": "D105",
-            "name": "Dr Sarah Wilson",
+            "doctor_id": "D108",
+            "name": "Dr Emma Wilson",
             "specialty": "General Practice"
         },
         "appointment": {
-            "date": "2026-02-19",
-            "time_slot": "09:30",
-            "type": "phone",
+            "date": "2026-01-18",
+            "time_slot": "15:30",
+            "type": "video",
             "video_link": "https://meet.example.com/c1019",
             "status": "completed"
         },
         "symptoms": [
             {
                 "name": "Headache",
-                "severity": 2,
-                "duration_days": 21
+                "severity": 1,
+                "duration_days": 19
             },
             {
-                "name": "Sore throat",
-                "severity": 2,
+                "name": "Fatigue",
+                "severity": 8,
                 "duration_days": 8
             },
             {
-                "name": "Fever",
-                "severity": 8,
-                "duration_days": 3
+                "name": "Sore throat",
+                "severity": 3,
+                "duration_days": 6
             }
         ],
-        "urgency_level": "high"
+        "urgency_level": "high",
+        "consultation_notes": {
+            "diagnosis": "Tonsillitis",
+            "notes": "Patient assessed remotely. Advice given.",
+            "follow_up": {
+                "required": true,
+                "date": "2026-02-01"
+            }
+        },
+        "prescriptions": [
+            {
+                "medicine": "Paracetamol",
+                "dosage": "500mg",
+                "frequency": "Three times daily",
+                "duration_days": 7
+            },
+            {
+                "medicine": "Amoxicillin",
+                "dosage": "500mg",
+                "frequency": "When needed",
+                "duration_days": 14
+            }
+        ],
+        "feedback": {
+            "rating": 2,
+            "comment": "Quick and helpful"
+        }
     }
 ]
