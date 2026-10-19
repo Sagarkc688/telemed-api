@@ -1,13 +1,289 @@
 [
     {
         "doctor_id": "D100",
-        "name": "Dr James Brown",
+        "name": "Dr Conor Doherty",
+        "specialty": "General Practice",
+        "years_experience": 13,
+        "available_days": [
+            "Wed",
+            "Fri",
+            "Tue"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Ballymena Health Centre",
+            "city": "Ballymena",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.2758,
+                    54.8643
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D101",
+        "name": "Dr Aoife Wilson",
         "specialty": "Dermatology",
-        "years_experience": 28,
+        "years_experience": 9,
+        "available_days": [
+            "Thu",
+            "Fri",
+            "Wed"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Belfast Health Centre",
+            "city": "Belfast",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -5.9301,
+                    54.5973
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D102",
+        "name": "Dr Ryan Doherty",
+        "specialty": "Cardiology",
+        "years_experience": 25,
+        "available_days": [
+            "Mon",
+            "Wed",
+            "Fri"
+        ],
+        "accepting_patients": false,
+        "clinic": {
+            "name": "Enniskillen Health Centre",
+            "city": "Enniskillen",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -7.639,
+                    54.3438
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D103",
+        "name": "Dr Conor Doherty",
+        "specialty": "Paediatrics",
+        "years_experience": 30,
         "available_days": [
             "Thu",
             "Tue",
+            "Wed"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Ballymena Health Centre",
+            "city": "Ballymena",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.2758,
+                    54.8643
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D104",
+        "name": "Dr Aoife Doherty",
+        "specialty": "Mental Health",
+        "years_experience": 15,
+        "available_days": [
+            "Thu",
+            "Fri",
+            "Tue"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.6547,
+                    54.3503
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D105",
+        "name": "Dr Conor Kelly",
+        "specialty": "Respiratory",
+        "years_experience": 3,
+        "available_days": [
+            "Tue",
+            "Mon",
+            "Fri"
+        ],
+        "accepting_patients": false,
+        "clinic": {
+            "name": "Enniskillen Health Centre",
+            "city": "Enniskillen",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -7.639,
+                    54.3438
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D106",
+        "name": "Dr Conor Wilson",
+        "specialty": "General Practice",
+        "years_experience": 18,
+        "available_days": [
+            "Wed",
+            "Thu",
+            "Tue"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Belfast Health Centre",
+            "city": "Belfast",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -5.9301,
+                    54.5973
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D107",
+        "name": "Dr Aoife Quinn",
+        "specialty": "Dermatology",
+        "years_experience": 29,
+        "available_days": [
+            "Tue",
+            "Wed",
+            "Fri"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Lisburn Health Centre",
+            "city": "Lisburn",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.0353,
+                    54.5162
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D108",
+        "name": "Dr Orla Brown",
+        "specialty": "Cardiology",
+        "years_experience": 21,
+        "available_days": [
+            "Wed",
+            "Fri",
+            "Tue"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Lisburn Health Centre",
+            "city": "Lisburn",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.0353,
+                    54.5162
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D109",
+        "name": "Dr Orla Murphy",
+        "specialty": "Paediatrics",
+        "years_experience": 20,
+        "available_days": [
+            "Mon",
+            "Tue",
+            "Thu"
+        ],
+        "accepting_patients": false,
+        "clinic": {
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.6547,
+                    54.3503
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D110",
+        "name": "Dr Liam Wilson",
+        "specialty": "Mental Health",
+        "years_experience": 25,
+        "available_days": [
+            "Thu",
+            "Wed",
             "Mon"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Newry Health Centre",
+            "city": "Newry",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.3374,
+                    54.1751
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D111",
+        "name": "Dr Ryan Quinn",
+        "specialty": "Respiratory",
+        "years_experience": 3,
+        "available_days": [
+            "Wed",
+            "Tue",
+            "Fri"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Lisburn Health Centre",
+            "city": "Lisburn",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.0353,
+                    54.5162
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D112",
+        "name": "Dr James Quinn",
+        "specialty": "General Practice",
+        "years_experience": 30,
+        "available_days": [
+            "Thu",
+            "Mon",
+            "Wed"
         ],
         "accepting_patients": true,
         "clinic": {
@@ -23,208 +299,254 @@
         }
     },
     {
-        "doctor_id": "D101",
-        "name": "Dr James Brown",
-        "specialty": "Cardiology",
-        "years_experience": 23,
+        "doctor_id": "D113",
+        "name": "Dr Niamh Kelly",
+        "specialty": "Dermatology",
+        "years_experience": 29,
         "available_days": [
-            "Mon",
-            "Fri",
-            "Wed"
+            "Wed",
+            "Tue",
+            "Fri"
         ],
-        "accepting_patients": false,
+        "accepting_patients": true,
         "clinic": {
-            "name": "Newry Health Centre",
-            "city": "Newry",
+            "name": "Derry Health Centre",
+            "city": "Derry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -6.3374,
-                    54.1751
+                    -7.3086,
+                    54.9966
                 ]
             }
         }
     },
     {
-        "doctor_id": "D102",
-        "name": "Dr James Campbell",
+        "doctor_id": "D114",
+        "name": "Dr Ryan Kelly",
         "specialty": "Cardiology",
-        "years_experience": 17,
+        "years_experience": 22,
         "available_days": [
-            "Fri",
-            "Wed",
+            "Mon",
+            "Thu",
             "Tue"
         ],
         "accepting_patients": false,
         "clinic": {
-            "name": "Belfast Health Centre",
-            "city": "Belfast",
+            "name": "Derry Health Centre",
+            "city": "Derry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -5.9301,
-                    54.5973
+                    -7.3086,
+                    54.9966
                 ]
             }
         }
     },
     {
-        "doctor_id": "D103",
-        "name": "Dr Aoife Murphy",
-        "specialty": "Cardiology",
-        "years_experience": 18,
+        "doctor_id": "D115",
+        "name": "Dr James Moore",
+        "specialty": "Paediatrics",
+        "years_experience": 2,
         "available_days": [
+            "Fri",
+            "Mon",
+            "Tue"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.6547,
+                    54.3503
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D116",
+        "name": "Dr Grace Stewart",
+        "specialty": "Mental Health",
+        "years_experience": 21,
+        "available_days": [
+            "Tue",
+            "Fri",
+            "Mon"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Enniskillen Health Centre",
+            "city": "Enniskillen",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -7.639,
+                    54.3438
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D117",
+        "name": "Dr Liam Wilson",
+        "specialty": "Respiratory",
+        "years_experience": 6,
+        "available_days": [
+            "Fri",
             "Thu",
+            "Wed"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Enniskillen Health Centre",
+            "city": "Enniskillen",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -7.639,
+                    54.3438
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D118",
+        "name": "Dr Aoife Wilson",
+        "specialty": "General Practice",
+        "years_experience": 20,
+        "available_days": [
+            "Mon",
             "Wed",
             "Fri"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
-            "name": "Newry Health Centre",
-            "city": "Newry",
+            "name": "Derry Health Centre",
+            "city": "Derry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -6.3374,
-                    54.1751
+                    -7.3086,
+                    54.9966
                 ]
             }
         }
     },
     {
-        "doctor_id": "D104",
-        "name": "Dr Ciaran Campbell",
+        "doctor_id": "D119",
+        "name": "Dr Niamh McLaughlin",
         "specialty": "Dermatology",
-        "years_experience": 11,
+        "years_experience": 19,
         "available_days": [
+            "Wed",
             "Tue",
+            "Mon"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Ballymena Health Centre",
+            "city": "Ballymena",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.2758,
+                    54.8643
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D120",
+        "name": "Dr James Brown",
+        "specialty": "Cardiology",
+        "years_experience": 16,
+        "available_days": [
+            "Wed",
+            "Mon",
+            "Fri"
+        ],
+        "accepting_patients": true,
+        "clinic": {
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -6.6547,
+                    54.3503
+                ]
+            }
+        }
+    },
+    {
+        "doctor_id": "D121",
+        "name": "Dr Orla Stewart",
+        "specialty": "Paediatrics",
+        "years_experience": 17,
+        "available_days": [
             "Thu",
+            "Tue",
             "Fri"
         ],
         "accepting_patients": false,
         "clinic": {
-            "name": "Newry Health Centre",
-            "city": "Newry",
+            "name": "Lisburn Health Centre",
+            "city": "Lisburn",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -6.3374,
-                    54.1751
+                    -6.0353,
+                    54.5162
                 ]
             }
         }
     },
     {
-        "doctor_id": "D105",
-        "name": "Dr James Brown",
-        "specialty": "Cardiology",
-        "years_experience": 11,
+        "doctor_id": "D122",
+        "name": "Dr James Campbell",
+        "specialty": "Mental Health",
+        "years_experience": 13,
         "available_days": [
-            "Fri",
-            "Tue",
-            "Mon"
-        ],
-        "accepting_patients": false,
-        "clinic": {
-            "name": "Armagh Health Centre",
-            "city": "Armagh",
-            "location": {
-                "type": "Point",
-                "coordinates": [
-                    -6.6547,
-                    54.3503
-                ]
-            }
-        }
-    },
-    {
-        "doctor_id": "D106",
-        "name": "Dr Ciaran Murphy",
-        "specialty": "Dermatology",
-        "years_experience": 24,
-        "available_days": [
-            "Fri",
-            "Tue",
-            "Wed"
-        ],
-        "accepting_patients": true,
-        "clinic": {
-            "name": "Armagh Health Centre",
-            "city": "Armagh",
-            "location": {
-                "type": "Point",
-                "coordinates": [
-                    -6.6547,
-                    54.3503
-                ]
-            }
-        }
-    },
-    {
-        "doctor_id": "D107",
-        "name": "Dr Emma Kelly",
-        "specialty": "General Practice",
-        "years_experience": 14,
-        "available_days": [
-            "Fri",
-            "Tue",
-            "Wed"
-        ],
-        "accepting_patients": true,
-        "clinic": {
-            "name": "Armagh Health Centre",
-            "city": "Armagh",
-            "location": {
-                "type": "Point",
-                "coordinates": [
-                    -6.6547,
-                    54.3503
-                ]
-            }
-        }
-    },
-    {
-        "doctor_id": "D108",
-        "name": "Dr Emma Wilson",
-        "specialty": "General Practice",
-        "years_experience": 15,
-        "available_days": [
-            "Tue",
+            "Thu",
             "Mon",
             "Wed"
         ],
-        "accepting_patients": true,
+        "accepting_patients": false,
         "clinic": {
-            "name": "Belfast Health Centre",
-            "city": "Belfast",
+            "name": "Derry Health Centre",
+            "city": "Derry",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -5.9301,
-                    54.5973
+                    -7.3086,
+                    54.9966
                 ]
             }
         }
     },
     {
-        "doctor_id": "D109",
-        "name": "Dr James Campbell",
-        "specialty": "Dermatology",
-        "years_experience": 29,
+        "doctor_id": "D123",
+        "name": "Dr Aoife Johnston",
+        "specialty": "Respiratory",
+        "years_experience": 20,
         "available_days": [
+            "Tue",
             "Thu",
-            "Wed",
-            "Mon"
+            "Wed"
         ],
-        "accepting_patients": false,
+        "accepting_patients": true,
         "clinic": {
-            "name": "Newry Health Centre",
-            "city": "Newry",
+            "name": "Armagh Health Centre",
+            "city": "Armagh",
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    -6.3374,
-                    54.1751
+                    -6.6547,
+                    54.3503
                 ]
             }
         }
