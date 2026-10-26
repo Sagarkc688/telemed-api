@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 
 from functools import wraps
+import datetime
 
 app = Flask(__name__)
 
@@ -37,7 +38,9 @@ def index():
     return make_response("<h1>Telemedicine API</h1>", 200)
 
 
-# GET all consultations - with paging (pn = page number, ps = page size)
+# GET all consultations - with paging and optional filters
+# e.g. /api/v1.0/consultations?status=completed&specialty=Cardiology&urgency=high
+#      /api/v1.0/consultations?symptom=Fever&date_from=2026-03-01&date_to=2026-03-31
 @app.route("/api/v1.0/consultations", methods=["GET"])
 def show_all_consultations():
     page_num, page_size = 1, 5
@@ -49,8 +52,43 @@ def show_all_consultations():
 
     page_start = page_size * (page_num - 1)
 
+    # build the search one filter at a time - only filters that were sent are added
+    query = {}
+
+    if request.args.get('status'):
+        status = request.args.get('status').strip()
+        if status not in ("pending", "booked", "completed", "cancelled"):
+            return make_response(jsonify({"error": "Invalid status"}), 400)
+        query['appointment.status'] = status
+
+    if request.args.get('urgency'):
+        urgency = request.args.get('urgency').strip()
+        if urgency not in ("low", "medium", "high"):
+            return make_response(jsonify({"error": "urgency must be low, medium or high"}), 400)
+        query['urgency_level'] = urgency
+
+    if request.args.get('specialty'):
+        query['doctor.specialty'] = request.args.get('specialty').strip()
+
+    if request.args.get('symptom'):
+        # searches inside the symptoms array
+        query['symptoms.name'] = request.args.get('symptom').strip()
+
+    # date range - dates are stored as "YYYY-MM-DD" text, which sorts in date order
+    date_range = {}
+    for arg, operator in (('date_from', '$gte'), ('date_to', '$lte')):
+        if request.args.get(arg):
+            value = request.args.get(arg).strip()
+            try:
+                datetime.datetime.strptime(value, "%Y-%m-%d")    # check it's a real date
+            except ValueError:
+                return make_response(jsonify({"error": arg + " must be a date like 2026-03-31"}), 400)
+            date_range[operator] = value
+    if date_range:
+        query['appointment.date'] = date_range
+
     data_to_return = []
-    for consultation in consultations.find().skip(page_start).limit(page_size):
+    for consultation in consultations.find(query).skip(page_start).limit(page_size):
         consultation['_id'] = str(consultation['_id'])
         # each prescription has its own _id (like the reviews in class) - convert to text for JSON
         for prescription in consultation.get('prescriptions', []):
