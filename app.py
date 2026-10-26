@@ -1,9 +1,11 @@
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request , g
 from pymongo import MongoClient
 from bson import ObjectId
 
 from functools import wraps
 import datetime
+import jwt
+import bcrypt
 
 app = Flask(__name__)
 
@@ -12,6 +14,33 @@ client = MongoClient("mongodb://localhost:27017")
 db = client.TelemedDB
 consultations = db.consultations
 doctors = db.doctors
+users = db.users
+
+
+app.config['SECRET_KEY'] = 'telemed-api-secret-key-change-me-2026'    # signs the tokens - in a real app this would be kept secret
+
+
+# decorator - only lets the request through if it has a valid login token
+# same idea as jwt_required in class, but the token is sent in a header instead of the URL
+def jwt_required(func):
+    @wraps(func)
+    def jwt_required_wrapper(*args, **kwargs):
+        token = request.headers.get('x-access-token')
+        if not token:
+            return make_response(jsonify({"message": "Token is missing"}), 401)
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return make_response(jsonify({"message": "Token has expired - please log in again"}), 401)
+        except jwt.InvalidTokenError:
+            return make_response(jsonify({"message": "Token is invalid"}), 401)
+
+        # remember who is logged in for this request, so routes and role checks can use it
+        g.user = data
+        return func(*args, **kwargs)
+    return jwt_required_wrapper
+
 
 
 # decorator - checks the id in the URL is a valid MongoDB ObjectId
@@ -31,6 +60,30 @@ def valid_id_required(func):
                 return make_response(jsonify({"error": "Invalid ID"}), 400)
         return func(*args, **kwargs)
     return valid_id_wrapper
+
+
+# LOGIN - checks username and password (sent with Basic Auth) and returns a token
+@app.route("/api/v1.0/login", methods=["GET"])
+def login():
+    auth = request.authorization
+    if not auth or not auth.username or not auth.password:
+        return make_response(jsonify({"message": "Username and password required"}), 401,
+                             {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+    user = users.find_one({"username": auth.username})
+
+    # same message whether the username or the password is wrong - doesn't tell an attacker which one
+    if user is None or not bcrypt.checkpw(auth.password.encode("utf-8"), user["password"].encode("utf-8")):
+        return make_response(jsonify({"message": "Wrong username or password"}), 401)
+
+    token = jwt.encode({
+        "user": user["username"],
+        "role": user["role"],                       # used later to check what this user is allowed to do
+        "doctor_id": user.get("doctor_id"),         # only doctors have this - None for everyone else
+        "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=30)
+    }, app.config['SECRET_KEY'], algorithm="HS256")
+
+    return make_response(jsonify({"token": token}), 200)
 
 
 @app.route("/", methods=["GET"])
@@ -120,6 +173,7 @@ def show_one_consultation(id):
 
 # POST - book a new consultation
 @app.route("/api/v1.0/consultations", methods=["POST"])
+@jwt_required
 def add_consultation():
     # fields that must be sent - a tuple because this list never changes
     required = ("patient_name", "patient_email", "doctor_id", "date", "time_slot", "type")
