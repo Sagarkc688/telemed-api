@@ -293,6 +293,48 @@ def delete_prescription(id, p_id):
 
     return make_response(jsonify({"message": "Prescription deleted"}), 200)
 
+# GET all doctors - with optional filters and paging
+# e.g. /api/v1.0/doctors?specialty=Dermatology&city=Belfast&accepting=true
+@app.route("/api/v1.0/doctors", methods=["GET"])
+def show_all_doctors():
+    page_num, page_size = 1, 5
+    if request.args.get('pn'):
+        page_num = int(request.args.get('pn'))
+    if request.args.get('ps'):
+        page_size = int(request.args.get('ps'))
+    page_start = page_size * (page_num - 1)
+
+    # build the search one filter at a time - only filters that were sent are added
+    query = {}
+    if request.args.get('specialty'):
+        query['specialty'] = request.args.get('specialty').strip()
+    if request.args.get('city'):
+        query['clinic.city'] = request.args.get('city').strip()     # nested field
+    if request.args.get('accepting'):
+        accepting = request.args.get('accepting').strip().lower()
+        if accepting not in ("true", "false"):
+            return make_response(jsonify({"error": "accepting must be true or false"}), 400)
+        query['accepting_patients'] = (accepting == "true")         # text -> real True/False
+
+    data_to_return = []
+    for doctor in doctors.find(query).skip(page_start).limit(page_size):
+        doctor['_id'] = str(doctor['_id'])
+        data_to_return.append(doctor)
+
+    return make_response(jsonify(data_to_return), 200)
+
+
+# GET one doctor by its _id
+@app.route("/api/v1.0/doctors/<string:id>", methods=["GET"])
+@valid_id_required
+def show_one_doctor(id):
+    doctor = doctors.find_one({'_id': ObjectId(id)})
+    if doctor is None:
+        return make_response(jsonify({"error": "Doctor not found"}), 404)
+
+    doctor['_id'] = str(doctor['_id'])
+    return make_response(jsonify(doctor), 200)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
