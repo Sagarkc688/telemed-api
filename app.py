@@ -335,6 +335,53 @@ def show_one_doctor(id):
     doctor['_id'] = str(doctor['_id'])
     return make_response(jsonify(doctor), 200)
 
+# GET doctors near a location - nearest first
+# e.g. /api/v1.0/doctors/nearby?lat=54.597&lng=-5.930&distance=30&specialty=Dermatology
+@app.route("/api/v1.0/doctors/nearby", methods=["GET"])
+def show_nearby_doctors():
+    # lat and lng must be sent
+    if not request.args.get('lat') or not request.args.get('lng'):
+        return make_response(jsonify({"error": "lat and lng are required"}), 400)
+
+    # type check - they must be numbers
+    try:
+        lat = float(request.args.get('lat'))
+        lng = float(request.args.get('lng'))
+        distance_km = float(request.args.get('distance', 30))    # 30 km if not sent
+    except ValueError:
+        return make_response(jsonify({"error": "lat, lng and distance must be numbers"}), 400)
+
+    # range check - real map coordinates and a sensible distance
+    if not (-90 <= lat <= 90) or not (-180 <= lng <= 180):
+        return make_response(jsonify({"error": "lat must be -90 to 90 and lng -180 to 180"}), 400)
+    if distance_km <= 0 or distance_km > 500:
+        return make_response(jsonify({"error": "distance must be between 0 and 500 km"}), 400)
+
+    # optional extra filter - e.g. only dermatologists near me
+    query = {}
+    if request.args.get('specialty'):
+        query['specialty'] = request.args.get('specialty').strip()
+
+    # $geoNear - finds doctors nearest to the point and works out how far away each one is
+    pipeline = [
+        {"$geoNear": {
+            "near": {"type": "Point", "coordinates": [lng, lat]},   # MongoDB wants longitude first
+            "distanceField": "distance_km",       # new field added to each result
+            "maxDistance": distance_km * 1000,    # MongoDB works in metres
+            "distanceMultiplier": 0.001,          # turn the result from metres into km
+            "spherical": True,                    # the earth is round
+            "query": query
+        }}
+    ]
+
+    data_to_return = []
+    for doctor in doctors.aggregate(pipeline):
+        doctor['_id'] = str(doctor['_id'])
+        doctor['distance_km'] = round(doctor['distance_km'], 1)
+        data_to_return.append(doctor)
+
+    return make_response(jsonify(data_to_return), 200)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
