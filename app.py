@@ -1,4 +1,4 @@
-from flask import Flask, make_response, jsonify, request , g
+from flask import Flask, make_response, jsonify, request, g
 from pymongo import MongoClient
 from bson import ObjectId
 
@@ -42,6 +42,19 @@ def jwt_required(func):
     return jwt_required_wrapper
 
 
+# decorator factory - only lets in users whose role is in the list
+# *roles collects any number of roles into a tuple, e.g. role_required("doctor", "admin") -> ("doctor", "admin")
+# must be used AFTER @jwt_required, which works out who is logged in
+def role_required(*roles):
+    def decorator(func):
+        @wraps(func)
+        def role_required_wrapper(*args, **kwargs):
+            if g.user["role"] not in roles:
+                return make_response(jsonify({"message": "You do not have permission to do this"}), 403)
+            return func(*args, **kwargs)
+        return role_required_wrapper
+    return decorator
+
 
 # decorator - checks the id in the URL is a valid MongoDB ObjectId
 # so the same check isn't repeated in every route
@@ -62,6 +75,30 @@ def valid_id_required(func):
     return valid_id_wrapper
 
 
+# checks if the logged-in user is allowed to see this consultation
+# admin - any consultation, doctor - only their own patients, patient - only their own
+def can_access(consultation):
+    user = g.user
+    if user["role"] == "admin":
+        return True
+    if user["role"] == "doctor":
+        return consultation["doctor"]["doctor_id"] == user.get("doctor_id")
+    if user["role"] == "patient":
+        return consultation.get("patient", {}).get("contact", {}).get("email") == user.get("email")
+    return False
+
+
+# finds a consultation and checks the user is allowed to use it
+# returns a tuple: (consultation, None) if ok, or (None, error response) if not
+def find_consultation_for_user(id):
+    consultation = consultations.find_one({"_id": ObjectId(id)})
+    if consultation is None:
+        return None, make_response(jsonify({"error": "Consultation not found"}), 404)
+    if not can_access(consultation):
+        return None, make_response(jsonify({"message": "You do not have permission to do this"}), 403)
+    return consultation, None
+
+
 # LOGIN - checks username and password (sent with Basic Auth) and returns a token
 @app.route("/api/v1.0/login", methods=["GET"])
 def login():
@@ -79,6 +116,7 @@ def login():
     token = jwt.encode({
         "user": user["username"],
         "role": user["role"],                       # used later to check what this user is allowed to do
+        "email": user["email"],                     # used to find a patient's own consultations
         "doctor_id": user.get("doctor_id"),         # only doctors have this - None for everyone else
         "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=30)
     }, app.config['SECRET_KEY'], algorithm="HS256")
@@ -95,6 +133,7 @@ def index():
 # e.g. /api/v1.0/consultations?status=completed&specialty=Cardiology&urgency=high
 #      /api/v1.0/consultations?symptom=Fever&date_from=2026-03-01&date_to=2026-03-31
 @app.route("/api/v1.0/consultations", methods=["GET"])
+@jwt_required
 def show_all_consultations():
     page_num, page_size = 1, 5
 
@@ -140,6 +179,12 @@ def show_all_consultations():
     if date_range:
         query['appointment.date'] = date_range
 
+    # doctors only see their own patients, patients only see their own consultations, admin sees all
+    if g.user["role"] == "doctor":
+        query['doctor.doctor_id'] = g.user["doctor_id"]
+    elif g.user["role"] == "patient":
+        query['patient.contact.email'] = g.user["email"]
+
     data_to_return = []
     for consultation in consultations.find(query).skip(page_start).limit(page_size):
         consultation['_id'] = str(consultation['_id'])
@@ -154,15 +199,20 @@ def show_all_consultations():
 
 # GET one consultation by its _id
 @app.route("/api/v1.0/consultations/<string:id>", methods=["GET"])
+@jwt_required
 @valid_id_required
 def show_one_consultation(id):
     # first version - now done by the @valid_id_required decorator
     # if not ObjectId.is_valid(id):
     #     return make_response(jsonify({"error": "Invalid consultation ID"}), 400)
 
-    consultation = consultations.find_one({'_id': ObjectId(id)})
-    if consultation is None:
-        return make_response(jsonify({"error": "Consultation not found"}), 404)
+    # second version - also checks this user is allowed to see it
+    # consultation = consultations.find_one({'_id': ObjectId(id)})
+    # if consultation is None:
+    #     return make_response(jsonify({"error": "Consultation not found"}), 404)
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
 
     consultation['_id'] = str(consultation['_id'])
     for prescription in consultation.get('prescriptions', []):
@@ -174,6 +224,7 @@ def show_one_consultation(id):
 # POST - book a new consultation
 @app.route("/api/v1.0/consultations", methods=["POST"])
 @jwt_required
+@role_required("patient", "admin")
 def add_consultation():
     # fields that must be sent - a tuple because this list never changes
     required = ("patient_name", "patient_email", "doctor_id", "date", "time_slot", "type")
@@ -219,8 +270,13 @@ def add_consultation():
 
 # PUT - edit a consultation's appointment (only the fields that are sent)
 @app.route("/api/v1.0/consultations/<string:id>", methods=["PUT"])
+@jwt_required
 @valid_id_required
 def edit_consultation(id):
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
     # first version - now done by the @valid_id_required decorator
     # if not ObjectId.is_valid(id):
     #     return make_response(jsonify({"error": "Invalid consultation ID"}), 400)
@@ -252,6 +308,8 @@ def edit_consultation(id):
 
 # DELETE - remove a consultation
 @app.route("/api/v1.0/consultations/<string:id>", methods=["DELETE"])
+@jwt_required
+@role_required("admin")
 @valid_id_required
 def delete_consultation(id):
     # first version - now done by the @valid_id_required decorator
@@ -264,14 +322,19 @@ def delete_consultation(id):
 
     return make_response(jsonify({"message": "Consultation deleted"}), 200)
 
+
 # GET all prescriptions for one consultation
 @app.route("/api/v1.0/consultations/<string:id>/prescriptions", methods=["GET"])
+@jwt_required
 @valid_id_required
 def show_all_prescriptions(id):
-    # projection - only bring back the prescriptions field, not the whole consultation
-    consultation = consultations.find_one({"_id": ObjectId(id)}, {"prescriptions": 1, "_id": 0})
-    if consultation is None:
-        return make_response(jsonify({"error": "Consultation not found"}), 404)
+    # first version - projection, only brought back the prescriptions field
+    # consultation = consultations.find_one({"_id": ObjectId(id)}, {"prescriptions": 1, "_id": 0})
+    # if consultation is None:
+    #     return make_response(jsonify({"error": "Consultation not found"}), 404)
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
 
     data_to_return = []
     for prescription in consultation.get("prescriptions", []):
@@ -284,8 +347,15 @@ def show_all_prescriptions(id):
 
 # POST - add a new prescription to a consultation
 @app.route("/api/v1.0/consultations/<string:id>/prescriptions", methods=["POST"])
+@jwt_required
+@role_required("doctor")
 @valid_id_required
 def add_prescription(id):
+    # a doctor can only prescribe for their own patients
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
     # fields that must be sent - a tuple because this never changes
     required = ("medicine", "dosage", "frequency", "duration_days")
     for field in required:
@@ -321,8 +391,13 @@ def add_prescription(id):
 
 # GET one prescription from a consultation
 @app.route("/api/v1.0/consultations/<string:id>/prescriptions/<string:p_id>", methods=["GET"])
+@jwt_required
 @valid_id_required
 def show_one_prescription(id, p_id):
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
     # "prescriptions.$" - only return the ONE prescription that matched, not the whole array
     consultation = consultations.find_one(
         {"_id": ObjectId(id), "prescriptions._id": ObjectId(p_id)},
@@ -338,8 +413,14 @@ def show_one_prescription(id, p_id):
 
 # PUT - edit one prescription (only the fields that are sent)
 @app.route("/api/v1.0/consultations/<string:id>/prescriptions/<string:p_id>", methods=["PUT"])
+@jwt_required
+@role_required("doctor")
 @valid_id_required
 def edit_prescription(id, p_id):
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
     allowed = ("medicine", "dosage", "frequency", "duration_days")
     updates = {}
     for field in allowed:
@@ -373,8 +454,14 @@ def edit_prescription(id, p_id):
 
 # DELETE - remove one prescription from a consultation
 @app.route("/api/v1.0/consultations/<string:id>/prescriptions/<string:p_id>", methods=["DELETE"])
+@jwt_required
+@role_required("doctor")
 @valid_id_required
 def delete_prescription(id, p_id):
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
     # $pull removes the item from the array that has this _id
     result = consultations.update_one(
         {"_id": ObjectId(id)},
@@ -384,6 +471,7 @@ def delete_prescription(id, p_id):
         return make_response(jsonify({"error": "Prescription not found"}), 404)
 
     return make_response(jsonify({"message": "Prescription deleted"}), 200)
+
 
 # GET all doctors - with optional filters and paging
 # e.g. /api/v1.0/doctors?specialty=Dermatology&city=Belfast&accepting=true
@@ -426,6 +514,7 @@ def show_one_doctor(id):
 
     doctor['_id'] = str(doctor['_id'])
     return make_response(jsonify(doctor), 200)
+
 
 # GET doctors near a location - nearest first
 # e.g. /api/v1.0/doctors/nearby?lat=54.597&lng=-5.930&distance=30&specialty=Dermatology
@@ -478,6 +567,8 @@ def show_nearby_doctors():
 # ANALYTICS - most common symptoms (optionally for one specialty)
 # e.g. /api/v1.0/analytics/top-symptoms?limit=5&specialty=Respiratory
 @app.route("/api/v1.0/analytics/top-symptoms", methods=["GET"])
+@jwt_required
+@role_required("admin")
 def top_symptoms():
     try:
         limit = int(request.args.get('limit', 5))      # top 5 if not sent
@@ -509,6 +600,8 @@ def top_symptoms():
 
 # ANALYTICS - average patient rating for each doctor, best first
 @app.route("/api/v1.0/analytics/doctor-ratings", methods=["GET"])
+@jwt_required
+@role_required("admin")
 def doctor_ratings():
     pipeline = [
         # only completed consultations have feedback
@@ -530,6 +623,8 @@ def doctor_ratings():
 
 # ANALYTICS - consultations per month, with how many were completed and cancelled
 @app.route("/api/v1.0/analytics/monthly", methods=["GET"])
+@jwt_required
+@role_required("admin")
 def consultations_per_month():
     pipeline = [
         {"$group": {
