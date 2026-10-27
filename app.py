@@ -969,6 +969,76 @@ def add_feedback(id):
     return make_response(jsonify({"message": "Thank you for your feedback", "feedback": feedback}), 201)
 
 
+# ANALYTICS - most prescribed medicines (optionally for one specialty)
+# e.g. /api/v1.0/analytics/top-medicines?limit=5&specialty=Cardiology
+@app.route("/api/v1.0/analytics/top-medicines", methods=["GET"])
+@jwt_required
+@role_required("admin")
+def top_medicines():
+    try:
+        limit = int(request.args.get('limit', 5))      # top 5 if not sent
+    except ValueError:
+        return make_response(jsonify({"error": "limit must be a whole number"}), 400)
+    if limit < 1 or limit > 50:
+        return make_response(jsonify({"error": "limit must be between 1 and 50"}), 400)
+
+    pipeline = []
+    if request.args.get('specialty'):
+        pipeline.append({"$match": {"doctor.specialty": request.args.get('specialty').strip()}})
+
+    pipeline += [
+        {"$unwind": "$prescriptions"},                   # one row per prescription
+        {"$group": {
+            "_id": "$prescriptions.medicine",            # group rows with the same medicine
+            "times_prescribed": {"$sum": 1},
+            "average_days": {"$avg": "$prescriptions.duration_days"}
+        }},
+        {"$sort": {"times_prescribed": -1}},             # most prescribed first
+        {"$limit": limit},
+        {"$project": {"_id": 0, "medicine": "$_id", "times_prescribed": 1,
+                      "average_days": {"$round": ["$average_days", 1]}}}
+    ]
+
+    return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
+
+
+# ANALYTICS - peak booking times: busiest days of the week and busiest time slots
+@app.route("/api/v1.0/analytics/peak-times", methods=["GET"])
+@jwt_required
+@role_required("admin")
+def peak_times():
+    day_names = ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+    pipeline = [
+        # cancelled appointments didn't happen, so don't count them
+        {"$match": {"appointment.status": {"$ne": "cancelled"}}},
+        # $facet runs two separate pipelines on the same data and returns both results together
+        {"$facet": {
+            "busiest_days": [
+                # turn the text date into a real date, then get the day of the week (1 = Sunday ... 7 = Saturday)
+                {"$group": {
+                    "_id": {"$dayOfWeek": {"$dateFromString": {
+                        "dateString": "$appointment.date", "onError": None, "onNull": None}}},
+                    "bookings": {"$sum": 1}
+                }},
+                {"$match": {"_id": {"$ne": None}}},      # skip any dates that couldn't be read
+                {"$sort": {"bookings": -1}},
+                {"$project": {"_id": 0, "day": {"$arrayElemAt": [day_names, "$_id"]}, "bookings": 1}}
+            ],
+            "busiest_time_slots": [
+                {"$group": {"_id": "$appointment.time_slot", "bookings": {"$sum": 1}}},
+                {"$sort": {"bookings": -1}},
+                {"$limit": 5},
+                {"$project": {"_id": 0, "time_slot": "$_id", "bookings": 1}}
+            ]
+        }}
+    ]
+
+    # $facet always returns one document holding both lists
+    result = list(consultations.aggregate(pipeline))[0]
+    return make_response(jsonify(result), 200)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
