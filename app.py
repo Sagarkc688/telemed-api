@@ -879,6 +879,96 @@ def add_symptom(id):
         response["warning"] = "This could be an emergency. Do not wait for your appointment - call 999 now."
     return make_response(jsonify(response), 201)
 
+# PUT - doctor writes the consultation notes after the appointment
+# adds the diagnosis and follow-up, can confirm or change the urgency, and marks the appointment completed
+@app.route("/api/v1.0/consultations/<string:id>/notes", methods=["PUT"])
+@jwt_required
+@role_required("doctor")
+@valid_id_required
+def add_notes(id):
+    # a doctor can only write notes for their own patients
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
+    if consultation["appointment"]["status"] == "cancelled":
+        return make_response(jsonify({"error": "Cannot add notes to a cancelled appointment"}), 400)
+
+    if not request.form.get("diagnosis"):
+        return make_response(jsonify({"error": "Missing field: diagnosis"}), 400)
+
+    # follow-up is optional - if a date is sent, check it's a real date
+    follow_up = {"required": False, "date": None}
+    if request.form.get("follow_up_date"):
+        follow_up_date = request.form["follow_up_date"].strip()
+        try:
+            datetime.datetime.strptime(follow_up_date, "%Y-%m-%d")
+        except ValueError:
+            return make_response(jsonify({"error": "follow_up_date must be a date like 2026-11-20"}), 400)
+        follow_up = {"required": True, "date": follow_up_date}
+
+    updates = {
+        "consultation_notes": {
+            "diagnosis": request.form["diagnosis"].strip(),
+            "notes": request.form.get("notes", "").strip(),
+            "follow_up": follow_up
+        },
+        "appointment.status": "completed",
+        "timestamps.updated_at": str(datetime.date.today())
+    }
+
+    # the doctor can confirm or change the urgency set from the symptom form
+    if request.form.get("urgency_level"):
+        urgency = request.form["urgency_level"].strip()
+        if urgency not in ("low", "medium", "high"):
+            return make_response(jsonify({"error": "urgency_level must be low, medium or high"}), 400)
+        updates["urgency_level"] = urgency
+
+    consultations.update_one({"_id": ObjectId(id)}, {"$set": updates})
+
+    edited_link = "http://localhost:5001/api/v1.0/consultations/" + id
+    return make_response(jsonify({"message": "Notes added and appointment completed", "url": edited_link}), 200)
+
+
+# POST - patient rates their consultation after it is completed
+@app.route("/api/v1.0/consultations/<string:id>/feedback", methods=["POST"])
+@jwt_required
+@role_required("patient")
+@valid_id_required
+def add_feedback(id):
+    # a patient can only rate their own consultation
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
+    if consultation["appointment"]["status"] != "completed":
+        return make_response(jsonify({"error": "You can only give feedback after the appointment is completed"}), 400)
+
+    # only one rating per consultation
+    if consultation.get("feedback"):
+        return make_response(jsonify({"error": "Feedback has already been given for this consultation"}), 409)
+
+    if not request.form.get("rating"):
+        return make_response(jsonify({"error": "Missing field: rating"}), 400)
+
+    # type and range check
+    try:
+        rating = int(request.form["rating"])
+    except ValueError:
+        return make_response(jsonify({"error": "rating must be a whole number"}), 400)
+    if rating < 1 or rating > 5:
+        return make_response(jsonify({"error": "rating must be between 1 and 5"}), 400)
+
+    comment = request.form.get("comment", "").strip()
+    if len(comment) > 500:
+        return make_response(jsonify({"error": "comment must be 500 characters or less"}), 400)
+
+    feedback = {"rating": rating, "comment": comment}
+    consultations.update_one({"_id": ObjectId(id)}, {"$set": {"feedback": feedback}})
+
+    return make_response(jsonify({"message": "Thank you for your feedback", "feedback": feedback}), 201)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
