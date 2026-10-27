@@ -16,6 +16,21 @@ consultations = db.consultations
 doctors = db.doctors
 users = db.users
 
+# fixed values used for checking input - tuples because they never change
+SPECIALTIES = ("General Practice", "Dermatology", "Cardiology", "Paediatrics", "Mental Health", "Respiratory")
+
+# city coordinates [longitude, latitude] - same as in mygenerator.py
+CITIES = {
+    "Belfast": [-5.9301, 54.5973],
+    "Derry": [-7.3086, 54.9966],
+    "Newry": [-6.3374, 54.1751],
+    "Armagh": [-6.6547, 54.3503],
+    "Lisburn": [-6.0353, 54.5162],
+    "Coleraine": [-6.6683, 55.1325],
+    "Enniskillen": [-7.6390, 54.3438],
+    "Ballymena": [-6.2758, 54.8643]
+}
+
 
 app.config['SECRET_KEY'] = 'telemed-api-secret-key-change-me-2026'    # signs the tokens - in a real app this would be kept secret
 
@@ -640,6 +655,132 @@ def consultations_per_month():
     ]
 
     return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
+
+# POST - admin adds a new doctor
+@app.route("/api/v1.0/doctors", methods=["POST"])
+@jwt_required
+@role_required("admin")
+def add_doctor():
+    # fields that must be sent - a tuple because this never changes
+    required = ("name", "specialty", "city", "years_experience")
+    for field in required:
+        if not request.form.get(field):
+            return make_response(jsonify({"error": "Missing field: " + field}), 400)
+
+    specialty = request.form["specialty"].strip()
+    if specialty not in SPECIALTIES:
+        return make_response(jsonify({"error": "specialty must be one of: " + ", ".join(SPECIALTIES)}), 400)
+
+    city = request.form["city"].strip()
+    if city not in CITIES:
+        return make_response(jsonify({"error": "city must be one of: " + ", ".join(CITIES)}), 400)
+
+    # type and range check
+    try:
+        years = int(request.form["years_experience"])
+    except ValueError:
+        return make_response(jsonify({"error": "years_experience must be a whole number"}), 400)
+    if years < 0 or years > 60:
+        return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
+
+    # next doctor id - count how many doctors there are and add 100, e.g. 24 doctors -> D124
+    # keep adding 1 if that id is already taken (e.g. after a doctor was deleted)
+    number = 100 + doctors.count_documents({})
+    while doctors.find_one({"doctor_id": "D" + str(number)}) is not None:
+        number += 1
+
+    new_doctor = {
+        "doctor_id": "D" + str(number),
+        "name": request.form["name"].strip(),
+        "specialty": specialty,
+        "years_experience": years,
+        "available_days": [],
+        "accepting_patients": True,
+        "clinic": {
+            "name": city + " Health Centre",
+            "city": city,
+            "location": {"type": "Point", "coordinates": CITIES[city]}
+        }
+    }
+
+    result = doctors.insert_one(new_doctor)
+    new_link = "http://localhost:5001/api/v1.0/doctors/" + str(result.inserted_id)
+    return make_response(jsonify({"url": new_link, "doctor_id": new_doctor["doctor_id"]}), 201)
+
+# PUT - admin edits a doctor (only the fields that are sent)
+@app.route("/api/v1.0/doctors/<string:id>", methods=["PUT"])
+@jwt_required
+@role_required("admin")
+@valid_id_required
+def edit_doctor(id):
+    updates = {}
+
+    if request.form.get("name"):
+        updates["name"] = request.form["name"].strip()
+
+    if request.form.get("specialty"):
+        specialty = request.form["specialty"].strip()
+        if specialty not in SPECIALTIES:
+            return make_response(jsonify({"error": "specialty must be one of: " + ", ".join(SPECIALTIES)}), 400)
+        updates["specialty"] = specialty
+
+    if request.form.get("city"):
+        city = request.form["city"].strip()
+        if city not in CITIES:
+            return make_response(jsonify({"error": "city must be one of: " + ", ".join(CITIES)}), 400)
+        # moving city changes the whole clinic, including its map position
+        updates["clinic"] = {
+            "name": city + " Health Centre",
+            "city": city,
+            "location": {"type": "Point", "coordinates": CITIES[city]}
+        }
+
+    if request.form.get("years_experience"):
+        try:
+            years = int(request.form["years_experience"])
+        except ValueError:
+            return make_response(jsonify({"error": "years_experience must be a whole number"}), 400)
+        if years < 0 or years > 60:
+            return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
+        updates["years_experience"] = years
+
+    if request.form.get("accepting_patients"):
+        accepting = request.form["accepting_patients"].strip().lower()
+        if accepting not in ("true", "false"):
+            return make_response(jsonify({"error": "accepting_patients must be true or false"}), 400)
+        updates["accepting_patients"] = (accepting == "true")
+
+    if not updates:
+        return make_response(jsonify({"error": "No fields to update"}), 400)
+
+    result = doctors.update_one({"_id": ObjectId(id)}, {"$set": updates})
+    if result.matched_count == 0:
+        return make_response(jsonify({"error": "Doctor not found"}), 404)
+
+    edited_link = "http://localhost:5001/api/v1.0/doctors/" + id
+    return make_response(jsonify({"url": edited_link}), 200)
+
+# DELETE - admin removes a doctor
+@app.route("/api/v1.0/doctors/<string:id>", methods=["DELETE"])
+@jwt_required
+@role_required("admin")
+@valid_id_required
+def delete_doctor(id):
+    doctor = doctors.find_one({"_id": ObjectId(id)})
+    if doctor is None:
+        return make_response(jsonify({"error": "Doctor not found"}), 404)
+
+    # don't delete a doctor who still has upcoming appointments - those patients would be left without a doctor
+    upcoming = consultations.count_documents({
+        "doctor.doctor_id": doctor["doctor_id"],
+        "appointment.status": {"$in": ["booked", "pending"]}
+    })
+    if upcoming > 0:
+        return make_response(jsonify({"error": "Doctor has " + str(upcoming) + " upcoming appointments - cancel or move them first"}), 409)
+
+    doctors.delete_one({"_id": ObjectId(id)})
+    return make_response(jsonify({"message": "Doctor deleted"}), 200)
+
 
 
 if __name__ == "__main__":
