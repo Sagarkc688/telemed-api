@@ -19,6 +19,10 @@ users = db.users
 # fixed values used for checking input - tuples because they never change
 SPECIALTIES = ("General Practice", "Dermatology", "Cardiology", "Paediatrics", "Mental Health", "Respiratory")
 
+# symptoms that need emergency help straight away (lower case so the check ignores capitals)
+EMERGENCY_SYMPTOMS = ("chest pain", "difficulty breathing", "severe bleeding", "loss of consciousness",
+                      "stroke symptoms", "severe allergic reaction", "suicidal thoughts")
+
 # city coordinates [longitude, latitude] - same as in mygenerator.py
 CITIES = {
     "Belfast": [-5.9301, 54.5973],
@@ -815,6 +819,65 @@ def update_availability():
         return make_response(jsonify({"error": "Doctor not found"}), 404)
 
     return make_response(jsonify({"message": "Availability updated", "doctor_id": g.user["doctor_id"], **updates}), 200)
+
+# POST - patient adds a symptom to their booking (the symptom form before the appointment)
+# if the symptom is an emergency, the response tells them to call 999
+@app.route("/api/v1.0/consultations/<string:id>/symptoms", methods=["POST"])
+@jwt_required
+@role_required("patient", "admin")
+@valid_id_required
+def add_symptom(id):
+    consultation, error = find_consultation_for_user(id)
+    if error:
+        return error
+
+    # symptoms can only be added before the appointment happens
+    if consultation["appointment"]["status"] not in ("booked", "pending"):
+        return make_response(jsonify({"error": "Symptoms can only be added to a booked or pending appointment"}), 400)
+
+    required = ("name", "severity", "duration_days")
+    for field in required:
+        if not request.form.get(field):
+            return make_response(jsonify({"error": "Missing field: " + field}), 400)
+
+    # type and range checks
+    try:
+        severity = int(request.form["severity"])
+        duration = int(request.form["duration_days"])
+    except ValueError:
+        return make_response(jsonify({"error": "severity and duration_days must be whole numbers"}), 400)
+    if severity < 1 or severity > 10:
+        return make_response(jsonify({"error": "severity must be between 1 and 10"}), 400)
+    if duration < 1 or duration > 365:
+        return make_response(jsonify({"error": "duration_days must be between 1 and 365"}), 400)
+
+    name = request.form["name"].strip().capitalize()
+    new_symptom = {"name": name, "severity": severity, "duration_days": duration}
+
+    # work out the new urgency from the most severe symptom - same rule as the data generator
+    all_severities = [s["severity"] for s in consultation.get("symptoms", [])] + [severity]
+    worst = max(all_severities)
+    if worst >= 8:
+        urgency = "high"
+    elif worst >= 5:
+        urgency = "medium"
+    else:
+        urgency = "low"
+
+    # emergency symptoms always make the case high urgency
+    emergency = name.lower() in EMERGENCY_SYMPTOMS
+    if emergency:
+        urgency = "high"
+
+    consultations.update_one(
+        {"_id": ObjectId(id)},
+        {"$push": {"symptoms": new_symptom}, "$set": {"urgency_level": urgency}}
+    )
+
+    response = {"message": "Symptom added", "symptom": new_symptom, "urgency_level": urgency}
+    if emergency:
+        response["warning"] = "This could be an emergency. Do not wait for your appointment - call 999 now."
+    return make_response(jsonify(response), 201)
 
 
 if __name__ == "__main__":
