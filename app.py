@@ -782,6 +782,40 @@ def delete_doctor(id):
     return make_response(jsonify({"message": "Doctor deleted"}), 200)
 
 
+# PUT - a doctor updates their OWN working days (and whether they are taking new patients)
+# available_days is sent as a comma-separated list, e.g. "Mon,Wed,Fri"
+@app.route("/api/v1.0/doctors/availability", methods=["PUT"])
+@jwt_required
+@role_required("doctor")
+def update_availability():
+    updates = {}
+
+    if request.form.get("available_days"):
+        valid_days = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        # split "Mon, Wed,Fri" into ["Mon", "Wed", "Fri"] and tidy each one
+        days = [day.strip().capitalize() for day in request.form["available_days"].split(",") if day.strip()]
+        for day in days:
+            if day not in valid_days:
+                return make_response(jsonify({"error": day + " is not a valid day - use Mon, Tue, Wed, Thu, Fri, Sat, Sun"}), 400)
+        # remove duplicates but keep the order, e.g. "Mon,Mon,Fri" -> ["Mon", "Fri"]
+        updates["available_days"] = list(dict.fromkeys(days))
+
+    if request.form.get("accepting_patients"):
+        accepting = request.form["accepting_patients"].strip().lower()
+        if accepting not in ("true", "false"):
+            return make_response(jsonify({"error": "accepting_patients must be true or false"}), 400)
+        updates["accepting_patients"] = (accepting == "true")
+
+    if not updates:
+        return make_response(jsonify({"error": "No fields to update"}), 400)
+
+    # the doctor is worked out from the login token - a doctor can only change their own availability
+    result = doctors.update_one({"doctor_id": g.user["doctor_id"]}, {"$set": updates})
+    if result.matched_count == 0:
+        return make_response(jsonify({"error": "Doctor not found"}), 404)
+
+    return make_response(jsonify({"message": "Availability updated", "doctor_id": g.user["doctor_id"], **updates}), 200)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
