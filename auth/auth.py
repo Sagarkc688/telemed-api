@@ -3,8 +3,10 @@ import datetime
 import jwt
 import bcrypt
 import globals
+from decorators import jwt_required
 
 users = globals.db.users
+blacklist = globals.db.blacklist      # tokens of users who have logged out
 
 auth_bp = Blueprint("auth_bp", __name__)
 
@@ -32,3 +34,12 @@ def login():
     }, globals.secret_key, algorithm="HS256")
 
     return make_response(jsonify({"token": token}), 200)
+
+
+# LOGOUT - saves the token in the blacklist so it can't be used again
+@auth_bp.route("/api/v1.0/logout", methods=["GET"])
+@jwt_required
+def logout():
+    token = request.headers.get('x-access-token')
+    blacklist.insert_one({"token": token})
+    return make_response(jsonify({"message": "Logged out"}), 200)

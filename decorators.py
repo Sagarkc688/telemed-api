@@ -5,6 +5,7 @@ import jwt
 import globals
 
 consultations = globals.db.consultations
+blacklist = globals.db.blacklist
 
 # decorators and helpers used by the routes in every Blueprint
 
@@ -17,6 +18,11 @@ def jwt_required(func):
         token = request.headers.get('x-access-token')
         if not token:
             return make_response(jsonify({"message": "Token is missing"}), 401)
+
+        
+        # a token from a user who logged out can't be used again
+        if blacklist.find_one({"token": token}):
+            return make_response(jsonify({"message": "You have logged out - please log in again"}), 401)
 
         try:
             data = jwt.decode(token, globals.secret_key, algorithms=["HS256"])
