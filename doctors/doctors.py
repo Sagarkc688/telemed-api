@@ -127,6 +127,11 @@ def add_doctor():
         return make_response(jsonify({"error": "years_experience must be a whole number"}), 400)
     if years < 0 or years > 60:
         return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
+    
+    # GMC number is optional - if it is sent it must be exactly 7 digits
+    gmc_number = request.form.get("gmc_number", "").strip()
+    if gmc_number and (len(gmc_number) != 7 or not gmc_number.isdigit()):
+        return make_response(jsonify({"error": "gmc_number must be 7 digits"}), 400)
 
     # next doctor id - count how many doctors there are and add 100, e.g. 24 doctors -> D124
     # keep adding 1 if that id is already taken (e.g. after a doctor was deleted)
@@ -138,6 +143,7 @@ def add_doctor():
         "doctor_id": "D" + str(number),
         "name": request.form["name"].strip(),
         "specialty": specialty,
+        "gmc_number": gmc_number or None,
         "years_experience": years,
         "available_days": [],
         "accepting_patients": True,
@@ -189,6 +195,15 @@ def edit_doctor(id):
             return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
         updates["years_experience"] = years
 
+    # admin can also change the doctor's working days, e.g. "Mon,Wed,Fri"
+    if request.form.get("available_days"):
+        valid_days = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        days = [day.strip().capitalize() for day in request.form["available_days"].split(",") if day.strip()]
+        for day in days:
+            if day not in valid_days:
+                return make_response(jsonify({"error": day + " is not a valid day - use Mon, Tue, Wed, Thu, Fri, Sat, Sun"}), 400)
+        updates["available_days"] = list(dict.fromkeys(days))
+            
     if request.form.get("accepting_patients"):
         accepting = request.form["accepting_patients"].strip().lower()
         if accepting not in ("true", "false"):

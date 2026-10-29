@@ -10,7 +10,6 @@ symptoms_by_specialty = {
     'General Practice': ['Headache', 'Fever', 'Sore throat', 'Fatigue', 'Back pain'],
     'Dermatology': ['Rash', 'Itching', 'Acne', 'Dry skin'],
     'Cardiology': ['Palpitations', 'Dizziness', 'Chest tightness', 'Shortness of breath'],
-    'Cardiology': ['Palpitations', 'Dizziness', 'Chest tightness', 'Shortness of breath'],
     'Paediatrics': ['Fever', 'Earache', 'Cough', 'Rash', 'Vomiting'],
     'Mental Health': ['Anxiety', 'Low mood', 'Insomnia', 'Stress', 'Poor concentration'],
     'Respiratory': ['Cough', 'Wheezing', 'Shortness of breath', 'Chest infection']
@@ -21,7 +20,6 @@ symptoms_by_specialty = {
 diagnoses_by_specialty = {
     'General Practice': ['Viral infection', 'Migraine', 'Tonsillitis', 'Muscle strain'],
     'Dermatology': ['Eczema', 'Contact dermatitis', 'Acne', 'Psoriasis'],
-    'Cardiology': ['High blood pressure', 'Benign palpitations', 'Anxiety-related symptoms'],
     'Cardiology': ['High blood pressure', 'Benign palpitations', 'Anxiety-related symptoms'],
     'Paediatrics': ['Ear infection', 'Viral rash', 'Common cold', 'Gastroenteritis'],
     'Mental Health': ['Generalised anxiety', 'Mild depression', 'Insomnia', 'Work-related stress'],
@@ -45,11 +43,6 @@ medicines_by_specialty = {
         {'medicine': 'Ramipril', 'dosage': '2.5mg'},
         {'medicine': 'Bisoprolol', 'dosage': '2.5mg'}
     ],
-        'Cardiology': [
-        {'medicine': 'Amlodipine', 'dosage': '5mg'},
-        {'medicine': 'Ramipril', 'dosage': '2.5mg'},
-        {'medicine': 'Bisoprolol', 'dosage': '2.5mg'}
-    ],
     'Paediatrics': [
         {'medicine': 'Calpol (paracetamol)', 'dosage': '120mg/5ml'},
         {'medicine': 'Amoxicillin suspension', 'dosage': '125mg/5ml'},
@@ -68,8 +61,12 @@ medicines_by_specialty = {
 }
 
 frequencies = ['Once daily', 'Twice daily', 'Three times daily', 'When needed']
-feedback_comments = ['Quick and helpful', 'Doctor was very kind', 'Easy to use',
-                     'Video kept freezing', 'Had to wait a long time', 'Would use again']
+#feedback_comments = ['Quick and helpful', 'Doctor was very kind', 'Easy to use',
+#                     'Video kept freezing', 'Had to wait a long time', 'Would use again']
+# comments grouped by rating so the comment matches the stars
+good_comments = ['Quick and helpful', 'Doctor was very kind', 'Easy to use', 'Would use again']
+okay_comments = ['Had to wait a long time', 'Helpful but the call felt rushed']
+bad_comments = ['Did not feel listened to', 'Had to wait a long time']
 
 conditions = ['Asthma', 'Diabetes', 'High blood pressure', 'Eczema', 'Migraine', 'Anxiety']
 allergies_list = ['Penicillin', 'Peanuts', 'Latex', 'Pollen', 'Ibuprofen']
@@ -115,11 +112,19 @@ doctor_list = []
 for i in range(24):
     name = 'Dr ' + random.choice(first_names) + ' ' + random.choice(last_names)
     city = random.choice(list(cities.keys()))
+    if i == 1:
+        name = 'Dr Aoife Wilson'    # D101 - the drwilson login in create_users.py
+
+    # move each clinic a little (about 1-3 km) so clinics in the same city aren't on the same spot
+    lng = round(cities[city][0] + random.uniform(-0.04, 0.04), 4)
+    lat = round(cities[city][1] + random.uniform(-0.02, 0.02), 4)
 
     doctor = {
         'doctor_id': 'D' + str(100 + i),
         'name': name,
         'specialty': specialties[i % len(specialties)],   # spread doctors evenly across specialties
+        'gmc_number': str(random.randint(6000000, 7999999)),    # 7-digit doctor registration number
+        'years_experience': random.randint(2, 30),
         'years_experience': random.randint(2, 30),
         'available_days': random.sample(['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], 3),
         'accepting_patients': random.choice([True, False]),
@@ -128,7 +133,8 @@ for i in range(24):
             'city': city,
             'location': {                 # GeoJSON point for geo queries
                 'type': 'Point',
-                'coordinates': cities[city]
+                #'coordinates': cities[city]    # first version - every clinic in a city on the same point
+                'coordinates': [lng, lat]
             }
         }
     }
@@ -145,8 +151,6 @@ print('Created', len(doctor_list), 'doctors')
 
 # ---- consultations ----
 
-# ---- consultations ----
-
 consultation_list = []
 
 for i in range(300):
@@ -159,12 +163,22 @@ for i in range(300):
         patient_name = random.choice(male_names) + ' ' + random.choice(last_names)
     patient_city = random.choice(list(cities.keys()))
 
-        # past conditions - each one is a small object with the year it was diagnosed
+    # unique email for every patient - the number stops two "Sarah Smith"s sharing one
+    email = patient_name.lower().replace(' ', '.') + str(1000 + i) + '@example.com'
+    if i == 0:
+        patient_name, gender = 'Sarah Smith', 'Female'
+        email = 'sarah.smith@example.com'    # C1000 - the sarah login in create_users.py
+
+    birth_year = random.randint(1950, 2015)
+    appointment_type = random.choice(['video', 'video', 'phone'])
+
+    # past conditions - each one is a small object with the year it was diagnosed
     medical_history = []
     for condition in random.sample(conditions, random.randint(0, 2)):
         medical_history.append({
             'condition': condition,
-            'diagnosed_year': random.randint(2000, 2025)
+            #'diagnosed_year': random.randint(2000, 2025)    # first version - could be before they were born
+            'diagnosed_year': random.randint(birth_year + 1, 2025)
         })
 
     # each patient gets 1-3 symptoms that match the doctor's specialty
@@ -217,29 +231,34 @@ for i in range(300):
                 'duration_days': random.choice([5, 7, 14, 28])
             })
 
-        feedback = {
-            'rating': random.randint(1, 5),
-            'comment': random.choice(feedback_comments)
-        }
+        rating = random.randint(1, 5)
+        if rating >= 4:
+            comment = random.choice(good_comments)
+        elif rating == 3:
+            comment = random.choice(okay_comments)
+        else:
+            comment = random.choice(bad_comments)
+            if appointment_type == 'video' and random.random() < 0.5:
+                comment = 'Video kept freezing'    # only makes sense for a video call
+        feedback = {'rating': rating, 'comment': comment}
 
     created_date = appointment_date - timedelta(days=random.randint(1, 10))   # booked 1-10 days before
-    appointment_type = random.choice(['video', 'video', 'phone'])
-    
+    #appointment_type = random.choice(['video', 'video', 'phone'])    # moved up - feedback needs it
+
     consultation = {
         'consultation_id': 'C' + str(1000 + i),
         'patient': {                             # nested patient document
-            'patient_id': 'P' + str(random.randint(1000, 1999)),
+            'patient_id': 'P' + str(2000 + i),    # unique for every patient
             'name': patient_name,
-            'date_of_birth': f'{random.randint(1950, 2015)}-{random.randint(1, 12):02d}-{random.randint(1, 28):02d}',
+            'date_of_birth': f'{birth_year}-{random.randint(1, 12):02d}-{random.randint(1, 28):02d}',
             'gender': gender,
             'contact': {                         # nested inside patient
                 'phone': '07700 ' + str(random.randint(900000, 900999)),
-                'email': patient_name.lower().replace(' ', '.') + '@example.com',
+                'email': email,
                 'address': {                     # nested again
                     'street': str(random.randint(1, 120)) + ' ' + random.choice(streets),
                     'city': patient_city,
-                    'postcode': 'BT' + str(random.randint(1, 94))
-                }
+'postcode': 'BT' + str(random.randint(1, 94)) + ' ' + str(random.randint(1, 9)) + random.choice('ABDEHJLNPRSTUWXYZ') + random.choice('ABDEHJLNPRSTUWXYZ')                }
             },
             'medical_history': medical_history,
             'allergies': random.sample(allergies_list, random.randint(0, 2))
@@ -247,8 +266,8 @@ for i in range(300):
         'doctor': {                              # copy of the doctor's key details
             'doctor_id': chosen_doctor['doctor_id'],
             'name': chosen_doctor['name'],
-            'specialty': chosen_doctor['specialty']
-        },
+            'specialty': chosen_doctor['specialty'],
+            'gmc_number': chosen_doctor['gmc_number']        },
         'appointment': {                         # nested appointment details
             'date': str(appointment_date),
             'time_slot': random.choice(time_slots),

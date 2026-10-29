@@ -115,7 +115,8 @@ def add_consultation():
             return make_response(jsonify({"error": "Missing field: " + field}), 400)
 
     # appointment type can only be video or phone (.strip() removes hidden spaces/tabs)
-    if request.form["type"].strip() not in ("video", "phone"):
+    appointment_type = request.form["type"].strip()
+    if appointment_type not in ("video", "phone"):
         return make_response(jsonify({"error": "type must be video or phone"}), 400)
 
     # the doctor must exist in the doctors collection
@@ -123,7 +124,11 @@ def add_consultation():
     if doctor is None:
         return make_response(jsonify({"error": "Doctor not found"}), 404)
 
+    new_id = ObjectId()                     # made first so the video link can use it
+    today = str(datetime.date.today())
+
     new_consultation = {
+        "_id": new_id,
         "patient": {
             "name": request.form["patient_name"].strip(),
             "contact": {"email": request.form["patient_email"].strip()}
@@ -131,22 +136,27 @@ def add_consultation():
         "doctor": {
             "doctor_id": doctor["doctor_id"],
             "name": doctor["name"],
-            "specialty": doctor["specialty"]
+            "specialty": doctor["specialty"],
+            "gmc_number": doctor.get("gmc_number")
         },
         "appointment": {
             "date": request.form["date"].strip(),
             "time_slot": request.form["time_slot"].strip(),
-            "type": request.form["type"].strip(),
+            "type": appointment_type,
+            # only video appointments get a link
+            "video_link": "https://meet.example.com/" + str(new_id) if appointment_type == "video" else None,
             "status": "booked"
         },
         "symptoms": [],
+        "urgency_level": "low",             # goes up when the patient adds symptoms
         "consultation_notes": None,
         "prescriptions": [],
-        "feedback": None
+        "feedback": None,
+        "timestamps": {"created_at": today, "updated_at": today}
     }
 
-    result = consultations.insert_one(new_consultation)
-    new_link = "http://localhost:5001/api/v1.0/consultations/" + str(result.inserted_id)
+    consultations.insert_one(new_consultation)
+    new_link = "http://localhost:5001/api/v1.0/consultations/" + str(new_id)
     return make_response(jsonify({"url": new_link}), 201)
 
 
