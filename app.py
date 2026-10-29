@@ -10,7 +10,7 @@ from analytics.analytics import analytics_bp
 app = Flask(__name__)
 app.config['SECRET_KEY'] = globals.secret_key
 
-# connect each Blueprint to the app
+# register the blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(consultations_bp)
 app.register_blueprint(prescriptions_bp)

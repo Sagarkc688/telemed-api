@@ -6,12 +6,11 @@ from decorators import jwt_required, role_required, valid_id_required
 doctors = globals.db.doctors
 consultations = globals.db.consultations
 
-# search, nearby, admin add/edit/delete and a doctor's own availability
 doctors_bp = Blueprint("doctors_bp", __name__)
 
 
-# GET all doctors - with optional filters and paging
-# e.g. /api/v1.0/doctors?specialty=Dermatology&city=Belfast&accepting=true
+# get all doctors, with filters and paging (no login needed)
+# eg /api/v1.0/doctors?specialty=Dermatology&city=Belfast&accepting=true
 @doctors_bp.route("/api/v1.0/doctors", methods=["GET"])
 def show_all_doctors():
     page_num, page_size = 1, 5
@@ -21,17 +20,17 @@ def show_all_doctors():
         page_size = int(request.args.get('ps'))
     page_start = page_size * (page_num - 1)
 
-    # build the search one filter at a time - only filters that were sent are added
+    # only add the filters that were sent
     query = {}
     if request.args.get('specialty'):
         query['specialty'] = request.args.get('specialty').strip()
     if request.args.get('city'):
-        query['clinic.city'] = request.args.get('city').strip()     # nested field
+        query['clinic.city'] = request.args.get('city').strip()
     if request.args.get('accepting'):
         accepting = request.args.get('accepting').strip().lower()
         if accepting not in ("true", "false"):
             return make_response(jsonify({"error": "accepting must be true or false"}), 400)
-        query['accepting_patients'] = (accepting == "true")         # text -> real True/False
+        query['accepting_patients'] = (accepting == "true")    # turn text into a boolean
 
     data_to_return = []
     for doctor in doctors.find(query).skip(page_start).limit(page_size):
@@ -41,7 +40,7 @@ def show_all_doctors():
     return make_response(jsonify(data_to_return), 200)
 
 
-# GET one doctor by its _id
+# get one doctor
 @doctors_bp.route("/api/v1.0/doctors/<string:id>", methods=["GET"])
 @valid_id_required
 def show_one_doctor(id):
@@ -53,41 +52,38 @@ def show_one_doctor(id):
     return make_response(jsonify(doctor), 200)
 
 
-# GET doctors near a location - nearest first
-# e.g. /api/v1.0/doctors/nearby?lat=54.597&lng=-5.930&distance=30&specialty=Dermatology
+# doctors near a location, nearest first
+# eg /api/v1.0/doctors/nearby?lat=54.597&lng=-5.930&distance=30
 @doctors_bp.route("/api/v1.0/doctors/nearby", methods=["GET"])
 def show_nearby_doctors():
-    # lat and lng must be sent
     if not request.args.get('lat') or not request.args.get('lng'):
         return make_response(jsonify({"error": "lat and lng are required"}), 400)
 
-    # type check - they must be numbers
     try:
         lat = float(request.args.get('lat'))
         lng = float(request.args.get('lng'))
-        distance_km = float(request.args.get('distance', 30))    # 30 km if not sent
+        distance_km = float(request.args.get('distance', 30))    # default 30km
     except ValueError:
         return make_response(jsonify({"error": "lat, lng and distance must be numbers"}), 400)
 
-    # range check - real map coordinates and a sensible distance
     if not (-90 <= lat <= 90) or not (-180 <= lng <= 180):
         return make_response(jsonify({"error": "lat must be -90 to 90 and lng -180 to 180"}), 400)
     if distance_km <= 0 or distance_km > 500:
         return make_response(jsonify({"error": "distance must be between 0 and 500 km"}), 400)
 
-    # optional extra filter - e.g. only dermatologists near me
+    # optional specialty filter
     query = {}
     if request.args.get('specialty'):
         query['specialty'] = request.args.get('specialty').strip()
 
-    # $geoNear - finds doctors nearest to the point and works out how far away each one is
+    # $geoNear sorts by distance and adds how far away each doctor is
     pipeline = [
         {"$geoNear": {
-            "near": {"type": "Point", "coordinates": [lng, lat]},   # MongoDB wants longitude first
-            "distanceField": "distance_km",       # new field added to each result
-            "maxDistance": distance_km * 1000,    # MongoDB works in metres
-            "distanceMultiplier": 0.001,          # turn the result from metres into km
-            "spherical": True,                    # the earth is round
+            "near": {"type": "Point", "coordinates": [lng, lat]},    # longitude first
+            "distanceField": "distance_km",
+            "maxDistance": distance_km * 1000,    # metres
+            "distanceMultiplier": 0.001,    # back to km
+            "spherical": True,
             "query": query
         }}
     ]
@@ -101,12 +97,12 @@ def show_nearby_doctors():
     return make_response(jsonify(data_to_return), 200)
 
 
-# POST - admin adds a new doctor
+# admin adds a doctor
 @doctors_bp.route("/api/v1.0/doctors", methods=["POST"])
 @jwt_required
 @role_required("admin")
 def add_doctor():
-    # fields that must be sent - a tuple because this never changes
+    # required fields (tuple as it never changes)
     required = ("name", "specialty", "city", "years_experience")
     for field in required:
         if not request.form.get(field):
@@ -120,21 +116,20 @@ def add_doctor():
     if city not in globals.CITIES:
         return make_response(jsonify({"error": "city must be one of: " + ", ".join(globals.CITIES)}), 400)
 
-    # type and range check
     try:
         years = int(request.form["years_experience"])
     except ValueError:
         return make_response(jsonify({"error": "years_experience must be a whole number"}), 400)
     if years < 0 or years > 60:
         return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
-    
-    # GMC number is optional - if it is sent it must be exactly 7 digits
+
+    # gmc number is optional but must be 7 digits
     gmc_number = request.form.get("gmc_number", "").strip()
     if gmc_number and (len(gmc_number) != 7 or not gmc_number.isdigit()):
         return make_response(jsonify({"error": "gmc_number must be 7 digits"}), 400)
 
-    # next doctor id - count how many doctors there are and add 100, e.g. 24 doctors -> D124
-    # keep adding 1 if that id is already taken (e.g. after a doctor was deleted)
+    # next doctor id, eg 24 doctors -> D124
+    # skip ids that are already taken
     number = 100 + doctors.count_documents({})
     while doctors.find_one({"doctor_id": "D" + str(number)}) is not None:
         number += 1
@@ -158,7 +153,8 @@ def add_doctor():
     new_link = "http://localhost:5001/api/v1.0/doctors/" + str(result.inserted_id)
     return make_response(jsonify({"url": new_link, "doctor_id": new_doctor["doctor_id"]}), 201)
 
-# PUT - admin edits a doctor (only the fields that are sent)
+
+# admin edits a doctor (only fields that are sent)
 @doctors_bp.route("/api/v1.0/doctors/<string:id>", methods=["PUT"])
 @jwt_required
 @role_required("admin")
@@ -179,7 +175,7 @@ def edit_doctor(id):
         city = request.form["city"].strip()
         if city not in globals.CITIES:
             return make_response(jsonify({"error": "city must be one of: " + ", ".join(globals.CITIES)}), 400)
-        # moving city changes the whole clinic, including its map position
+        # new city means a new clinic location
         updates["clinic"] = {
             "name": city + " Health Centre",
             "city": city,
@@ -195,7 +191,7 @@ def edit_doctor(id):
             return make_response(jsonify({"error": "years_experience must be between 0 and 60"}), 400)
         updates["years_experience"] = years
 
-    # admin can also change the doctor's working days, e.g. "Mon,Wed,Fri"
+    # working days, eg Mon,Wed,Fri
     if request.form.get("available_days"):
         valid_days = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
         days = [day.strip().capitalize() for day in request.form["available_days"].split(",") if day.strip()]
@@ -203,7 +199,7 @@ def edit_doctor(id):
             if day not in valid_days:
                 return make_response(jsonify({"error": day + " is not a valid day - use Mon, Tue, Wed, Thu, Fri, Sat, Sun"}), 400)
         updates["available_days"] = list(dict.fromkeys(days))
-            
+
     if request.form.get("accepting_patients"):
         accepting = request.form["accepting_patients"].strip().lower()
         if accepting not in ("true", "false"):
@@ -220,7 +216,8 @@ def edit_doctor(id):
     edited_link = "http://localhost:5001/api/v1.0/doctors/" + id
     return make_response(jsonify({"url": edited_link}), 200)
 
-# DELETE - admin removes a doctor
+
+# admin deletes a doctor
 @doctors_bp.route("/api/v1.0/doctors/<string:id>", methods=["DELETE"])
 @jwt_required
 @role_required("admin")
@@ -230,7 +227,7 @@ def delete_doctor(id):
     if doctor is None:
         return make_response(jsonify({"error": "Doctor not found"}), 404)
 
-    # don't delete a doctor who still has upcoming appointments - those patients would be left without a doctor
+    # can't delete a doctor who still has upcoming appointments
     upcoming = consultations.count_documents({
         "doctor.doctor_id": doctor["doctor_id"],
         "appointment.status": {"$in": ["booked", "pending"]}
@@ -242,8 +239,8 @@ def delete_doctor(id):
     return make_response(jsonify({"message": "Doctor deleted"}), 200)
 
 
-# PUT - a doctor updates their OWN working days (and whether they are taking new patients)
-# available_days is sent as a comma-separated list, e.g. "Mon,Wed,Fri"
+# doctor updates their own working days
+# available_days is sent like Mon,Wed,Fri
 @doctors_bp.route("/api/v1.0/doctors/availability", methods=["PUT"])
 @jwt_required
 @role_required("doctor")
@@ -252,12 +249,12 @@ def update_availability():
 
     if request.form.get("available_days"):
         valid_days = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-        # split "Mon, Wed,Fri" into ["Mon", "Wed", "Fri"] and tidy each one
+        # split into a list and tidy each day
         days = [day.strip().capitalize() for day in request.form["available_days"].split(",") if day.strip()]
         for day in days:
             if day not in valid_days:
                 return make_response(jsonify({"error": day + " is not a valid day - use Mon, Tue, Wed, Thu, Fri, Sat, Sun"}), 400)
-        # remove duplicates but keep the order, e.g. "Mon,Mon,Fri" -> ["Mon", "Fri"]
+        # remove duplicates
         updates["available_days"] = list(dict.fromkeys(days))
 
     if request.form.get("accepting_patients"):
@@ -269,7 +266,7 @@ def update_availability():
     if not updates:
         return make_response(jsonify({"error": "No fields to update"}), 400)
 
-    # the doctor is worked out from the login token - a doctor can only change their own availability
+    # doctor_id comes from the token so they can only change their own
     result = doctors.update_one({"doctor_id": g.user["doctor_id"]}, {"$set": updates})
     if result.matched_count == 0:
         return make_response(jsonify({"error": "Doctor not found"}), 404)

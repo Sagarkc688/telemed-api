@@ -4,36 +4,33 @@ from decorators import jwt_required, role_required
 
 consultations = globals.db.consultations
 
-# admin reports - aggregation pipelines
 analytics_bp = Blueprint("analytics_bp", __name__)
 
 
-# ANALYTICS - most common symptoms (optionally for one specialty)
-# e.g. /api/v1.0/analytics/top-symptoms?limit=5&specialty=Respiratory
+# most common symptoms, can filter by specialty
 @analytics_bp.route("/api/v1.0/analytics/top-symptoms", methods=["GET"])
 @jwt_required
 @role_required("admin")
 def top_symptoms():
     try:
-        limit = int(request.args.get('limit', 5))      # top 5 if not sent
+        limit = int(request.args.get('limit', 5))    # default 5
     except ValueError:
         return make_response(jsonify({"error": "limit must be a whole number"}), 400)
     if limit < 1 or limit > 50:
         return make_response(jsonify({"error": "limit must be between 1 and 50"}), 400)
 
     pipeline = []
-    # optional - only look at one specialty
     if request.args.get('specialty'):
         pipeline.append({"$match": {"doctor.specialty": request.args.get('specialty').strip()}})
 
     pipeline += [
-        {"$unwind": "$symptoms"},                        # one row per symptom
+        {"$unwind": "$symptoms"},    # one row per symptom
         {"$group": {
-            "_id": "$symptoms.name",                     # group rows with the same symptom
-            "count": {"$sum": 1},                        # how many times it appears
+            "_id": "$symptoms.name",
+            "count": {"$sum": 1},
             "average_severity": {"$avg": "$symptoms.severity"}
         }},
-        {"$sort": {"count": -1}},                        # most common first
+        {"$sort": {"count": -1}},
         {"$limit": limit},
         {"$project": {"_id": 0, "symptom": "$_id", "count": 1,
                       "average_severity": {"$round": ["$average_severity", 1]}}}
@@ -42,16 +39,15 @@ def top_symptoms():
     return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
 
 
-# ANALYTICS - average patient rating for each doctor, best first
+# average rating for each doctor
 @analytics_bp.route("/api/v1.0/analytics/doctor-ratings", methods=["GET"])
 @jwt_required
 @role_required("admin")
 def doctor_ratings():
     pipeline = [
-        # only completed consultations have feedback
         {"$match": {"appointment.status": "completed", "feedback.rating": {"$exists": True}}},
         {"$group": {
-            "_id": "$doctor.doctor_id",                  # group by id, not name - two doctors can share a name
+            "_id": "$doctor.doctor_id",    # id not name, two doctors could have the same name
             "name": {"$first": "$doctor.name"},
             "specialty": {"$first": "$doctor.specialty"},
             "average_rating": {"$avg": "$feedback.rating"},
@@ -65,35 +61,34 @@ def doctor_ratings():
     return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
 
 
-# ANALYTICS - consultations per month, with how many were completed and cancelled
+# consultations per month, with completed and cancelled counts
 @analytics_bp.route("/api/v1.0/analytics/monthly", methods=["GET"])
 @jwt_required
 @role_required("admin")
 def consultations_per_month():
     pipeline = [
         {"$group": {
-            # dates are "2026-03-17" - the first 7 characters are the month "2026-03"
+            # first 7 characters of the date is the month, eg 2026-03
             "_id": {"$substrBytes": ["$appointment.date", 0, 7]},
             "total": {"$sum": 1},
-            # $cond is an if/else - add 1 if the status matches, otherwise 0
+            # $cond works like an if/else
             "completed": {"$sum": {"$cond": [{"$eq": ["$appointment.status", "completed"]}, 1, 0]}},
             "cancelled": {"$sum": {"$cond": [{"$eq": ["$appointment.status", "cancelled"]}, 1, 0]}}
         }},
-        {"$sort": {"_id": 1}},                           # January first
+        {"$sort": {"_id": 1}},
         {"$project": {"_id": 0, "month": "$_id", "total": 1, "completed": 1, "cancelled": 1}}
     ]
 
     return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
 
 
-# ANALYTICS - most prescribed medicines (optionally for one specialty)
-# e.g. /api/v1.0/analytics/top-medicines?limit=5&specialty=Cardiology
+# most prescribed medicines, can filter by specialty
 @analytics_bp.route("/api/v1.0/analytics/top-medicines", methods=["GET"])
 @jwt_required
 @role_required("admin")
 def top_medicines():
     try:
-        limit = int(request.args.get('limit', 5))      # top 5 if not sent
+        limit = int(request.args.get('limit', 5))    # default 5
     except ValueError:
         return make_response(jsonify({"error": "limit must be a whole number"}), 400)
     if limit < 1 or limit > 50:
@@ -104,13 +99,13 @@ def top_medicines():
         pipeline.append({"$match": {"doctor.specialty": request.args.get('specialty').strip()}})
 
     pipeline += [
-        {"$unwind": "$prescriptions"},                   # one row per prescription
+        {"$unwind": "$prescriptions"},
         {"$group": {
-            "_id": "$prescriptions.medicine",            # group rows with the same medicine
+            "_id": "$prescriptions.medicine",
             "times_prescribed": {"$sum": 1},
             "average_days": {"$avg": "$prescriptions.duration_days"}
         }},
-        {"$sort": {"times_prescribed": -1}},             # most prescribed first
+        {"$sort": {"times_prescribed": -1}},
         {"$limit": limit},
         {"$project": {"_id": 0, "medicine": "$_id", "times_prescribed": 1,
                       "average_days": {"$round": ["$average_days", 1]}}}
@@ -119,7 +114,7 @@ def top_medicines():
     return make_response(jsonify(list(consultations.aggregate(pipeline))), 200)
 
 
-# ANALYTICS - peak booking times: busiest days of the week and busiest time slots
+# busiest days and time slots
 @analytics_bp.route("/api/v1.0/analytics/peak-times", methods=["GET"])
 @jwt_required
 @role_required("admin")
@@ -127,18 +122,18 @@ def peak_times():
     day_names = ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
     pipeline = [
-        # cancelled appointments didn't happen, so don't count them
+        # don't count cancelled ones
         {"$match": {"appointment.status": {"$ne": "cancelled"}}},
-        # $facet runs two separate pipelines on the same data and returns both results together
+        # $facet runs two pipelines at once
         {"$facet": {
             "busiest_days": [
-                # turn the text date into a real date, then get the day of the week (1 = Sunday ... 7 = Saturday)
+                # day of week from the date (1 = Sunday)
                 {"$group": {
                     "_id": {"$dayOfWeek": {"$dateFromString": {
                         "dateString": "$appointment.date", "onError": None, "onNull": None}}},
                     "bookings": {"$sum": 1}
                 }},
-                {"$match": {"_id": {"$ne": None}}},      # skip any dates that couldn't be read
+                {"$match": {"_id": {"$ne": None}}},
                 {"$sort": {"bookings": -1}},
                 {"$project": {"_id": 0, "day": {"$arrayElemAt": [day_names, "$_id"]}, "bookings": 1}}
             ],
@@ -151,6 +146,5 @@ def peak_times():
         }}
     ]
 
-    # $facet always returns one document holding both lists
     result = list(consultations.aggregate(pipeline))[0]
     return make_response(jsonify(result), 200)

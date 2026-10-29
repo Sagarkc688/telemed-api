@@ -1,21 +1,20 @@
 from pymongo import MongoClient
 
-# shared by every file - the database connection, secret key and fixed values
 
-# connect to my telemedicine database (capital T - must match Compass exactly)
 client = MongoClient("mongodb://localhost:27017")
 db = client.TelemedDB
 
-secret_key = 'telemed-api-secret-key-change-me-2026'    # signs the tokens - in a real app this would be kept secret
+# used to sign the tokens
+secret_key = 'telemed-api-secret-key-change-me-2026'
 
-# fixed values used for checking input - tuples because they never change
+# tuples because these never change
 SPECIALTIES = ("General Practice", "Dermatology", "Cardiology", "Paediatrics", "Mental Health", "Respiratory")
 
-# symptoms that need emergency help straight away (lower case so the check ignores capitals)
+# symptoms that need a 999 call (lower case for checking)
 EMERGENCY_SYMPTOMS = ("chest pain", "difficulty breathing", "severe bleeding", "loss of consciousness",
                       "stroke symptoms", "severe allergic reaction", "suicidal thoughts")
 
-# city coordinates [longitude, latitude] - same as in mygenerator.py
+# [longitude, latitude]
 CITIES = {
     "Belfast": [-5.9301, 54.5973],
     "Derry": [-7.3086, 54.9966],
