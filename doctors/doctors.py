@@ -13,11 +13,14 @@ doctors_bp = Blueprint("doctors_bp", __name__)
 # eg /api/v1.0/doctors?specialty=Dermatology&city=Belfast&accepting=true
 @doctors_bp.route("/api/v1.0/doctors", methods=["GET"])
 def show_all_doctors():
-    page_num, page_size = 1, 5
-    if request.args.get('pn'):
-        page_num = int(request.args.get('pn'))
-    if request.args.get('ps'):
-        page_size = int(request.args.get('ps'))
+    # page number and page size must be whole numbers
+    try:
+        page_num = int(request.args.get('pn', 1))
+        page_size = int(request.args.get('ps', 5))
+    except ValueError:
+        return make_response(jsonify({"error": "pn and ps must be whole numbers"}), 400)
+    if page_num < 1 or page_size < 1 or page_size > 50:
+        return make_response(jsonify({"error": "pn must be 1 or more and ps between 1 and 50"}), 400)
     page_start = page_size * (page_num - 1)
 
     # only add the filters that were sent
