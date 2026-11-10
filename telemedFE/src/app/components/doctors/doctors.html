@@ -1,0 +1,42 @@
+<div class="container">
+    <h2 class="mb-3">Find a Doctor</h2>
+
+    <div class="row">
+        @for (doctor of doctor_list; track doctor.doctor_id) {
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card doctor-card">
+                    <div class="card-header tm-gradient">
+                        {{ doctor.name }}
+                    </div>
+                    <div class="card-body">
+                        <span class="badge mb-2 {{ specialtyClass(doctor.specialty) }}">
+                            {{ doctor.specialty }}
+                        </span>
+                        <p class="small mb-1">{{ doctor.clinic.name }}, {{ doctor.clinic.city }}</p>
+                        <p class="small mb-1">{{ doctor.years_experience }} years experience</p>
+                        <p class="small mb-0">Available: {{ doctor.available_days.join(', ') }}</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        @if (doctor.accepting_patients) {
+                            <span class="badge bg-success">Accepting new patients</span>
+                        } @else {
+                            <span class="badge bg-secondary">Not accepting patients</span>
+                        }
+                    </div>
+                </div>
+            </div> <!-- col -->
+        }
+    </div>     <!-- row -->
+
+    <div class="row mb-4">
+        <div class="col-4">
+            <button class="btn btn-tm" (click)="previousPage()">Previous</button>
+        </div>
+        <div class="col-4 text-center align-self-center">
+            Page {{ page }} of {{ doctorData.getLastPageNumber() }}
+        </div>
+        <div class="col-4 text-end">
+            <button class="btn btn-tm" (click)="nextPage()">Next</button>
+        </div>
+    </div>     <!-- row -->
+</div>         <!-- container -->

@@ -1,0 +1,19 @@
+.doctor-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(59, 52, 134, 0.12);
+  height: 100%;
+}
+
+.doctor-card .card-header {
+  border-radius: 12px 12px 0 0;
+  font-weight: 600;
+}
+
+/* one colour per specialty */
+.spec-general-practice { background-color: #6a8dff; }
+.spec-dermatology      { background-color: #f28fb3; }
+.spec-cardiology       { background-color: #e5636b; }
+.spec-paediatrics      { background-color: #f5a65b; }
+.spec-mental-health    { background-color: #a66cff; }
+.spec-respiratory      { background-color: #3fb5a8; }

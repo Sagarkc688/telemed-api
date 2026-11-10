@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+/* Telemedicine theme - soft blue and purple */
+:root {
+  --tm-blue: #6a8dff;
+  --tm-purple: #a66cff;
+  --tm-dark: #3b3486;
+  --tm-light: #f4f3ff;
+}
+
+body {
+  background-color: var(--tm-light);
+  color: #2d2a4a;
+}
+
+.tm-gradient {
+  background: linear-gradient(135deg, var(--tm-blue), var(--tm-purple));
+  color: white;
+}
+
+.btn-tm {
+  background: linear-gradient(135deg, var(--tm-blue), var(--tm-purple));
+  color: white;
+  border: none;
+}
+
+.btn-tm:hover {
+  opacity: 0.9;
+  color: white;
+}
