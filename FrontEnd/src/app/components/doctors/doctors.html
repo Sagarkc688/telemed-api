@@ -1,5 +1,11 @@
-<div class="container">
-    <h2 class="mb-3">Find a Doctor</h2>
+<div class="container py-4">
+
+    @if (specialty) {
+        <h2 class="mb-1">{{ specialty }} doctors</h2>
+        <p class="mb-3"><a [routerLink]="['/doctors']">Show all doctors</a></p>
+    } @else {
+        <h2 class="mb-3">Find a Doctor</h2>
+    }
 
     <div class="row">
         @for (doctor of doctor_list; track doctor.doctor_id) {
@@ -9,7 +15,7 @@
                         {{ doctor.name }}
                     </div>
                     <div class="card-body">
-                        <span class="badge mb-2 {{ specialtyClass(doctor.specialty) }}">
+                        <span class="badge mb-2 {{ doctorData.specialtyClass(doctor.specialty) }}">
                             {{ doctor.specialty }}
                         </span>
                         <p class="small mb-1">{{ doctor.clinic.name }}, {{ doctor.clinic.city }}</p>
@@ -33,7 +39,7 @@
             <button class="btn btn-tm" (click)="previousPage()">Previous</button>
         </div>
         <div class="col-4 text-center align-self-center">
-            Page {{ page }} of {{ doctorData.getLastPageNumber() }}
+            Page {{ page }} of {{ doctorData.getLastPageNumber(specialty) }}
         </div>
         <div class="col-4 text-end">
             <button class="btn btn-tm" (click)="nextPage()">Next</button>

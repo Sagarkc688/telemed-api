@@ -1,0 +1,11 @@
+.doctor-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(59, 52, 134, 0.12);
+  height: 100%;
+}
+
+.doctor-card .card-header {
+  border-radius: 12px 12px 0 0;
+  font-weight: 600;
+}

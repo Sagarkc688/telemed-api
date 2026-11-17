@@ -1,0 +1,31 @@
+<div class="tm-gradient py-5 mb-4">
+    <div class="container">
+        <h1 class="fw-bold">Telemedicine</h1>
+        <p class="lead mb-0">See a doctor online by video or phone, without leaving home.</p>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="h4 mb-3">What do you need help with?</h2>
+
+    <div class="row">
+        @for (specialty of specialties; track specialty.name) {
+            <div class="col-6 col-md-4 mb-4">
+                <a class="specialty-tile {{ doctorData.specialtyClass(specialty.name) }}"
+                   [routerLink]="['/doctors']"
+                   [queryParams]="{ specialty: specialty.name }">
+                    <span class="tile-icon" aria-hidden="true">{{ specialty.icon }}</span>
+                    <span class="tile-name">{{ specialty.name }}</span>
+                    <span class="tile-text">{{ specialty.text }}</span>
+                    <span class="tile-count">
+                        {{ doctorData.filterDoctors(specialty.name).length }} doctors
+                    </span>
+                </a>
+            </div>
+        }
+    </div>
+
+    <p class="text-center mb-5">
+        <a class="btn btn-tm" [routerLink]="['/doctors']">See all doctors</a>
+    </p>
+</div>

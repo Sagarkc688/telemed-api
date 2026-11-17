@@ -1,0 +1,22 @@
+.specialty-tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(59, 52, 134, 0.15);
+  transition: transform 0.2s;
+}
+
+.specialty-tile:hover,
+.specialty-tile:focus {
+  transform: translateY(-4px);
+  color: white;
+}
+
+.tile-icon  { font-size: 2rem; margin-bottom: 8px; }
+.tile-name  { font-weight: 600; font-size: 1.1rem; }
+.tile-text  { font-size: 0.85rem; opacity: 0.9; }
+.tile-count { margin-top: 12px; font-size: 0.8rem; font-weight: 600; }
