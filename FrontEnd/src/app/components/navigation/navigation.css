@@ -1,0 +1,49 @@
+.tm-navbar {
+  box-shadow: 0 2px 12px rgba(59, 52, 134, 0.25);
+}
+
+.tm-brand,
+.tm-brand:hover {
+  color: white;
+  font-weight: 700;
+}
+
+/* links are white "pills" */
+.tm-navbar .nav-link {
+  color: white;
+  font-weight: 500;
+  padding: 6px 16px;
+  margin-left: 4px;
+  border-radius: 999px;
+}
+.tm-navbar .nav-link:hover,
+.tm-navbar .nav-link:focus {
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* the page you are on */
+.tm-navbar .nav-link.active {
+  color: var(--tm-dark);
+  background: white;
+  font-weight: 600;
+}
+
+.tm-toggler {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* hidden until a keyboard user presses Tab */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 8px;
+  z-index: 2000;
+  background: white;
+  color: var(--tm-dark);
+  padding: 8px 16px;
+  border-radius: 8px;
+}

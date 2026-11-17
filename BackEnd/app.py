@@ -1,4 +1,5 @@
 from flask import Flask, make_response
+from flask_cors import CORS
 import globals
 
 from auth.auth import auth_bp
@@ -8,7 +9,7 @@ from doctors.doctors import doctors_bp
 from analytics.analytics import analytics_bp
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = globals.secret_key
+CORS(app)    # let the Angular front end (localhost:4200) call this APIapp.config['SECRET_KEY'] = globals.secret_key
 
 # register the blueprints
 app.register_blueprint(auth_bp)

@@ -1,49 +1,50 @@
 <div class="container py-4">
 
-    @if (specialty) {
-        <h2 class="mb-1">{{ specialty }} doctors</h2>
-        <p class="mb-3"><a [routerLink]="['/doctors']">Show all doctors</a></p>
-    } @else {
-        <h2 class="mb-3">Find a Doctor</h2>
+  @if (specialty) {
+    <h1>{{ specialty }} doctors</h1>
+    <a routerLink="/doctors" class="back-link">Show all doctors</a>
+  } @else {
+    <h1>Find a Doctor</h1>
+  }
+
+  @if (loading) {
+    <p class="mt-4" role="status">Loading doctors…</p>
+  } @else if (errorMessage) {
+    <div class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</div>
+  } @else {
+    <p class="text-muted mt-2">{{ doctor_list.length }} doctors found</p>
+
+    @if (doctor_list.length == 0) {
+      <p>No doctors found for this specialty.</p>
     }
 
-    <div class="row">
-        @for (doctor of doctor_list; track doctor.doctor_id) {
-            <div class="col-sm-6 col-lg-3 mb-4">
-                <div class="card doctor-card">
-                    <div class="card-header tm-gradient">
-                        <a [routerLink]="['/doctors', doctor.doctor_id]"
-   class="stretched-link text-white text-decoration-none">{{ doctor.name }}</a>
-                    </div>
-                    <div class="card-body">
-                        <span class="badge mb-2 {{ doctorData.specialtyClass(doctor.specialty) }}">
-                            {{ doctor.specialty }}
-                        </span>
-                        <p class="small mb-1">{{ doctor.clinic.name }}, {{ doctor.clinic.city }}</p>
-                        <p class="small mb-1">{{ doctor.years_experience }} years experience</p>
-                        <p class="small mb-0">Available: {{ doctor.available_days.join(', ') }}</p>
-                    </div>
-                    <div class="card-footer bg-white">
-                        @if (doctor.accepting_patients) {
-                            <span class="badge bg-success">Accepting new patients</span>
-                        } @else {
-                            <span class="badge bg-secondary">Not accepting patients</span>
-                        }
-                    </div>
-                </div>
-            </div> <!-- col -->
-        }
-    </div>     <!-- row -->
+    <div class="row g-4">
+      @for (doctor of doctor_list; track doctor._id) {
+        <div class="col-sm-6 col-lg-3">
+          <div class="card doctor-card">
+            <div class="card-header tm-gradient">
+              <a [routerLink]="['/doctors', doctor.doctor_id]"
+                 class="stretched-link text-white text-decoration-none">{{ doctor.name }}</a>
+            </div>
+            <div class="card-body">
+              <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }} mb-2">
+                {{ doctor.specialty }}
+              </span>
+              <p class="mb-1">{{ doctor.clinic.name }}, {{ doctor.clinic.city }}</p>
+              <p class="mb-1">{{ doctor.years_experience }} years experience</p>
+              <p class="mb-0">Available: {{ doctor.available_days.join(', ') }}</p>
+            </div>
+            <div class="card-footer bg-white">
+              @if (doctor.accepting_patients) {
+                <span class="badge bg-success">Accepting new patients</span>
+              } @else {
+                <span class="badge bg-secondary">Not accepting patients</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
 
-    <div class="row mb-4">
-        <div class="col-4">
-            <button class="btn btn-tm" (click)="previousPage()">Previous</button>
-        </div>
-        <div class="col-4 text-center align-self-center">
-            Page {{ page }} of {{ doctorData.getLastPageNumber(specialty) }}
-        </div>
-        <div class="col-4 text-end">
-            <button class="btn btn-tm" (click)="nextPage()">Next</button>
-        </div>
-    </div>     <!-- row -->
-</div>         <!-- container -->
+</div>

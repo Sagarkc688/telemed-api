@@ -1,0 +1,38 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<nav class="navbar navbar-expand-md tm-gradient tm-navbar sticky-top"
+     data-bs-theme="dark" aria-label="Main navigation">
+  <div class="container">
+
+    <a class="navbar-brand tm-brand" routerLink="/" (click)="closeMenu()">
+      <span aria-hidden="true">🩺</span> Telemedicine
+    </a>
+
+    <button class="navbar-toggler tm-toggler" type="button"
+            (click)="toggleMenu()"
+            [attr.aria-expanded]="menuOpen"
+            aria-controls="mainMenu"
+            aria-label="Toggle navigation menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainMenu" [class.show]="menuOpen">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }"
+             ariaCurrentWhenActive="page"
+             (click)="closeMenu()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/doctors"
+             routerLinkActive="active"
+             ariaCurrentWhenActive="page"
+             (click)="closeMenu()">Find a Doctor</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
