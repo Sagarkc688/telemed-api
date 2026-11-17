@@ -36,9 +36,9 @@
             </div>
             <div class="card-footer bg-white">
               @if (doctor.accepting_patients) {
-                <span class="badge bg-success">Accepting new patients</span>
+                <span class="badge status-yes"><span aria-hidden="true">✓</span> Accepting new patients</span>
               } @else {
-                <span class="badge bg-secondary">Not accepting patients</span>
+                <span class="badge status-no"><span aria-hidden="true">✕</span> Not accepting patients</span>
               }
             </div>
           </div>

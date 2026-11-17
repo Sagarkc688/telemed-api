@@ -1,22 +1,171 @@
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, var(--tm-mint), #ccfbf1);
+  border-bottom: 1px solid #d5efe9;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: white;
+  color: var(--tm-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 4px rgba(19, 78, 74, 0.1);
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);   /* grows with the screen, min 2rem, max 3.2rem */
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--tm-text);
+}
+.hero-title span {
+  color: var(--tm-primary);
+}
+
+.hero-lead {
+  font-size: 1.2rem;
+  color: #374151;
+  margin: 16px 0 28px;
+}
+
+.hero-stats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 0;
+  margin: 32px 0 0;
+  color: #374151;
+}
+.hero-stats strong {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--tm-dark);
+}
+
+/* decorative video call card */
+.hero-card {
+  background: white;
+  border-radius: 24px;
+  border-top: 6px solid var(--tm-accent);
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(19, 78, 74, 0.15);
+}
+.hero-card-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--tm-mint);
+  color: var(--tm-dark);
+  font-weight: 600;
+}
+.hero-avatar {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--tm-primary);
+  color: white;
+  font-size: 2.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+.hero-call {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+.call-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e5f3f1;
+  color: var(--tm-dark);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.call-btn.end {
+  background: #dc2626;
+  color: white;
+}
+
+/* ===== SPECIALTY TILES (compact) ===== */
+.section-heading {
+  font-weight: 700;
+}
+
 .specialty-tile {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   height: 100%;
-  padding: 20px;
-  border-radius: 16px;
-  color: white;
+  padding: 16px 18px;
+  background: white;               /* overrides the strong spec colour */
+  color: var(--tm-text);
   text-decoration: none;
-  box-shadow: 0 4px 12px rgba(59, 52, 134, 0.15);
-  transition: transform 0.2s;
+  border: 1px solid #e2ece9;
+  border-left: 5px solid var(--spec);
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(19, 78, 74, 0.06);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
-
 .specialty-tile:hover,
-.specialty-tile:focus {
-  transform: translateY(-4px);
-  color: white;
+.specialty-tile:focus-visible {
+  color: var(--tm-text);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(19, 78, 74, 0.14);
 }
 
-.tile-icon  { font-size: 2rem; margin-bottom: 8px; }
-.tile-name  { font-weight: 600; font-size: 1.1rem; }
-.tile-text  { font-size: 0.85rem; opacity: 0.9; }
-.tile-count { margin-top: 12px; font-size: 0.8rem; font-weight: 600; }
+.tile-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--spec-soft);
+  color: var(--spec);              /* icon drawn in the specialty colour */
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.tile-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.tile-text {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.tile-arrow {
+  color: var(--spec);
+  font-size: 1.1rem;
+}

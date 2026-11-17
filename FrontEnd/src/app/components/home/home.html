@@ -1,31 +1,66 @@
-<div class="tm-gradient py-5 mb-4">
-    <div class="container">
-        <h1 class="fw-bold">Feeling unwell? Talk to a doctor today.</h1>
-        <p class="lead mb-0">See a doctor online by video or phone, without leaving home.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-7">
+        <span class="hero-tag">
+          <i class="bi bi-camera-video" aria-hidden="true"></i> Online appointments
+        </span>
+        <h1 class="hero-title">
+          Feeling unwell?<br>
+          <span>Talk to a doctor today.</span>
+        </h1>
+        <p class="hero-lead">See a GP or specialist by video or phone, without leaving home.</p>
+        <a routerLink="/doctors" class="btn btn-tm btn-lg">Find a doctor</a>
+
+        <ul class="hero-stats">
+          <li><strong>{{ doctorData.filterDoctors().length }}</strong> doctors</li>
+          <li><strong>{{ specialties.length }}</strong> specialties</li>
+          <li><strong>Video</strong> or phone</li>
+        </ul>
+      </div>
+
+      <!-- decorative "video call" card - hidden from screen readers -->
+      <div class="col-lg-5 d-none d-lg-block" aria-hidden="true">
+        <div class="hero-card">
+          <div class="hero-card-top"><i class="bi bi-camera-video-fill"></i> Video consultation</div>
+          <div class="hero-avatar"><i class="bi bi-person-fill"></i></div>
+          <div class="fw-bold fs-5">Your doctor</div>
+          <div class="small text-muted"><span class="live-dot"></span> Connected</div>
+          <div class="hero-call">
+            <span class="call-btn"><i class="bi bi-mic-fill"></i></span>
+            <span class="call-btn end"><i class="bi bi-telephone-x-fill"></i></span>
+            <span class="call-btn"><i class="bi bi-camera-video-fill"></i></span>
+          </div>
+        </div>
+      </div>
+
     </div>
-</div>
+  </div>
+</section>
 
-<div class="container">
-    <h2 class="h4 mb-3">What do you need help with?</h2>
+<!-- SPECIALTIES -->
+<section class="container py-5">
+  <h2 class="section-heading">What do you need help with?</h2>
+  <p class="text-muted mb-4">Choose a specialty to see doctors who can help.</p>
 
-    <div class="row">
-        @for (specialty of specialties; track specialty.name) {
-            <div class="col-6 col-md-4 mb-4">
-                <a class="specialty-tile {{ doctorData.specialtyClass(specialty.name) }}"
-                   [routerLink]="['/doctors']"
-                   [queryParams]="{ specialty: specialty.name }">
-                    <span class="tile-icon" aria-hidden="true">{{ specialty.icon }}</span>
-                    <span class="tile-name">{{ specialty.name }}</span>
-                    <span class="tile-text">{{ specialty.text }}</span>
-                    <span class="tile-count">
-                        {{ doctorData.filterDoctors(specialty.name).length }} doctors
-                    </span>
-                </a>
-            </div>
-        }
-    </div>
-
-    <p class="text-center mb-5">
-        <a class="btn btn-tm" [routerLink]="['/doctors']">See all doctors</a>
-    </p>
-</div>
+  <div class="row g-3">
+    @for (specialty of specialties; track specialty.name) {
+      <div class="col-md-6 col-lg-4">
+        <a class="specialty-tile {{ doctorData.specialtyClass(specialty.name) }}"
+           [routerLink]="['/doctors']"
+           [queryParams]="{ specialty: specialty.name }">
+          <span class="tile-icon" aria-hidden="true"><i class="bi {{ specialty.icon }}"></i></span>
+          <span class="tile-body">
+            <span class="tile-name">{{ specialty.name }}</span>
+            <span class="tile-text">
+              {{ specialty.text }} · {{ doctorData.filterDoctors(specialty.name).length }} doctors
+            </span>
+          </span>
+          <i class="bi bi-chevron-right tile-arrow" aria-hidden="true"></i>
+        </a>
+      </div>
+    }
+  </div>
+</section>

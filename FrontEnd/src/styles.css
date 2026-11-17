@@ -1,40 +1,36 @@
-/* Telemedicine theme - soft blue and purple */
+/* ===== Theme colours - Calm teal, all checked for WCAG AA (4.5:1+) ===== */
 :root {
-  --tm-blue: #6a8dff;
-  --tm-purple: #a66cff;
-  --tm-dark: #3b3486;
-  --tm-light: #f4f3ff;
+  --tm-primary: #0f766e;   /* teal - white text 5.5:1 */
+  --tm-dark: #134e4a;      /* deep teal - white text 9.5:1 */
+  --tm-mint: #f0fdfa;      /* soft mint backgrounds */
+  --tm-accent: #f59e0b;    /* amber - decoration only, never for text */
+  --tm-light: #f7faf9;     /* page background */
+  --tm-text: #1c2b2a;      /* body text 14:1 */
+  --bs-secondary-color: #4b5563;   /* darker grey for Bootstrap's .text-muted */
 }
 
 body {
   background-color: var(--tm-light);
-  color: #2d2a4a;
+  color: var(--tm-text);
 }
 
+/* dark teal bars - navbar, card headers, profile header */
 .tm-gradient {
-  background: linear-gradient(135deg, var(--tm-blue), var(--tm-purple));
+  background: linear-gradient(135deg, var(--tm-dark), var(--tm-primary));
   color: white;
 }
 
+/* main button - uses Bootstrap's own button variables */
 .btn-tm {
-  background: linear-gradient(135deg, var(--tm-blue), var(--tm-purple));
-  border: none;
+  --bs-btn-bg: var(--tm-primary);
+  --bs-btn-border-color: var(--tm-primary);
   --bs-btn-color: white;
+  --bs-btn-hover-bg: var(--tm-dark);
+  --bs-btn-hover-border-color: var(--tm-dark);
   --bs-btn-hover-color: white;
+  --bs-btn-active-bg: var(--tm-dark);
   --bs-btn-active-color: white;
 }
-
-.btn-tm:hover {
-  opacity: 0.9;
-}
-
-/* one colour per specialty - dark enough for white text */
-.spec-general-practice { background-color: #4f6fe0; }
-.spec-dermatology      { background-color: #c2457a; }
-.spec-cardiology       { background-color: #c9303a; }
-.spec-paediatrics      { background-color: #b8620f; }
-.spec-mental-health    { background-color: #7c4ddb; }
-.spec-respiratory      { background-color: #1f8a7e; }
 
 /* .btn.btn-tm is stronger than Bootstrap's .btn, so the text stays white */
 .btn.btn-tm,
@@ -42,4 +38,45 @@ body {
 .btn.btn-tm:focus,
 .btn.btn-tm:active {
   color: white;
+}
+
+/* ===== Keyboard focus - always clearly visible ===== */
+:focus-visible {
+  outline: 3px solid var(--tm-text);
+  outline-offset: 2px;
+}
+/* on dark backgrounds use a bright amber ring instead */
+.tm-gradient :focus-visible {
+  outline-color: #fbbf24;
+}
+
+/* ===== Specialties: STRONG colour (badges, 5.3:1+ with white)
+         and SOFT colour (light icon backgrounds) ===== */
+/* colour is never the only clue - the name and icon are always shown */
+.spec-general-practice { --spec: #1d4ed8; --spec-soft: #dbeafe; }
+.spec-dermatology      { --spec: #9d174d; --spec-soft: #fce7f3; }
+.spec-cardiology       { --spec: #b91c1c; --spec-soft: #fee2e2; }
+.spec-paediatrics      { --spec: #92400e; --spec-soft: #ffedd5; }
+.spec-mental-health    { --spec: #6d28d9; --spec-soft: #ede9fe; }
+.spec-respiratory      { --spec: #0e7490; --spec-soft: #cffafe; }
+
+/* anything with a spec- class gets the strong colour by default */
+[class*="spec-"] {
+  background-color: var(--spec);
+  color: white;
+}
+
+/* ===== Accepting patients - icon + text, not colour alone ===== */
+.status-yes { background-color: #166534; color: white; }
+.status-no  { background-color: #4b5563; color: white; }
+
+/* ===== "Back" style links used on several pages ===== */
+.back-link {
+  color: var(--tm-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+.back-link:hover,
+.back-link:focus {
+  text-decoration: underline;
 }

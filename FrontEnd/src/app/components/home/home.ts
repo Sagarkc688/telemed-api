@@ -10,16 +10,15 @@ import { DoctorData } from '../../services/doctor-data';
   styleUrl: './home.css'
 })
 export class Home {
-
+  // icon = a Bootstrap Icons class name
   specialties = [
-    { name: 'General Practice', icon: '🩺', text: 'Everyday health problems' },
-    { name: 'Dermatology',      icon: '🧴', text: 'Skin, rashes and acne' },
-    { name: 'Cardiology',       icon: '❤️', text: 'Heart and blood pressure' },
-    { name: 'Paediatrics',      icon: '🧸', text: 'Care for children' },
-    { name: 'Mental Health',    icon: '🧠', text: 'Anxiety, mood and sleep' },
-    { name: 'Respiratory',      icon: '🫁', text: 'Breathing and chest problems' }
+    { name: 'General Practice', icon: 'bi-clipboard2-pulse', text: 'Everyday health problems' },
+    { name: 'Dermatology',      icon: 'bi-bandaid',          text: 'Skin, rashes and acne' },
+    { name: 'Cardiology',       icon: 'bi-heart-pulse',      text: 'Heart and blood pressure' },
+    { name: 'Paediatrics',      icon: 'bi-emoji-smile',      text: 'Care for children' },
+    { name: 'Mental Health',    icon: 'bi-chat-heart',       text: 'Anxiety, mood and sleep' },
+    { name: 'Respiratory',      icon: 'bi-lungs',            text: 'Breathing and chest problems' }
   ];
 
   constructor(protected doctorData: DoctorData) {}
-
 }

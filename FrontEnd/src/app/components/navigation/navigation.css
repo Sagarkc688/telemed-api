@@ -47,3 +47,16 @@
   padding: 8px 16px;
   border-radius: 8px;
 }
+
+/* white circle so the dark emoji shows on the dark bar */
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: white;
+  color: var(--tm-primary);   /* teal icon in the white circle */
+}
