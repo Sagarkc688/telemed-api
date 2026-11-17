@@ -26,6 +26,11 @@ export class DoctorData {
     return Math.ceil(this.filterDoctors(specialty).length / this.pageSize);
   }
 
+    // Find ONE doctor by their id, e.g. "D101"
+  getDoctor(id: string) {
+    return jsonData.find(doctor => doctor.doctor_id == id);
+  }
+
   // "Mental Health" -> "spec-mental-health" (colour classes in styles.css)
   specialtyClass(specialty: string) {
     return 'spec-' + specialty.toLowerCase().replace(/ /g, '-');

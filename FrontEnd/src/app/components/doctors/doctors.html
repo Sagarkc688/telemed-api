@@ -12,7 +12,8 @@
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card doctor-card">
                     <div class="card-header tm-gradient">
-                        {{ doctor.name }}
+                        <a [routerLink]="['/doctors', doctor.doctor_id]"
+   class="stretched-link text-white text-decoration-none">{{ doctor.name }}</a>
                     </div>
                     <div class="card-body">
                         <span class="badge mb-2 {{ doctorData.specialtyClass(doctor.specialty) }}">

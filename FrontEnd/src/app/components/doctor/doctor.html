@@ -1,0 +1,85 @@
+@if (doctor) {
+  <div class="container py-4">
+    <a routerLink="/doctors" class="back-link">← Back to doctors</a>
+
+    <div class="row g-4 mt-1">
+
+      <!-- LEFT: the doctor -->
+      <div class="col-lg-7">
+        <div class="profile-card">
+          <div class="profile-top tm-gradient">
+            <div class="avatar" aria-hidden="true">{{ initials }}</div>
+            <div>
+              <h1 class="h3 mb-2">{{ doctor.name }}</h1>
+              <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }}">
+                {{ doctor.specialty }}
+              </span>
+            </div>
+          </div>
+
+          <div class="p-4">
+            <div class="row text-center mb-4">
+              <div class="col-4">
+                <div class="stat-number">{{ doctor.years_experience }}</div>
+                <div class="stat-label">years experience</div>
+              </div>
+              <div class="col-4">
+                <div class="stat-number">{{ doctor.available_days.length }}</div>
+                <div class="stat-label">days a week</div>
+              </div>
+              <div class="col-4">
+                @if (doctor.accepting_patients) {
+                  <div class="stat-number text-success">✓</div>
+                  <div class="stat-label">accepting patients</div>
+                } @else {
+                  <div class="stat-number text-secondary">✕</div>
+                  <div class="stat-label">not accepting</div>
+                }
+              </div>
+            </div>
+
+            <h2 class="section-title">Weekly availability</h2>
+            <div class="day-row">
+              @for (day of weekDays; track day) {
+                <span class="day-chip" [class.available]="isAvailable(day)">
+                  {{ day }}
+                  <span class="visually-hidden">
+                    {{ isAvailable(day) ? 'available' : 'not available' }}
+                  </span>
+                </span>
+              }
+            </div>
+
+            <p class="small text-muted mt-4 mb-0">GMC number: {{ doctor.gmc_number }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: the clinic -->
+      <div class="col-lg-5">
+        <div class="clinic-card">
+          <div class="p-4">
+            <h2 class="h5 mb-1">🏥 {{ doctor.clinic.name }}</h2>
+            <p class="text-muted mb-0">{{ doctor.clinic.city }}</p>
+          </div>
+
+          @if (mapUrl) {
+            <iframe class="clinic-map" [src]="mapUrl" loading="lazy"
+                    title="Map showing the location of {{ doctor.clinic.name }}"></iframe>
+          }
+
+          <div class="p-3">
+            <a class="btn btn-tm w-100" [href]="directionsUrl"
+               target="_blank" rel="noopener">Open in OpenStreetMap ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+} @else {
+  <div class="container py-5 text-center">
+    <h2>Sorry, we couldn't find that doctor</h2>
+    <a routerLink="/doctors" class="btn btn-tm mt-3">Back to doctors</a>
+  </div>
+}

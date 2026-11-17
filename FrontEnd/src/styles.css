@@ -18,13 +18,14 @@ body {
 
 .btn-tm {
   background: linear-gradient(135deg, var(--tm-blue), var(--tm-purple));
-  color: white;
   border: none;
+  --bs-btn-color: white;
+  --bs-btn-hover-color: white;
+  --bs-btn-active-color: white;
 }
 
 .btn-tm:hover {
   opacity: 0.9;
-  color: white;
 }
 
 /* one colour per specialty - dark enough for white text */
@@ -34,3 +35,11 @@ body {
 .spec-paediatrics      { background-color: #b8620f; }
 .spec-mental-health    { background-color: #7c4ddb; }
 .spec-respiratory      { background-color: #1f8a7e; }
+
+/* .btn.btn-tm is stronger than Bootstrap's .btn, so the text stays white */
+.btn.btn-tm,
+.btn.btn-tm:hover,
+.btn.btn-tm:focus,
+.btn.btn-tm:active {
+  color: white;
+}
