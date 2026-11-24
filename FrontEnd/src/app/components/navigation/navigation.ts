@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-navigation',
@@ -10,13 +11,27 @@ import { RouterModule } from '@angular/router';
 export class Navigation {
   menuOpen: boolean = false;
 
-  // ☰ button: open if closed, close if open
+  constructor(protected auth: Auth, protected router: Router) {}
+
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  // close the phone menu after a link is clicked
   closeMenu() {
     this.menuOpen = false;
+  }
+
+  // the page to come back to after logging in - never the login page itself
+  returnUrl() {
+    return this.router.url.startsWith('/login') ? '/' : this.router.url;
+  }
+
+  logout() {
+    this.closeMenu();
+    // go home whether the API call works or not (the token is forgotten either way)
+    this.auth.logout().subscribe({
+      complete: () => this.router.navigate(['/']),
+      error: () => this.router.navigate(['/'])
+    });
   }
 }

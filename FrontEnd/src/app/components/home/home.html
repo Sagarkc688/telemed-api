@@ -3,7 +3,7 @@
   <div class="container py-5">
     <div class="row align-items-center g-5">
 
-      <div class="col-lg-7">
+      <div class="col-lg-6">
         <span class="hero-tag">
           <i class="bi bi-camera-video" aria-hidden="true"></i> Online appointments
         </span>
@@ -12,7 +12,7 @@
           <span>Talk to a doctor today.</span>
         </h1>
         <p class="hero-lead">See a GP or specialist by video or phone, without leaving home.</p>
-        <a routerLink="/doctors" class="btn btn-tm btn-lg">Find a doctor</a>
+        <a routerLink="/doctors" class="btn btn-tm btn-lg hero-btn">Find a doctor</a>
 
         <ul class="hero-stats">
           <li><strong>{{ doctorData.filterDoctors().length }}</strong> doctors</li>
@@ -21,18 +21,21 @@
         </ul>
       </div>
 
-      <!-- decorative "video call" card - hidden from screen readers -->
-      <div class="col-lg-5 d-none d-lg-block" aria-hidden="true">
-        <div class="hero-card">
-          <div class="hero-card-top"><i class="bi bi-camera-video-fill"></i> Video consultation</div>
-          <div class="hero-avatar"><i class="bi bi-person-fill"></i></div>
-          <div class="fw-bold fs-5">Your doctor</div>
-          <div class="small text-muted"><span class="live-dot"></span> Connected</div>
-          <div class="hero-call">
-            <span class="call-btn"><i class="bi bi-mic-fill"></i></span>
-            <span class="call-btn end"><i class="bi bi-telephone-x-fill"></i></span>
-            <span class="call-btn"><i class="bi bi-camera-video-fill"></i></span>
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <img src="images/hero-doctor.jpg" class="hero-photo"
+               alt="A smiling doctor talking to a patient on a video call">
+
+          <!-- decoration only - screen readers skip it -->
+          <div class="float-card" aria-hidden="true">
+            <img src="images/3d/video-camera.png" alt="" width="44" height="44">
+            <div>
+              <strong>Video consultation</strong>
+              <span class="d-block small"><span class="live-dot"></span> Doctor online now</span>
+            </div>
           </div>
+          <img src="images/3d/cardiology.png" class="float-icon icon-heart" alt="" aria-hidden="true">
+          <img src="images/3d/pill.png" class="float-icon icon-pill" alt="" aria-hidden="true">
         </div>
       </div>
 
@@ -45,13 +48,15 @@
   <h2 class="section-heading">What do you need help with?</h2>
   <p class="text-muted mb-4">Choose a specialty to see doctors who can help.</p>
 
-  <div class="row g-3">
+  <div class="row g-4">
     @for (specialty of specialties; track specialty.name) {
       <div class="col-md-6 col-lg-4">
-        <a class="specialty-tile {{ doctorData.specialtyClass(specialty.name) }}"
+        <a appTilt
+           class="specialty-tile {{ doctorData.specialtyClass(specialty.name) }}"
            [routerLink]="['/doctors']"
            [queryParams]="{ specialty: specialty.name }">
-          <span class="tile-icon" aria-hidden="true"><i class="bi {{ specialty.icon }}"></i></span>
+          <img class="tile-img" [src]="doctorData.specialtyImage(specialty.name)"
+               alt="" width="60" height="60">
           <span class="tile-body">
             <span class="tile-name">{{ specialty.name }}</span>
             <span class="tile-text">

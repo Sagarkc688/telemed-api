@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DoctorData } from '../../services/doctor-data';
 import { TelemedApi } from '../../services/telemed-api';
+import { Tilt } from '../../directives/tilt';
 
 @Component({
   selector: 'app-doctors',
-  imports: [RouterModule],
+  imports: [RouterModule, Tilt],
   providers: [DoctorData, TelemedApi],
   templateUrl: './doctors.html',
   styleUrl: './doctors.css'

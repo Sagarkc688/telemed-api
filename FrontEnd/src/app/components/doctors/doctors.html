@@ -21,10 +21,12 @@
     <div class="row g-4">
       @for (doctor of doctor_list; track doctor._id) {
         <div class="col-sm-6 col-lg-3">
-          <div class="card doctor-card">
+          <div class="card doctor-card" appTilt>
             <div class="card-header tm-gradient">
-              <a [routerLink]="['/doctors', doctor.doctor_id]"
+              <a [routerLink]="['/doctors', doctor._id]"
                  class="stretched-link text-white text-decoration-none">{{ doctor.name }}</a>
+              <img class="card-spec-img" [src]="doctorData.specialtyImage(doctor.specialty)"
+                   alt="" width="56" height="56">
             </div>
             <div class="card-body">
               <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }} mb-2">

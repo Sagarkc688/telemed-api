@@ -60,3 +60,27 @@
   background: white;
   color: var(--tm-primary);   /* teal icon in the white circle */
 }
+
+/* logged-in user */
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: 500;
+}
+.role-badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+/* log in / log out button */
+.auth-btn {
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: 600;
+  color: var(--tm-dark);
+}

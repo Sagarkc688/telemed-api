@@ -36,4 +36,9 @@ export class DoctorData {
     return 'spec-' + specialty.toLowerCase().replace(/ /g, '-');
   }
 
+  // "Mental Health" -> "images/3d/mental-health.png"
+  specialtyImage(specialty: string) {
+    return 'images/3d/' + specialty.toLowerCase().replace(/ /g, '-') + '.png';
+  }
+
 }

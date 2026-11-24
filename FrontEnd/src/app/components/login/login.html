@@ -1,0 +1,79 @@
+<section class="login-page">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-5">
+
+        <div class="login-card">
+          <img src="images/3d/health-worker.png" class="login-img" alt="" width="96" height="96">
+          <h1 class="h3 text-center mb-1">Welcome back</h1>
+          <p class="text-center text-muted mb-4">Log in to book and manage your appointments.</p>
+
+          @if (sessionExpired) {
+            <div class="alert alert-warning" role="status">
+              <i class="bi bi-clock-history" aria-hidden="true"></i>
+              Your session has expired. Please log in again.
+            </div>
+          }
+
+          @if (errorMessage) {
+            <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+          }
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input id="username" type="text" class="form-control"
+                     formControlName="username" autocomplete="username"
+                     [class.is-invalid]="isInvalid('username')"
+                     [attr.aria-invalid]="isInvalid('username')"
+                     aria-describedby="username-error">
+              @if (isInvalid('username')) {
+                <div id="username-error" class="invalid-feedback">Please enter your username.</div>
+              }
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group has-validation">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                       formControlName="password" autocomplete="current-password"
+                       [class.is-invalid]="isInvalid('password')"
+                       [attr.aria-invalid]="isInvalid('password')"
+                       aria-describedby="password-error">
+                <button type="button" class="btn btn-outline-secondary"
+                        (click)="showPassword = !showPassword"
+                        [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+                        [attr.aria-pressed]="showPassword">
+                  <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"
+                     aria-hidden="true"></i>
+                </button>
+                @if (isInvalid('password')) {
+                  <div id="password-error" class="invalid-feedback">Please enter your password.</div>
+                }
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-tm btn-lg w-100" [disabled]="loading">
+              @if (loading) {
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> Logging in…
+              } @else {
+                Log in
+              }
+            </button>
+          </form>
+
+          <details class="demo-box mt-4">
+            <summary>Demo accounts for testing</summary>
+            <ul class="mb-0 mt-2">
+              <li><strong>Patient:</strong> sarah / patient123</li>
+              <li><strong>Doctor:</strong> drwilson / doctor123</li>
+              <li><strong>Admin:</strong> admin / admin123</li>
+            </ul>
+          </details>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

@@ -19,4 +19,9 @@ export class TelemedApi {
 
     return this.http.get<any[]>(this.apiUrl + '/doctors', { params });
   }
+
+  // GET /doctors/<_id>  - one doctor by their MongoDB id
+  getDoctor(id: string) {
+    return this.http.get<any>(this.apiUrl + '/doctors/' + id);
+  }
 }

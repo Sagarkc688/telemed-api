@@ -31,6 +31,30 @@
              ariaCurrentWhenActive="page"
              (click)="closeMenu()">Find a Doctor</a>
         </li>
+
+        @if (auth.user(); as user) {
+          <!-- logged in: who you are + log out -->
+          <li class="nav-item ms-md-3 my-2 my-md-0">
+            <span class="user-chip">
+              <i class="bi bi-person-circle" aria-hidden="true"></i>
+              {{ user.user }}
+              <span class="role-badge">{{ user.role }}</span>
+            </span>
+          </li>
+          <li class="nav-item ms-md-2">
+            <button type="button" class="btn btn-light btn-sm auth-btn" (click)="logout()">
+              <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Log out
+            </button>
+          </li>
+        } @else {
+          <!-- logged out: log in (remembering this page) -->
+          <li class="nav-item ms-md-3">
+            <a class="btn btn-light btn-sm auth-btn" routerLink="/login"
+               [queryParams]="{ returnUrl: returnUrl() }" (click)="closeMenu()">
+              <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Log in
+            </a>
+          </li>
+        }
       </ul>
     </div>
 
