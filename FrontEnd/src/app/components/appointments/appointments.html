@@ -154,6 +154,18 @@
                   <p class="text-muted small mb-0">No feedback yet.</p>
                 }
 
+                <!-- FE16 idea: only the right people see the form -->
+                @if (auth.user()?.role != 'doctor' &&
+                     (a.appointment.status == 'booked' || a.appointment.status == 'pending')) {
+                  <app-symptom-form [consultationId]="a._id"
+                                    [existingSymptoms]="a.symptoms || []"
+                                    (symptomAdded)="onSymptomAdded(a, $event)">
+                  </app-symptom-form>
+                }
+
+                <app-appointment-actions [appointment]="a" (deleted)="onDeleted($event)">
+                </app-appointment-actions>
+
               </div>
             }
           </article>

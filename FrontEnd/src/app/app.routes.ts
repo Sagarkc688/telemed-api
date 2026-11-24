@@ -5,6 +5,7 @@ import { Doctor } from './components/doctor/doctor';
 import { Login } from './components/login/login';
 import { Appointments } from './components/appointments/appointments';
 import { authGuard } from './guards/auth-guard';
+import { BookAppointment } from './components/book-appointment/book-appointment';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'doctors/:id', component: Doctor },
   { path: 'login', component: Login },
   { path: 'appointments', component: Appointments, canActivate: [authGuard] },
+  { path: 'doctors/:id/book', component: BookAppointment, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }   // any unknown URL -> home page (must stay LAST)
 ];

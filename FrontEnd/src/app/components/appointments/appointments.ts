@@ -4,10 +4,12 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { switchMap, catchError, of } from 'rxjs';
 import { TelemedApi } from '../../services/telemed-api';
 import { Auth } from '../../services/auth';
+import { SymptomForm } from '../symptom-form/symptom-form';
+import { AppointmentActions } from '../appointment-actions/appointment-actions';
 
 @Component({
   selector: 'app-appointments',
-  imports: [RouterModule, DatePipe, TitleCasePipe],
+  imports: [RouterModule, DatePipe, TitleCasePipe, SymptomForm, AppointmentActions],
   templateUrl: './appointments.html',
   styleUrl: './appointments.css'
 })
@@ -107,6 +109,17 @@ export class Appointments {
     this.openId = this.openId == id ? null : id;
   }
 
+
+    // the child form told us a symptom was added - show it straight away
+  onSymptomAdded(appointment: any, response: any) {
+    appointment.symptoms = [...(appointment.symptoms || []), response.symptom];
+    appointment.urgency_level = response.urgency_level;
+  }
+  
+    // admin deleted one - take it off the list
+  onDeleted(id: string) {
+    this.appointments = this.appointments.filter(a => a._id != id);
+  }
   // 4 -> "★★★★☆"
   stars(rating: number) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);

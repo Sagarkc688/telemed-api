@@ -1,0 +1,41 @@
+.actions {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed #d5e5e1;
+}
+
+/* teal outline button */
+.btn-outline-tm {
+  --bs-btn-color: var(--tm-primary);
+  --bs-btn-border-color: var(--tm-primary);
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: var(--tm-primary);
+  --bs-btn-hover-border-color: var(--tm-primary);
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: var(--tm-dark);
+}
+
+.panel {
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--tm-mint);
+  border: 1px solid #d5efe9;
+}
+.panel-title {
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tm-dark);
+}
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* "are you sure?" boxes */
+.confirm {
+  background: #fef2f2;
+  border-color: #fecaca;
+}

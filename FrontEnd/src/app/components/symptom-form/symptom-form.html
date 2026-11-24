@@ -1,0 +1,84 @@
+<form [formGroup]="symptomForm" (ngSubmit)="onSubmit()" novalidate class="symptom-form">
+  <h3 class="form-title"><i class="bi bi-plus-circle" aria-hidden="true"></i> Add a symptom</h3>
+
+  <div class="row g-3">
+    <!-- NAME -->
+    <div class="col-md-5">
+      <label [for]="'name-' + consultationId" class="form-label">What symptom?</label>
+      <input [id]="'name-' + consultationId" type="text" class="form-control"
+             formControlName="name" [attr.list]="'suggest-' + consultationId"
+             [class.is-invalid]="isInvalid('name')"
+             [attr.aria-invalid]="isInvalid('name')"
+             [attr.aria-describedby]="'name-error-' + consultationId">
+      <datalist [id]="'suggest-' + consultationId">
+        @for (s of suggestions; track s) {
+          <option [value]="s"></option>
+        }
+      </datalist>
+      @if (isInvalid('name')) {
+        <div [id]="'name-error-' + consultationId" class="invalid-feedback">
+          @if (symptomForm.controls.name.errors?.['duplicate']) {
+            That symptom is already listed for this appointment.
+          } @else {
+            Please type a symptom (60 characters max).
+          }
+        </div>
+      }
+    </div>
+
+    <!-- SEVERITY -->
+    <div class="col-md-4">
+      <label [for]="'severity-' + consultationId" class="form-label">
+        How bad? <span class="severity-value">{{ symptomForm.value.severity }}/10 · {{ severityWord() }}</span>
+      </label>
+      <input [id]="'severity-' + consultationId" type="range" class="form-range"
+             min="1" max="10" step="1" formControlName="severity"
+             [attr.aria-valuetext]="symptomForm.value.severity + ' out of 10, ' + severityWord()">
+      <div class="d-flex justify-content-between small text-muted" aria-hidden="true">
+        <span>1 Mild</span><span>10 Severe</span>
+      </div>
+    </div>
+
+    <!-- DURATION -->
+    <div class="col-md-3">
+      <label [for]="'days-' + consultationId" class="form-label">How long? (days)</label>
+      <input [id]="'days-' + consultationId" type="number" class="form-control"
+             min="1" max="365" formControlName="duration_days"
+             [class.is-invalid]="isInvalid('duration_days')"
+             [attr.aria-invalid]="isInvalid('duration_days')"
+             [attr.aria-describedby]="'days-error-' + consultationId">
+      @if (isInvalid('duration_days')) {
+        <div [id]="'days-error-' + consultationId" class="invalid-feedback">
+          Enter 1 to 365 days.
+        </div>
+      }
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-tm mt-3" [disabled]="saving">
+    @if (saving) {
+      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> Adding…
+    } @else {
+      <i class="bi bi-plus-lg" aria-hidden="true"></i> Add symptom
+    }
+  </button>
+
+  <!-- RESULTS -->
+  @if (warning) {
+    <div class="emergency" role="alert">
+      <i class="bi bi-exclamation-octagon-fill" aria-hidden="true"></i>
+      <div>
+        <strong>{{ warning }}</strong>
+        <a href="tel:999" class="btn btn-light btn-sm mt-2 d-inline-block">
+          <i class="bi bi-telephone-fill" aria-hidden="true"></i> Call 999
+        </a>
+      </div>
+    </div>
+  }
+  @if (successMessage && !warning) {
+    <div class="alert alert-success mt-3 mb-0" role="status">{{ successMessage }}</div>
+  }
+  @if (errorMessage) {
+    <div class="alert alert-danger mt-3 mb-0" role="alert">{{ errorMessage }}</div>
+  }
+</form>

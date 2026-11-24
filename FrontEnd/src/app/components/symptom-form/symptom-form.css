@@ -1,0 +1,50 @@
+.symptom-form {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--tm-mint);
+  border: 1px solid #d5efe9;
+}
+
+.form-title {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tm-dark);
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.severity-value {
+  margin-left: 6px;
+  font-weight: 700;
+  color: var(--tm-primary);
+}
+
+/* the slider in teal */
+.form-range {
+  accent-color: var(--tm-primary);
+}
+
+/* 999 warning - impossible to miss, white on dark red (7.7:1) */
+.emergency {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #b91c1c;
+  color: white;
+  font-size: 1.05rem;
+  box-shadow: 0 8px 20px rgba(185, 28, 28, 0.35);
+}
+.emergency .bi-exclamation-octagon-fill {
+  font-size: 2rem;
+  line-height: 1;
+}

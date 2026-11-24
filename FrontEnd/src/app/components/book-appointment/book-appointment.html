@@ -1,0 +1,126 @@
+<section class="container py-4">
+  <a [routerLink]="doctor ? ['/doctors', doctor._id] : ['/doctors']" class="back-link">← Back</a>
+
+  @if (loading) {
+    <p class="mt-4" role="status">Loading…</p>
+  } @else if (notFound || !doctor) {
+    <div class="alert alert-warning mt-4">Sorry, we couldn't find that doctor.</div>
+  } @else if (booked) {
+
+    <!-- SUCCESS -->
+    <div class="success-card mt-4" role="status">
+      <img src="images/3d/video-camera.png" alt="" width="88" height="88">
+      <h1 class="h3">You're booked in! 🎉</h1>
+      <p class="mb-1">
+        <strong>{{ bookingForm.value.type | titlecase }}</strong> appointment with
+        <strong>{{ doctor.name }}</strong>
+      </p>
+      <p>{{ bookingForm.value.date | date: 'EEEE d MMMM y' }} at {{ bookingForm.value.time_slot }}</p>
+      <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+        <a routerLink="/appointments" class="btn btn-tm">View my appointments</a>
+        <a routerLink="/doctors" class="btn btn-outline-secondary">Find another doctor</a>
+      </div>
+    </div>
+
+  } @else {
+    <div class="row g-4 mt-1">
+
+      <!-- LEFT: who you're booking with -->
+      <div class="col-lg-4">
+        <div class="doctor-summary">
+          <img [src]="doctorData.specialtyImage(doctor.specialty)" alt="" width="72" height="72">
+          <h1 class="h4 mt-3 mb-1">{{ doctor.name }}</h1>
+          <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }}">{{ doctor.specialty }}</span>
+          <p class="text-muted mt-3 mb-0">
+            <i class="bi bi-hospital" aria-hidden="true"></i>
+            {{ doctor.clinic.name }}, {{ doctor.clinic.city }}
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: the form -->
+      <div class="col-lg-8">
+        @if (auth.user()?.role == 'doctor') {
+          <div class="alert alert-info">Doctors can't book appointments. Please log in as a patient.</div>
+        } @else if (!doctor.accepting_patients) {
+          <div class="alert alert-secondary">{{ doctor.name }} isn't taking new patients right now.</div>
+        } @else {
+
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" novalidate class="booking-form">
+
+            <fieldset>
+              <legend class="step">1. How would you like to talk?</legend>
+              <div class="d-flex flex-wrap gap-2">
+                <input type="radio" class="btn-check" id="type-video" value="video" formControlName="type">
+                <label class="btn chip type-chip" for="type-video">
+                  <i class="bi bi-camera-video" aria-hidden="true"></i> Video call
+                </label>
+                <input type="radio" class="btn-check" id="type-phone" value="phone" formControlName="type">
+                <label class="btn chip type-chip" for="type-phone">
+                  <i class="bi bi-telephone" aria-hidden="true"></i> Phone call
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="step">2. Pick a day</legend>
+              <p class="small text-muted">{{ doctor.name }} works on {{ doctor.available_days.join(', ') }}.</p>
+              <div class="chip-row">
+                @for (d of dates; track d.iso) {
+                  <input type="radio" class="btn-check" [id]="'date-' + d.iso" [value]="d.iso" formControlName="date">
+                  <label class="btn chip date-chip" [for]="'date-' + d.iso">
+                    <span class="small">{{ d.date | date: 'EEE' }}</span>
+                    <strong>{{ d.date | date: 'd' }}</strong>
+                    <span class="small">{{ d.date | date: 'MMM' }}</span>
+                  </label>
+                }
+              </div>
+              @if (isInvalid('date')) {
+                <p class="text-danger small mt-2 mb-0" role="alert">Please choose a day.</p>
+              }
+            </fieldset>
+
+            <fieldset>
+              <legend class="step">3. Pick a time</legend>
+              <div class="chip-row">
+                @for (t of timeSlots; track t) {
+                  <input type="radio" class="btn-check" [id]="'time-' + t" [value]="t" formControlName="time_slot">
+                  <label class="btn chip" [for]="'time-' + t">{{ t }}</label>
+                }
+              </div>
+              @if (isInvalid('time_slot')) {
+                <p class="text-danger small mt-2 mb-0" role="alert">Please choose a time.</p>
+              }
+            </fieldset>
+
+            <fieldset>
+              <legend class="step">4. Your details</legend>
+              <label for="patient-name" class="form-label">Full name</label>
+              <input id="patient-name" type="text" class="form-control" formControlName="patient_name"
+                     autocomplete="name"
+                     [class.is-invalid]="isInvalid('patient_name')"
+                     [attr.aria-invalid]="isInvalid('patient_name')"
+                     aria-describedby="name-help name-error">
+              <div id="name-help" class="form-text">Booking as {{ auth.user()?.email }}</div>
+              @if (isInvalid('patient_name')) {
+                <div id="name-error" class="invalid-feedback">Please enter your full name.</div>
+              }
+            </fieldset>
+
+            @if (errorMessage) {
+              <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+            }
+
+            <button type="submit" class="btn btn-tm btn-lg w-100" [disabled]="saving">
+              @if (saving) {
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> Booking…
+              } @else {
+                <i class="bi bi-calendar-check" aria-hidden="true"></i> Confirm booking
+              }
+            </button>
+          </form>
+        }
+      </div>
+    </div>
+  }
+</section>

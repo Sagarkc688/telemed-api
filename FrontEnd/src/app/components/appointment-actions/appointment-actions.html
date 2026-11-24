@@ -1,0 +1,93 @@
+@if (canChange() || isAdmin()) {
+  <div class="actions">
+
+    <!-- BUTTONS -->
+    @if (mode == '') {
+      <div class="d-flex flex-wrap gap-2">
+        @if (canChange()) {
+          <button type="button" class="btn btn-outline-tm btn-sm" (click)="open('reschedule')">
+            <i class="bi bi-calendar2-week" aria-hidden="true"></i> Reschedule
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="open('cancel')">
+            <i class="bi bi-x-circle" aria-hidden="true"></i> Cancel appointment
+          </button>
+        }
+        @if (isAdmin()) {
+          <button type="button" class="btn btn-danger btn-sm ms-auto" (click)="open('delete')">
+            <i class="bi bi-trash3" aria-hidden="true"></i> Delete record
+          </button>
+        }
+      </div>
+    }
+
+    <!-- RESCHEDULE (PUT) -->
+    @if (mode == 'reschedule') {
+      <form [formGroup]="rescheduleForm" (ngSubmit)="saveReschedule()" novalidate class="panel">
+        <h3 class="panel-title">Move this appointment</h3>
+        <div class="row g-2">
+          <div class="col-sm-4">
+            <label [for]="'new-date-' + appointment._id" class="form-label">New date</label>
+            <input [id]="'new-date-' + appointment._id" type="date" class="form-control"
+                   [min]="tomorrow" formControlName="date"
+                   [class.is-invalid]="isInvalid('date')" [attr.aria-invalid]="isInvalid('date')">
+            @if (isInvalid('date')) {
+              <div class="invalid-feedback">Please choose a date after today.</div>
+            }
+          </div>
+          <div class="col-sm-4">
+            <label [for]="'new-time-' + appointment._id" class="form-label">New time</label>
+            <select [id]="'new-time-' + appointment._id" class="form-select" formControlName="time_slot">
+              @for (t of timeSlots; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label [for]="'new-type-' + appointment._id" class="form-label">Type</label>
+            <select [id]="'new-type-' + appointment._id" class="form-select" formControlName="type">
+              <option value="video">Video call</option>
+              <option value="phone">Phone call</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button type="submit" class="btn btn-tm btn-sm" [disabled]="saving">Save new time</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="open('')">Back</button>
+        </div>
+      </form>
+    }
+
+    <!-- CANCEL (PUT status) -->
+    @if (mode == 'cancel') {
+      <div class="panel confirm" role="group" aria-label="Confirm cancelling this appointment">
+        <p class="mb-2"><strong>Cancel this appointment?</strong> You can book another one at any time.</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-danger btn-sm" (click)="confirmCancel()" [disabled]="saving">
+            Yes, cancel it
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="open('')">Keep it</button>
+        </div>
+      </div>
+    }
+
+    <!-- DELETE (admin) -->
+    @if (mode == 'delete') {
+      <div class="panel confirm" role="group" aria-label="Confirm deleting this record">
+        <p class="mb-2"><strong>Permanently delete this record?</strong> This can't be undone.</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-danger btn-sm" (click)="confirmDelete()" [disabled]="saving">
+            Yes, delete it
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="open('')">Keep it</button>
+        </div>
+      </div>
+    }
+
+    @if (message) {
+      <div class="alert alert-success mt-3 mb-0" role="status">{{ message }}</div>
+    }
+    @if (errorMessage) {
+      <div class="alert alert-danger mt-3 mb-0" role="alert">{{ errorMessage }}</div>
+    }
+  </div>
+}

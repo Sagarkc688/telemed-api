@@ -1,0 +1,82 @@
+.doctor-summary,
+.booking-form,
+.success-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e2ece9;
+  border-radius: 20px;
+  box-shadow:
+    0 2px 4px rgba(19, 78, 74, 0.06),
+    0 12px 24px rgba(19, 78, 74, 0.1);
+}
+
+.doctor-summary {
+  text-align: center;
+  border-top: 6px solid var(--tm-primary);
+}
+.doctor-summary img,
+.success-card img {
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.18));
+}
+
+fieldset {
+  margin-bottom: 24px;
+}
+.step {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--tm-dark);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* chips = styled radio buttons */
+.chip {
+  min-width: 72px;
+  border: 1px solid #cfe7e2;
+  border-radius: 12px;
+  background: white;
+  color: var(--tm-text);
+  font-weight: 500;
+}
+.chip:hover {
+  border-color: var(--tm-primary);
+  background: var(--tm-mint);
+}
+.date-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+  padding: 8px 12px;
+}
+.date-chip strong {
+  font-size: 1.3rem;
+}
+.type-chip {
+  padding: 12px 20px;
+}
+
+/* the chosen one */
+.btn-check:checked + .chip {
+  background: var(--tm-primary);
+  border-color: var(--tm-primary);
+  color: white;
+}
+/* keyboard focus */
+.btn-check:focus-visible + .chip {
+  outline: 3px solid var(--tm-text);
+  outline-offset: 2px;
+}
+
+.success-card {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 6px solid #166534;
+}
