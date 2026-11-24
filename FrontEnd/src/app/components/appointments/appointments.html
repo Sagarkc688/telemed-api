@@ -1,0 +1,180 @@
+<section class="container py-4">
+
+  <div class="page-head">
+    <div>
+      <h1 class="h2 mb-1">{{ heading() }}</h1>
+      <p class="text-muted mb-0">Your consultations. Open one to see symptoms, notes and feedback.</p>
+    </div>
+    <img src="images/3d/health-worker.png" alt="" width="80" height="80" class="head-img">
+  </div>
+
+  <!-- FILTERS - sent to the API as querystring parameters -->
+  <div class="filter-bar">
+    <div>
+      <label for="status" class="form-label">Status</label>
+      <select id="status" class="form-select" #statusSelect
+              [value]="status" (change)="setStatus(statusSelect.value)">
+        <option value="">All statuses</option>
+        @for (s of statuses; track s) {
+          <option [value]="s">{{ s | titlecase }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label for="urgency" class="form-label">Urgency</label>
+      <select id="urgency" class="form-select" #urgencySelect
+              [value]="urgency" (change)="setUrgency(urgencySelect.value)">
+        <option value="">Any urgency</option>
+        @for (u of urgencies; track u) {
+          <option [value]="u">{{ u | titlecase }}</option>
+        }
+      </select>
+    </div>
+    @if (status || urgency) {
+      <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Clear filters
+      </button>
+    }
+  </div>
+
+  @if (loading) {
+    <p class="mt-4" role="status">Loading appointments…</p>
+  } @else if (errorMessage) {
+    <div class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</div>
+  } @else if (appointments.length == 0) {
+    <div class="empty-state">
+      <img src="images/3d/video-camera.png" alt="" width="72" height="72">
+      @if (page > 1) {
+        <p>No more appointments.</p>
+      } @else {
+        <p>No appointments found{{ status || urgency ? ' for these filters' : '' }}.</p>
+      }
+    </div>
+  } @else {
+
+    <!-- TIMELINE -->
+    <ol class="timeline">
+      @for (a of appointments; track a._id) {
+        <li class="timeline-item">
+          <span class="timeline-dot dot-{{ a.appointment.status }}" aria-hidden="true"></span>
+
+          <article class="timeline-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <h2 class="h6 mb-1">
+                <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                {{ a.appointment.date | date: 'EEE d MMM y' }} · {{ a.appointment.time_slot }}
+              </h2>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="badge status-badge status-{{ a.appointment.status }}">
+                  {{ a.appointment.status | titlecase }}
+                </span>
+                <span class="badge urgency-badge urgency-{{ a.urgency_level }}">
+                  <i class="bi" aria-hidden="true"
+                     [class.bi-exclamation-triangle-fill]="a.urgency_level == 'high'"
+                     [class.bi-exclamation-circle]="a.urgency_level == 'medium'"
+                     [class.bi-check-circle]="a.urgency_level == 'low'"></i>
+                  {{ a.urgency_level | titlecase }} urgency
+                </span>
+              </div>
+            </div>
+
+            <p class="text-muted mb-2">
+              {{ a.doctor.name }} · {{ a.doctor.specialty }} ·
+              <i class="bi" aria-hidden="true"
+                 [class.bi-camera-video]="a.appointment.type == 'video'"
+                 [class.bi-telephone]="a.appointment.type == 'phone'"></i>
+              {{ a.appointment.type | titlecase }}
+            </p>
+
+            @if (auth.user()?.role != 'patient') {
+              <p class="small mb-2"><strong>Patient:</strong> {{ a.patient.name }}</p>
+            }
+
+            <button type="button" class="btn btn-link details-toggle"
+                    (click)="toggle(a._id)"
+                    [attr.aria-expanded]="openId == a._id"
+                    [attr.aria-controls]="'details-' + a._id">
+              <i class="bi" aria-hidden="true"
+                 [class.bi-chevron-down]="openId != a._id"
+                 [class.bi-chevron-up]="openId == a._id"></i>
+              {{ openId == a._id ? 'Hide details' : 'Show details' }}
+            </button>
+
+            <!-- SUB-DOCUMENTS -->
+            @if (openId == a._id) {
+              <div class="details" [id]="'details-' + a._id">
+
+                <h3 class="details-title">Symptoms</h3>
+                @if (a.symptoms?.length) {
+                  <ul class="symptom-list">
+                    @for (s of a.symptoms; track $index) {
+                      <li>
+                        <div class="d-flex justify-content-between flex-wrap">
+                          <span class="fw-semibold">{{ s.name }}</span>
+                          <span class="small text-muted">
+                            Severity {{ s.severity }}/10 · {{ s.duration_days }} days
+                          </span>
+                        </div>
+                        <div class="severity-bar" aria-hidden="true">
+                          <span [style.width.%]="s.severity * 10"></span>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <p class="text-muted small mb-0">No symptoms recorded.</p>
+                }
+
+                <h3 class="details-title">Doctor's notes</h3>
+                @if (a.consultation_notes) {
+                  <p class="mb-1"><strong>Diagnosis:</strong> {{ a.consultation_notes.diagnosis }}</p>
+                  @if (a.consultation_notes.notes) {
+                    <p class="mb-1">{{ a.consultation_notes.notes }}</p>
+                  }
+                  @if (a.consultation_notes.follow_up?.required) {
+                    <p class="small mb-0">
+                      <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                      Follow-up on {{ a.consultation_notes.follow_up.date | date: 'd MMM y' }}
+                    </p>
+                  }
+                } @else {
+                  <p class="text-muted small mb-0">Not added yet.</p>
+                }
+
+                <h3 class="details-title">Feedback</h3>
+                @if (a.feedback) {
+                  <p class="mb-0">
+                    <span class="stars" role="img"
+                          [attr.aria-label]="a.feedback.rating + ' out of 5 stars'">{{ stars(a.feedback.rating) }}</span>
+                    @if (a.feedback.comment) {
+                      <span class="ms-2">"{{ a.feedback.comment }}"</span>
+                    }
+                  </p>
+                } @else {
+                  <p class="text-muted small mb-0">No feedback yet.</p>
+                }
+
+              </div>
+            }
+          </article>
+        </li>
+      }
+    </ol>
+  }
+
+  <!-- PAGINATION -->
+  @if (!loading && !errorMessage && (appointments.length > 0 || page > 1)) {
+    <nav class="pager" aria-label="Appointment pages">
+      <button type="button" class="btn btn-outline-secondary"
+              (click)="previousPage()" [disabled]="page == 1">
+        <i class="bi bi-chevron-left" aria-hidden="true"></i> Previous
+      </button>
+      <span>Page {{ page }}</span>
+      <button type="button" class="btn btn-tm"
+              (click)="nextPage()" [disabled]="!hasNextPage()">
+        Next <i class="bi bi-chevron-right" aria-hidden="true"></i>
+      </button>
+    </nav>
+  }
+
+</section>

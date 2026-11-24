@@ -33,6 +33,11 @@
         </li>
 
         @if (auth.user(); as user) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/appointments"
+               routerLinkActive="active" ariaCurrentWhenActive="page"
+               (click)="closeMenu()">Appointments</a>
+          </li>
           <!-- logged in: who you are + log out -->
           <li class="nav-item ms-md-3 my-2 my-md-0">
             <span class="user-chip">

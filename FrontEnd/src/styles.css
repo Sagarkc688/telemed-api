@@ -40,6 +40,13 @@ body {
   color: white;
 }
 
+/* disabled: pale but still clearly visible */
+.btn.btn-tm:disabled {
+  background: #cfe7e2;
+  border-color: #cfe7e2;
+  color: #4b5563;
+}
+
 /* ===== Keyboard focus - always clearly visible ===== */
 :focus-visible {
   outline: 3px solid var(--tm-text);

@@ -1,0 +1,169 @@
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.head-img {
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.18));
+}
+
+/* ===== filters ===== */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: white;
+  border: 1px solid #e2ece9;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(19, 78, 74, 0.06);
+}
+.filter-bar .form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* ===== timeline ===== */
+.timeline {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* the vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: #cfe7e2;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 44px;
+  margin-bottom: 20px;
+}
+
+/* the dot on the line - colour shows the status */
+.timeline-dot {
+  position: absolute;
+  left: 2px;
+  top: 22px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: white;
+  border: 5px solid var(--tm-primary);
+  box-shadow: 0 0 0 4px var(--tm-light);
+}
+.dot-completed { border-color: #166534; }
+.dot-booked    { border-color: #1d4ed8; }
+.dot-pending   { border-color: #92400e; }
+.dot-cancelled { border-color: #6b7280; }
+
+.timeline-card {
+  padding: 18px 20px;
+  background: white;
+  border: 1px solid #e2ece9;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(19, 78, 74, 0.06),
+    0 4px 8px rgba(19, 78, 74, 0.06),
+    0 12px 24px rgba(19, 78, 74, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 4px rgba(19, 78, 74, 0.08),
+    0 12px 24px rgba(19, 78, 74, 0.12);
+}
+
+/* status badges - white text, all 6.7:1+ */
+.status-badge { color: white; }
+.status-completed { background: #166534; }
+.status-booked    { background: #1d4ed8; }
+.status-pending   { background: #92400e; }
+.status-cancelled { background: #4b5563; }
+
+/* urgency badges - soft colour + dark text + icon */
+.urgency-badge { font-weight: 600; }
+.urgency-high   { background: #fee2e2; color: #991b1b; }
+.urgency-medium { background: #fef3c7; color: #92400e; }
+.urgency-low    { background: #dcfce7; color: #166534; }
+
+.details-toggle {
+  padding: 0;
+  font-weight: 600;
+  color: var(--tm-primary);
+  text-decoration: none;
+}
+
+/* ===== sub-documents ===== */
+.details {
+  margin-top: 12px;
+  padding-top: 4px;
+  border-top: 1px dashed #d5e5e1;
+}
+.details-title {
+  margin: 14px 0 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tm-dark);
+}
+
+.symptom-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.severity-bar {
+  height: 6px;
+  margin-top: 4px;
+  border-radius: 3px;
+  background: #e5efed;
+  overflow: hidden;
+}
+.severity-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--tm-primary);
+}
+
+.stars {
+  color: #b45309;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+/* ===== empty + pagination ===== */
+.empty-state {
+  padding: 48px 16px;
+  text-align: center;
+  color: #4b5563;
+}
+.empty-state img {
+  margin-bottom: 12px;
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.15));
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}

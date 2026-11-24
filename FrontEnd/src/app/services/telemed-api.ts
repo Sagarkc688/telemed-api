@@ -20,6 +20,23 @@ export class TelemedApi {
     return this.http.get<any[]>(this.apiUrl + '/doctors', { params });
   }
 
+  // GET /consultations?pn=1&ps=5&status=completed&urgency=high
+  // needs login - the interceptor adds the token
+  getConsultations(page: number, pageSize: number, status: string = '', urgency: string = '') {
+    let params = new HttpParams()
+      .set('pn', page)
+      .set('ps', pageSize);
+
+    if (status) {
+      params = params.set('status', status);
+    }
+    if (urgency) {
+      params = params.set('urgency', urgency);
+    }
+
+    return this.http.get<any[]>(this.apiUrl + '/consultations', { params });
+  }
+
   // GET /doctors/<_id>  - one doctor by their MongoDB id
   getDoctor(id: string) {
     return this.http.get<any>(this.apiUrl + '/doctors/' + id);
