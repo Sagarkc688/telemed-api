@@ -17,7 +17,9 @@
       <div class="col-lg-7">
         <div class="profile-card">
           <div class="profile-top tm-gradient">
-            <div class="avatar" aria-hidden="true">{{ initials }}</div>
+            <img class="avatar-img" [src]="doctorData.doctorImage(doctor.doctor_id)"
+                 alt="" width="104" height="104"
+                 (error)="doctorData.useFallbackImage($event)">
             <div class="flex-grow-1">
               <h1 class="h3 mb-2">{{ doctor.name }}</h1>
               <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }}">
@@ -48,6 +50,9 @@
                 }
               </div>
             </div>
+
+            <h2 class="section-title">About</h2>
+            <p class="about-text">{{ doctorData.doctorAbout(doctor) }}</p>
 
             <h2 class="section-title">Weekly availability</h2>
             <div class="day-row">

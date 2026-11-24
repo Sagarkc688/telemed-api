@@ -4,16 +4,7 @@
   border-top: 1px dashed #d5e5e1;
 }
 
-/* teal outline button */
-.btn-outline-tm {
-  --bs-btn-color: var(--tm-primary);
-  --bs-btn-border-color: var(--tm-primary);
-  --bs-btn-hover-color: white;
-  --bs-btn-hover-bg: var(--tm-primary);
-  --bs-btn-hover-border-color: var(--tm-primary);
-  --bs-btn-active-color: white;
-  --bs-btn-active-bg: var(--tm-dark);
-}
+
 
 .panel {
   padding: 16px;

@@ -1,26 +1,72 @@
 .login-page {
+  display: flex;
+  align-items: flex-start;
   min-height: calc(100vh - 70px);
+  padding: 40px 16px;
   background:
     radial-gradient(circle at 85% 15%, rgba(45, 212, 191, 0.3), transparent 40%),
     linear-gradient(135deg, var(--tm-mint), #ccfbf1);
 }
 
-.login-card {
-  margin-top: 56px;
-  padding: 0 40px 36px;
+/* one big card split in two */
+.login-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   background: white;
-  border-top: 6px solid var(--tm-primary);
-  border-radius: 24px;
+  border-radius: 28px;
+  overflow: hidden;
   box-shadow:
     0 2px 4px rgba(19, 78, 74, 0.08),
     0 12px 24px rgba(19, 78, 74, 0.12),
-    0 32px 64px rgba(19, 78, 74, 0.14);
+    0 32px 64px rgba(19, 78, 74, 0.16);
 }
 
-/* 3D doctor sitting on top of the card */
+/* LEFT: photo fills the whole half */
+.login-photo {
+  position: relative;
+  min-height: 580px;
+}
+.login-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* dark teal fade at the bottom so the white text is readable */
+.photo-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 80px 32px 32px;
+  color: white;
+  background: linear-gradient(transparent, rgba(19, 78, 74, 0.95) 55%);
+}
+.photo-caption h2 {
+  font-weight: 800;
+}
+.photo-caption p {
+  margin: 0;
+}
+
+/* RIGHT: the form */
+.login-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
 .login-img {
   display: block;
-  margin: -52px auto 12px;
+  margin: 0 auto 12px;
   filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.2));
 }
 
@@ -34,4 +80,14 @@
   cursor: pointer;
   font-weight: 600;
   color: var(--tm-dark);
+}
+
+/* tablets and phones: photo on top, form underneath */
+@media (max-width: 900px) {
+  .login-split {
+    grid-template-columns: 1fr;
+  }
+  .login-photo {
+    min-height: 240px;
+  }
 }

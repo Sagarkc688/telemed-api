@@ -87,3 +87,129 @@ body {
 .back-link:focus {
   text-decoration: underline;
 }
+
+/* teal outline button - for secondary actions like "View profile" */
+.btn-outline-tm {
+  --bs-btn-color: var(--tm-primary);
+  --bs-btn-border-color: var(--tm-primary);
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: var(--tm-primary);
+  --bs-btn-hover-border-color: var(--tm-primary);
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: var(--tm-dark);
+  --bs-btn-active-border-color: var(--tm-dark);
+  font-weight: 600;
+}
+
+/* ===== big footer ===== */
+.site-footer {
+  margin-top: 64px;
+  padding: 56px 0 24px;
+  background: var(--tm-dark);
+  color: white;
+  border-radius: 40px 40px 0 0;
+  overflow: hidden;
+}
+.footer-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.footer-text {
+  color: #d1e7e3;               /* 9:1 on dark teal */
+}
+.footer-title {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #99d6cc;
+}
+.footer-links {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-footer a {
+  color: white;
+  text-decoration: none;
+}
+.site-footer a:hover,
+.site-footer a:focus {
+  text-decoration: underline;
+}
+
+/* giant faint wordmark across the bottom */
+.footer-wordmark {
+  margin: 24px 0 0;
+  font-size: clamp(3rem, 13vw, 10rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.08);
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+.footer-small {
+  margin: 16px 0 0;
+  font-size: 0.8rem;
+  color: #b8d9d3;
+  text-align: center;
+}
+
+/* ===== photo banner at the top of a page ===== */
+.page-banner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 28px;
+  padding: 28px 32px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(45, 212, 191, 0.3), transparent 45%),
+    linear-gradient(135deg, var(--tm-mint), #ccfbf1);
+  box-shadow: 0 4px 16px rgba(19, 78, 74, 0.08);
+}
+.banner-text {
+  flex: 1;
+}
+.banner-text h1 {
+  font-weight: 800;
+  color: var(--tm-text);
+}
+.banner-text p {
+  max-width: 520px;
+  color: #374151;
+  font-size: 1.1rem;
+}
+
+/* photo turned slightly in 3D, like the home page */
+.banner-photo {
+  width: 42%;
+  max-width: 460px;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 5px solid white;
+  box-shadow:
+    0 2px 4px rgba(19, 78, 74, 0.08),
+    0 12px 24px rgba(19, 78, 74, 0.12),
+    0 24px 48px rgba(19, 78, 74, 0.16);
+  transform: perspective(1000px) rotateY(-6deg);
+}
+
+/* phones: photo goes underneath, full width, flat */
+@media (max-width: 767px) {
+  .page-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .banner-photo {
+    width: 100%;
+    max-width: none;
+    transform: none;
+  }
+}

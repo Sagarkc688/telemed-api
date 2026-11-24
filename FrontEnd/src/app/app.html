@@ -3,3 +3,41 @@
 <main id="main-content">
   <router-outlet></router-outlet>
 </main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-md-5">
+        <p class="footer-brand">
+          <i class="bi bi-heart-pulse-fill" aria-hidden="true"></i> Telemedicine
+        </p>
+        <p class="footer-text">See a GP or specialist by video or phone, without leaving home.</p>
+      </div>
+
+      <nav class="col-6 col-md-3" aria-label="Footer">
+        <h2 class="footer-title">Explore</h2>
+        <ul class="footer-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/doctors">Find a Doctor</a></li>
+          <li><a routerLink="/appointments">My appointments</a></li>
+        </ul>
+      </nav>
+
+      <div class="col-6 col-md-4">
+        <h2 class="footer-title">Emergency</h2>
+        <p class="footer-text">
+          <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+          This service is not for emergencies. Call <a href="tel:999">999</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- huge faint brand name - decoration only -->
+    <p class="footer-wordmark" aria-hidden="true">Telemedicine</p>
+
+    <p class="footer-small">
+      © {{ year }} Telemedicine demo for COM661 coursework · Doctors, patients and photos are for demonstration only.
+    </p>
+  </div>
+</footer>

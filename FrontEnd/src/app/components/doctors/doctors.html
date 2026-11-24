@@ -1,11 +1,19 @@
 <div class="container py-4">
 
-  @if (specialty) {
-    <h1>{{ specialty }} doctors</h1>
-    <a routerLink="/doctors" class="back-link">Show all doctors</a>
-  } @else {
-    <h1>Find a Doctor</h1>
-  }
+  <!-- BANNER -->
+  <section class="page-banner">
+    <div class="banner-text">
+      @if (specialty) {
+        <h1>{{ specialty }} doctors</h1>
+        <p>Doctors who can help with {{ specialty }}, by video or phone.</p>
+        <a routerLink="/doctors" class="back-link">← Show all doctors</a>
+      } @else {
+        <h1>Find a Doctor</h1>
+        <p>Browse our doctors across Northern Ireland and book a video or phone appointment.</p>
+      }
+    </div>
+    <img src="images/doctors-banner.jpg" class="banner-photo" alt="">
+  </section>
 
   @if (loading) {
     <p class="mt-4" role="status">Loading doctors…</p>
@@ -20,30 +28,52 @@
 
     <div class="row g-4">
       @for (doctor of doctor_list; track doctor._id) {
-        <div class="col-sm-6 col-lg-3">
-          <div class="card doctor-card" appTilt>
-            <div class="card-header tm-gradient">
-              <a [routerLink]="['/doctors', doctor._id]"
-                 class="stretched-link text-white text-decoration-none">{{ doctor.name }}</a>
-              <img class="card-spec-img" [src]="doctorData.specialtyImage(doctor.specialty)"
-                   alt="" width="56" height="56">
+        <div class="col-sm-6 col-lg-4 col-xl-3">
+          <article class="doctor-card" appTilt>
+
+            <div class="card-band tm-gradient">
+              <img class="band-icon" [src]="doctorData.specialtyImage(doctor.specialty)"
+                   alt="" width="44" height="44">
             </div>
-            <div class="card-body">
-              <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }} mb-2">
+
+            <img class="doctor-photo" [src]="doctorData.doctorImage(doctor.doctor_id)"
+                 alt="" width="104" height="104"
+                 (error)="doctorData.useFallbackImage($event)">
+
+            <div class="card-content">
+              <h2 class="doctor-name">{{ doctor.name }}</h2>
+              <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }}">
                 {{ doctor.specialty }}
               </span>
-              <p class="mb-1">{{ doctor.clinic.name }}, {{ doctor.clinic.city }}</p>
-              <p class="mb-1">{{ doctor.years_experience }} years experience</p>
-              <p class="mb-0">Available: {{ doctor.available_days.join(', ') }}</p>
+
+              <ul class="doctor-facts">
+                <li><i class="bi bi-hospital" aria-hidden="true"></i>
+                    {{ doctor.clinic.name }}, {{ doctor.clinic.city }}</li>
+                <li><i class="bi bi-award" aria-hidden="true"></i>
+                    {{ doctor.years_experience }} years' experience</li>
+                <li><i class="bi bi-calendar-week" aria-hidden="true"></i>
+                    {{ doctorData.sortDays(doctor.available_days) }}</li>
+              </ul>
             </div>
-            <div class="card-footer bg-white">
+
+            <div class="card-actions">
+              <a class="btn btn-outline-tm btn-sm" [routerLink]="['/doctors', doctor._id]"
+                 [attr.aria-label]="'View profile of ' + doctor.name">
+                View profile
+              </a>
               @if (doctor.accepting_patients) {
-                <span class="badge status-yes"><span aria-hidden="true">✓</span> Accepting new patients</span>
+                <a class="btn btn-tm btn-sm" [routerLink]="['/doctors', doctor._id, 'book']"
+                   [attr.aria-label]="'Book an appointment with ' + doctor.name">
+                  <i class="bi bi-calendar-plus" aria-hidden="true"></i> Book
+                </a>
               } @else {
-                <span class="badge status-no"><span aria-hidden="true">✕</span> Not accepting patients</span>
+                <span class="unavailable">
+                  <i class="bi bi-x-circle" aria-hidden="true"></i> Not taking patients
+                </span>
               }
             </div>
-          </div>
+
+          </article>
         </div>
       }
     </div>

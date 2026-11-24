@@ -43,6 +43,33 @@
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
+<section class="container pt-5">
+  <h2 class="section-heading text-center">How it works</h2>
+  <p class="text-muted text-center mb-4">See a doctor in three easy steps.</p>
+
+  <ol class="steps">
+    <li class="step-card" appTilt>
+      <span class="step-number" aria-hidden="true">1</span>
+      <img src="images/3d/search.png" alt="" width="80" height="80">
+      <h3>Choose a doctor</h3>
+      <p>Pick what you need help with, or browse all {{ doctorData.filterDoctors().length }} doctors.</p>
+    </li>
+    <li class="step-card" appTilt>
+      <span class="step-number" aria-hidden="true">2</span>
+      <img src="images/3d/calendar.png" alt="" width="80" height="80">
+      <h3>Book a time</h3>
+      <p>Choose a day your doctor works and a time that suits you.</p>
+    </li>
+    <li class="step-card" appTilt>
+      <span class="step-number" aria-hidden="true">3</span>
+      <img src="images/3d/laptop.png" alt="" width="80" height="80">
+      <h3>Talk by video or phone</h3>
+      <p>Add your symptoms beforehand, then your doctor calls you at the booked time.</p>
+    </li>
+  </ol>
+</section>
+
 <!-- SPECIALTIES -->
 <section class="container py-5">
   <h2 class="section-heading">What do you need help with?</h2>
@@ -67,5 +94,76 @@
         </a>
       </div>
     }
+  </div>
+</section>
+
+<!-- WHY CHOOSE US (photo + accordion) -->
+<section class="container py-5">
+  <div class="row g-5 align-items-center">
+
+    <div class="col-lg-5">
+      <img src="images/why-us.jpg" class="why-photo" alt="">
+    </div>
+
+    <div class="col-lg-7">
+      <span class="eyebrow">Why choose us</span>
+      <h2 class="big-heading">Care that fits around your life</h2>
+
+      <div class="accordion-list">
+        @for (item of whyItems; track item.title; let i = $index) {
+          <div class="acc-item" [class.open]="openWhy == i">
+            <h3 class="m-0">
+              <button type="button" class="acc-button" (click)="toggleWhy(i)"
+                      [attr.aria-expanded]="openWhy == i"
+                      [attr.aria-controls]="'why-' + i">
+                <span class="acc-number" aria-hidden="true">0{{ i + 1 }}</span>
+                <span class="flex-grow-1">{{ item.title }}</span>
+                <i class="bi" aria-hidden="true"
+                   [class.bi-plus-lg]="openWhy != i" [class.bi-dash-lg]="openWhy == i"></i>
+              </button>
+            </h3>
+            @if (openWhy == i) {
+              <p class="acc-panel" [id]="'why-' + i">{{ item.text }}</p>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQS -->
+<section class="container py-5">
+  <div class="row g-5">
+
+    <div class="col-lg-4">
+      <span class="eyebrow">FAQs</span>
+      <h2 class="big-heading">Questions? We've got answers.</h2>
+      <p class="text-muted">Can't find what you need? Log in and add your question as a symptom note for your doctor.</p>
+      <img src="images/faq.jpg" class="faq-photo" alt="">
+    </div>
+
+    <div class="col-lg-8">
+      <div class="accordion-list">
+        @for (faq of faqs; track faq.question; let i = $index) {
+          <div class="acc-item" [class.open]="openFaq == i">
+            <h3 class="m-0">
+              <button type="button" class="acc-button" (click)="toggleFaq(i)"
+                      [attr.aria-expanded]="openFaq == i"
+                      [attr.aria-controls]="'faq-' + i">
+                <span class="flex-grow-1">{{ faq.question }}</span>
+                <i class="bi" aria-hidden="true"
+                   [class.bi-plus-lg]="openFaq != i" [class.bi-dash-lg]="openFaq == i"></i>
+              </button>
+            </h3>
+            @if (openFaq == i) {
+              <p class="acc-panel" [id]="'faq-' + i">{{ faq.answer }}</p>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
   </div>
 </section>

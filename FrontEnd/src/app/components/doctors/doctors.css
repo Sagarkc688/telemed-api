@@ -1,12 +1,14 @@
 .doctor-card {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  border: none;
-  border-radius: 16px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
   box-shadow:
     0 1px 2px rgba(19, 78, 74, 0.06),
     0 4px 8px rgba(19, 78, 74, 0.06),
     0 12px 24px rgba(19, 78, 74, 0.08);
-  transform-style: preserve-3d;
   transition: transform 0.2s ease-out, box-shadow 0.2s;
 }
 .doctor-card:hover {
@@ -20,18 +22,90 @@
   transform: translateY(-4px);
 }
 
-.doctor-card .card-header {
+/* teal band at the top */
+.card-band {
   position: relative;
-  padding-right: 72px;            /* room for the 3D icon */
-  border-radius: 16px 16px 0 0;
-  font-weight: 600;
+  height: 76px;
+}
+.band-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.25));
 }
 
-/* 3D specialty icon sticking out of the header corner */
-.card-spec-img {
-  position: absolute;
-  top: -14px;
-  right: 10px;
-  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.2));
-  transform: translateZ(40px);
+/* round photo overlapping the band */
+.doctor-photo {
+  position: relative;
+  display: block;
+  width: 104px;
+  height: 104px;
+  margin: -52px auto 0;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--tm-mint);
+  border: 4px solid white;
+  box-shadow: 0 8px 16px rgba(19, 78, 74, 0.18);
+}
+
+.card-content {
+  flex-grow: 1;              /* pushes the buttons to the bottom */
+  padding: 10px 20px 0;
+  text-align: center;
+}
+.doctor-name {
+  margin: 8px 0 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.doctor-facts {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #374151;
+}
+.doctor-facts i {
+  margin-right: 6px;
+  color: var(--tm-primary);
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px 20px;
+}
+.card-actions .btn,
+.unavailable {
+  flex: 1;                   /* both take equal width */
+}
+.unavailable {
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #f1f5f4;
+  color: #4b5563;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* doctor's photo in the header */
+.avatar-img {
+  flex-shrink: 0;
+  width: 104px;
+  height: 104px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* the "About" paragraph */
+.about-text {
+  margin-bottom: 24px;
+  line-height: 1.6;
+  color: #374151;
 }

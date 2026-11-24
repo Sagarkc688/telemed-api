@@ -28,7 +28,8 @@
       <!-- LEFT: who you're booking with -->
       <div class="col-lg-4">
         <div class="doctor-summary">
-          <img [src]="doctorData.specialtyImage(doctor.specialty)" alt="" width="72" height="72">
+          <img class="summary-photo" [src]="doctorData.doctorImage(doctor.doctor_id)"
+               alt="" width="104" height="104" (error)="doctorData.useFallbackImage($event)">
           <h1 class="h4 mt-3 mb-1">{{ doctor.name }}</h1>
           <span class="badge {{ doctorData.specialtyClass(doctor.specialty) }}">{{ doctor.specialty }}</span>
           <p class="text-muted mt-3 mb-0">
